@@ -1,0 +1,19 @@
+﻿----+----|----+----|----+----|----+----|----+----|----+----|
+Normal adapter:                                             
+-->                                                         
+Long console output that should require word wrapping to fit
+the display width, specifically crafted so that it can span 
+at least three lines in the output. This will exercise the  
+wrapping functionality such that any issues with the display
+width should become obvious.                                
+<--                                                         
+                                                            
+Prefixed adapter:                                           
+-->                                                         
+prefix: Long console output that should require word        
+prefix: wrapping to fit the display width, specifically     
+prefix: crafted so that it can span at least three lines in 
+prefix: the output. This will exercise the wrapping         
+prefix: functionality such that any issues with the display 
+prefix: width should become obvious.                        
+<--                                                         

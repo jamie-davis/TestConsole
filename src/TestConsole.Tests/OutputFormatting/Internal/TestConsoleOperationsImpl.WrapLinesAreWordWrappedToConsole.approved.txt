@@ -1,0 +1,20 @@
+﻿----+----|----+----|----+----|----+----|----+----|----+----|
+Normal adapter:                                             
+-->                                                         
+Long console output that should require word wrapping to fit
+the display width, but remain short of the line end to      
+illustrate WrapLine.                                        
+More output, and hopefully more wrapping. Must ensure that  
+there is enough text. Also WrapLine'd.                      
+No wrapping needed.                                         
+<--                                                         
+                                                            
+Prefixed adapter:                                           
+-->                                                         
+prefix: Long console output that should require word        
+prefix: wrapping to fit the display width, but remain short 
+prefix: of the line end to illustrate WrapLine.             
+prefix: More output, and hopefully more wrapping. Must      
+prefix: ensure that there is enough text. Also WrapLine'd.  
+prefix: No wrapping needed.                                 
+<--                                                         
