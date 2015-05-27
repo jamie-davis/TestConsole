@@ -1,0 +1,62 @@
+﻿The number of trees is 17                                                                      
+                                                                                               
+                                                                                         Height
+                                                                                             In
+Name     Description                                                                     Metres
+-------- ------------------------------------------------------------------------------- ------
+Alder    Alder is a species of tree growing to a height of 30 metres.                        30
+Apple    The beautiful Apple tree can grow to a height of 12 metres.                         12
+Ash      At up to 35 metres tall, the Ash is a fine example of a british tree.               35
+Birch    Distinctive and evocative of a British landscape, the Birch tree is truly a 25      25
+         metre asset worth preserving                                                          
+Beech    Beech is a species of tree growing to a height of 50 metres.                        50
+Cherry   The beautiful Cherry tree can grow to a height of 32 metres.                        32
+Elm      At up to 40 metres tall, the Elm is a fine example of a british tree.               40
+Hawthorn Distinctive and evocative of a British landscape, the Hawthorn tree is truly a      14
+         14 metre asset worth preserving                                                       
+Hazel    Hazel is a species of tree growing to a height of 8 metres.                          8
+Holly    The beautiful Holly tree can grow to a height of 25 metres.                         25
+Juniper  At up to 10 metres tall, the Juniper is a fine example of a british tree.           10
+Maple    Distinctive and evocative of a British landscape, the Maple tree is truly a 45      45
+         metre asset worth preserving                                                          
+Oak      Oak is a species of tree growing to a height of 12 metres.                          12
+Poplar   The beautiful Poplar tree can grow to a height of 20 metres.                        20
+Rowan    At up to 15 metres tall, the Rowan is a fine example of a british tree.             15
+Willow   Distinctive and evocative of a British landscape, the Willow tree is truly a 14     14
+         metre asset worth preserving                                                          
+Yew      Yew is a species of tree growing to a height of 20 metres.                          20
+                                                                                               
+             Maximum                                                                           
+Name      Height (m)                                                                           
+-------- -----------                                                                           
+Beech             50                                                                           
+Maple             45                                                                           
+Elm               40                                                                           
+Ash               35                                                                           
+Cherry            32                                                                           
+Alder             30                                                                           
+Birch             25                                                                           
+Holly             25                                                                           
+Poplar            20                                                                           
+Yew               20                                                                           
+Rowan             15                                                                           
+Hawthorn          14                                                                           
+Willow            14                                                                           
+Apple             12                                                                           
+Oak               12                                                                           
+Juniper           10                                                                           
+Hazel              8                                                                           
+                                                                                               
+Write: Alder, Apple, Ash, Birch, Beech, Cherry, Elm, Hawthorn, Hazel, Holly, Juniper, Maple, Oa
+k, Poplar, Rowan, Willow, Yew.<--                                                              
+Wrap: Alder, Apple, Ash, Birch, Beech, Cherry, Elm, Hawthorn, Hazel, Holly, Juniper, Maple,    
+Oak, Poplar, Rowan, Willow, Yew.<--                                                            
+WriteLine: Alder, Apple, Ash, Birch, Beech, Cherry, Elm, Hawthorn, Hazel, Holly, Juniper, Maple
+, Oak, Poplar, Rowan, Willow, Yew.                                                             
+WrapLine: Alder, Apple, Ash, Birch, Beech, Cherry, Elm, Hawthorn, Hazel, Holly, Juniper, Maple,
+Oak, Poplar, Rowan, Willow, Yew.                                                               
+Recorded Wrap: Alder, Apple, Ash, Birch, Beech, Cherry, Elm, Hawthorn, Hazel, Holly, Juniper,  
+Maple, Oak, Poplar, Rowan, Willow, Yew<--                                                      
+Recorded Wrap: Alder, Apple, Ash, Birch, Beech, Cherry, Elm, Hawthorn, Hazel, Holly, Juniper,  
+Maple, Oak, Poplar, Rowan, Willow, Yew                                                         
+                                                                                               

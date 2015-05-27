@@ -61,7 +61,6 @@ namespace TestConsole.Tests.OutputFormatting.Testing
         public void InterfaceIsInValidStateAfterWidthChange()
         {
             _console.BufferWidth = 132;
-            _console.WindowWidth = 132;
             _console.Write("text text text");
             Assert.That(_console.CursorLeft, Is.EqualTo(14));
         }

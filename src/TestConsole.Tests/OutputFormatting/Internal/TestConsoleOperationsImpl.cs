@@ -22,6 +22,8 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         public void SetUp()
         {
             _consoleInterface = new OutputBuffer();
+            _consoleInterface.BufferWidth = 60;
+
             _adapter = new ConsoleOperationsImpl(_consoleInterface);
             _prefixAdapter = new ConsoleOperationsImpl(_consoleInterface, "prefix: ");
         }
@@ -67,7 +69,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void FullWidthTabularDataIsDisplayed()
         {
-            _consoleInterface.WindowWidth = _consoleInterface.BufferWidth;
+            _consoleInterface.BufferWidth = _consoleInterface.BufferWidth;
 
             Action<ConsoleOperationsImpl> act = adapter =>
                                                     {
@@ -88,7 +90,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         {
             Action<ConsoleOperationsImpl> act = adapter =>
                                                     {
-                                                        adapter.WriteLine(RulerFormatter.MakeRuler(adapter.WindowWidth));
+                                                        adapter.WriteLine(RulerFormatter.MakeRuler(adapter.BufferWidth));
                                                         var data = Enumerable.Range(1, 10)
                                                                              .Select(i => new { Number = i, String = string.Join(" ", Enumerable.Repeat("blah", i)) });
                                                         adapter.FormatTable(data);
@@ -102,8 +104,8 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void WrapLinesAreWordWrappedToConsole()
         {
-            _consoleInterface.WindowWidth = _consoleInterface.BufferWidth;
-            _consoleInterface.Write(RulerFormatter.MakeRuler(_consoleInterface.WindowWidth));
+            _consoleInterface.BufferWidth = _consoleInterface.BufferWidth;
+            _consoleInterface.Write(RulerFormatter.MakeRuler(_consoleInterface.BufferWidth));
 
             Action<ConsoleOperationsImpl> act = adapter =>
                                                     {
@@ -119,8 +121,8 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void SingleLongDataLineIsWrappedCorrectly()
         {
-            _consoleInterface.WindowWidth = _consoleInterface.BufferWidth;
-            _consoleInterface.Write(RulerFormatter.MakeRuler(_consoleInterface.WindowWidth));
+            _consoleInterface.BufferWidth = _consoleInterface.BufferWidth;
+            _consoleInterface.Write(RulerFormatter.MakeRuler(_consoleInterface.BufferWidth));
 
             var text = "Long console output that should require word wrapping to fit the display width, specifically crafted "
                        + "so that it can span at least three lines in the output. This will exercise the wrapping functionality such that "
@@ -136,8 +138,8 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void StringContainingBracesButNoSubstitutionsIsRenderedCorrectly()
         {
-            _consoleInterface.WindowWidth = _consoleInterface.BufferWidth;
-            _consoleInterface.Write(RulerFormatter.MakeRuler(_consoleInterface.WindowWidth));
+            _consoleInterface.BufferWidth = _consoleInterface.BufferWidth;
+            _consoleInterface.Write(RulerFormatter.MakeRuler(_consoleInterface.BufferWidth));
 
             var text = "{data}";
             
@@ -152,7 +154,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         {
             Action<ConsoleOperationsImpl> act = adapter =>
                                                     {
-                                                        adapter.WriteLine(RulerFormatter.MakeRuler(adapter.WindowWidth));
+                                                        adapter.WriteLine(RulerFormatter.MakeRuler(adapter.BufferWidth));
                                                         adapter.Wrap("Long console output ");
                                                         adapter.Wrap("that should require word wrapping to");
                                                         adapter.Wrap(" fit the display width.");
@@ -235,7 +237,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         {
             Action<ConsoleOperationsImpl> act = adapter =>
                                                     {
-                                                        adapter.WriteLine(RulerFormatter.MakeRuler(adapter.WindowWidth));
+                                                        adapter.WriteLine(RulerFormatter.MakeRuler(adapter.BufferWidth));
                                                         var data = Enumerable.Range(1, 10)
                                                                              .Select(i => new { Number = i, String = string.Join(" ", Enumerable.Repeat("blah", i)) })
                                                                              .AsReport(p => p.AddColumn(t => t.String.Length < 10 ? t.String.PadRight(10, '*') : t.String.Substring(0, 10), c => c.Heading("First 10"))
@@ -252,7 +254,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test, ExpectedException]
         public void BadCodeInReportFormattingThrowsAnException()
         {
-            _adapter.WriteLine(RulerFormatter.MakeRuler(_adapter.WindowWidth));
+            _adapter.WriteLine(RulerFormatter.MakeRuler(_adapter.BufferWidth));
             var data = Enumerable.Range(1, 10)
                                  .Select(i => new { Number = i, String = string.Join(" ", Enumerable.Repeat("blah", i)) })
                                  .AsReport(p => p.AddColumn(t => t.String.Substring(0, 10), c => c.Heading("Bad"))
