@@ -27,7 +27,6 @@ namespace TestConsole.OutputFormatting.Internal
         }
 
         public int BufferWidth { get { return _consoleOutInterface.BufferWidth - _prefixLength; } }
-        public int WindowWidth { get { return _consoleOutInterface.WindowWidth - _prefixLength; } }
 
         protected Encoding Encoding { get { return _writer.Encoding; } }
 
@@ -79,7 +78,7 @@ namespace TestConsole.OutputFormatting.Internal
                 WriteLine();
 
             int wrappedLines;
-            var lines = renderableData.Render(WindowWidth, out wrappedLines).ToList();
+            var lines = renderableData.Render(BufferWidth, out wrappedLines).ToList();
             if (!lines.Any()) return;
 
             foreach (var line in lines.Where((l, i) => i < lines.Count - 1))
@@ -108,7 +107,7 @@ namespace TestConsole.OutputFormatting.Internal
             var allowanceForCursorPosition = _consoleOutInterface.CursorLeft > 0 
                 ? _consoleOutInterface.CursorLeft - _prefixLength //discount the prefix as this will not be counted in the window width
                 : 0; //no data on the line, so no allowance required.
-            var lines = ColumnWrapper.WrapValue(formatted, DefaultFormat, WindowWidth,
+            var lines = ColumnWrapper.WrapValue(formatted, DefaultFormat, BufferWidth,
                                                 firstLineHangingIndent: allowanceForCursorPosition);
             if (lines.Length == 0) return;
 
@@ -133,14 +132,14 @@ namespace TestConsole.OutputFormatting.Internal
 
         public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeperator = null)
         {
-            var tabular = TabularReport.Format<T, T>(items, null, WindowWidth, options: options, columnDivider: columnSeperator);
+            var tabular = TabularReport.Format<T, T>(items, null, BufferWidth, options: options, columnDivider: columnSeperator);
             foreach (var line in tabular)
                 Write(line);
         }
 
         public void FormatTable<T>(Report<T> report)
         {
-            var tabular = ReportExecutor.GetLines(report, WindowWidth);
+            var tabular = ReportExecutor.GetLines(report, BufferWidth);
             foreach (var line in tabular)
                 Write(line);
         }

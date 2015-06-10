@@ -71,22 +71,6 @@ namespace TestConsole.OutputFormatting
     }
 
     /// <summary>
-    /// The interface of a console adapter.
-    /// </summary>
-    public interface ITestConsole : IConsoleOperations
-    {
-        /// <summary>
-        /// The width of the console buffer in characters.
-        /// </summary>
-        int BufferWidth { get; }
-
-        /// <summary>
-        /// The width of the console window in characters.
-        /// </summary>
-        int WindowWidth { get; }
-    }
-
-    /// <summary>
     /// This interface defines the functionality required to support rendering recorded console activity
     /// in the various ways that a the data is used by the toolkit.
     /// </summary>

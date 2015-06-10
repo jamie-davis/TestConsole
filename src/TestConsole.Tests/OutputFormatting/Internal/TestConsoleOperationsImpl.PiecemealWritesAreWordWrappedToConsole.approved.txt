@@ -1,14 +1,12 @@
 ﻿Normal adapter:                                             
 -->                                                         
-----+----|----+----|----+----|----+----|                    
-Long console output that should require                     
-word wrapping to fit the display width.                     
-This was split into many small writes<--                    
+----+----|----+----|----+----|----+----|----+----|----+----|
+Long console output that should require word wrapping to fit
+the display width. This was split into many small writes<-- 
                                                             
 Prefixed adapter:                                           
 -->                                                         
-prefix: ----+----|----+----|----+----|--                    
-prefix: Long console output that should                     
-prefix: require word wrapping to fit the                    
-prefix: display width. This was split                       
+prefix: ----+----|----+----|----+----|----+----|----+----|--
+prefix: Long console output that should require word        
+prefix: wrapping to fit the display width. This was split   
 prefix: into many small writes<--                           

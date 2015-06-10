@@ -84,6 +84,7 @@
     <Compile Include="OutputFormatting\UnitTestutilities\TabularReportRenderTool.cs" />
     <Compile Include="TestingUtilities\CustomReporter.cs" />
     <Compile Include="TestingUtilities\SetUpTests.cs" />
+    <Compile Include="TestOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

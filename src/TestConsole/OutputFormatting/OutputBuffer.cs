@@ -39,11 +39,6 @@ namespace TestConsole.OutputFormatting
         private int _lengthLimit;
 
         /// <summary>
-        /// The width of the window. This is the visible part of the display. It is possible for this to be less than the width of the buffer.
-        /// </summary>
-        public int WindowWidth { get; set; }
-
-        /// <summary>
         /// The width of the buffer. This is the width of the data in the console window and can be wider than the actual window itself.
         /// </summary>
         public int BufferWidth { get; set; }
@@ -74,8 +69,7 @@ namespace TestConsole.OutputFormatting
         public OutputBuffer(Encoding encoding = null)
         {
             _encoding = encoding ?? Encoding.Default;
-            WindowWidth = 40;
-            BufferWidth = 60;
+            BufferWidth = 95;
 
             CreateBufferTo(0); //ensure that the buffer contains the first line.
         }

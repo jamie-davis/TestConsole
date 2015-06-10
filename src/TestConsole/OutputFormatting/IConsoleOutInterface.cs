@@ -8,14 +8,8 @@ namespace TestConsole.OutputFormatting
     public interface IConsoleInterface
     {
         /// <summary>
-        /// The width of the console window - i.e. the visible part of the buffer.
-        /// <seealso cref="BufferWidth"/>
-        /// </summary>
-        int WindowWidth { get; }
-
-        /// <summary>
         /// The width of the console buffer. This may be greater than the window width.
-        /// <seealso cref="WindowWidth"/>
+        /// <seealso cref="BufferWidth"/>
         /// </summary>
         int BufferWidth { get; }
 

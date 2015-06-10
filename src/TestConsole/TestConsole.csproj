@@ -7,7 +7,7 @@
     <ProjectGuid>{0C89C332-7B67-4D29-9E6A-4E0862336CF9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestConsole</RootNamespace>
+    <RootNamespace>TestConsoleLib</RootNamespace>
     <AssemblyName>TestConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\TestConsole.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\TestConsole.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,6 +49,7 @@
     <Compile Include="Exceptions\MultipleHandlersForCommand.cs" />
     <Compile Include="Exceptions\NestedOptionTypeInvalid.cs" />
     <Compile Include="Exceptions\ResultTypeCannotAcceptQuery.cs" />
+    <Compile Include="Output.cs" />
     <Compile Include="OutputFormatting\ITestConsole.cs" />
     <Compile Include="OutputFormatting\IConsoleOutInterface.cs" />
     <Compile Include="OutputFormatting\IConsoleRedirectTester.cs" />
