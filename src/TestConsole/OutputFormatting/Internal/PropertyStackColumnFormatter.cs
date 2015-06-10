@@ -28,7 +28,7 @@ namespace TestConsole.OutputFormatting.Internal
         private static IEnumerable<string> FormatCol(PropertyColumnFormat pcf, object item, 
             int width, int tabLength, int firstLineHangingIndent)
         {
-            var rawValue = pcf.Property.GetValue(item);
+            var rawValue = pcf.Property.GetValue(item, null);
             var value = ValueFormatter.Format(pcf.Format, rawValue);
             return FormatColWithPreFormattedValue(pcf, value, width, tabLength, firstLineHangingIndent);
         }

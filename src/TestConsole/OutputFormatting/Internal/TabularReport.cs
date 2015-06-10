@@ -211,7 +211,7 @@ namespace TestConsole.OutputFormatting.Internal
             if (c.Property == null)
                 value = item;
             else
-                value = c.Property.GetValue(item);
+                value = c.Property.GetValue(item, null);
 
             if (c.Format.Type == typeof (IConsoleRenderer) && value is IConsoleRenderer)
                 return new FormattingIntermediate(value as IConsoleRenderer);

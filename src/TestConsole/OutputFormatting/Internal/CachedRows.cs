@@ -47,7 +47,7 @@ namespace TestConsole.OutputFormatting.Internal
         public CachedRow(T item)
         {
             RowItem = item;
-            Columns = typeof (T).GetProperties().Select(p => new CachedColumn(p, p.GetValue(item))).ToList();
+            Columns = typeof (T).GetProperties().Select(p => new CachedColumn(p, p.GetValue(item, null))).ToList();
         }
 
         public T RowItem { get; set; }

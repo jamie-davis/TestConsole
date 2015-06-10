@@ -45,7 +45,7 @@ namespace TestConsole.Tests.OutputFormatting.UnitTestutilities
             foreach (var item in items)
             {
                 var rowValues = columns
-                    .Select((c, i) => ColumnWrapper.WrapValue(ValueFormatter.Format(c.Format, item.GetType().GetProperties()[i].GetValue(item)), c.Format, c.Format.ActualWidth))
+                    .Select((c, i) => ColumnWrapper.WrapValue(ValueFormatter.Format(c.Format, item.GetType().GetProperties()[i].GetValue(item, null)), c.Format, c.Format.ActualWidth))
                     .Concat(FormatStackedColumn(stackedColumns, stackedColumnWidth, tabLength, item))
                     .ToArray();
                 sb.Append(ReportColumnAligner.AlignColumns(widths, rowValues));
