@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OutputFormatting\Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OutputFormatting\Internal\TestColumnExpander.cs" />
     <Compile Include="OutputFormatting\Internal\TestColumnSizer.cs" />
