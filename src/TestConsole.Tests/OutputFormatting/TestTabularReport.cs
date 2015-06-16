@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,18 +6,17 @@ using System.Reflection;
 using System.Text;
 using ApprovalTests;
 using ApprovalTests.Reporters;
-using ConsoleToolkit.ConsoleIO;
-using ConsoleToolkit.ConsoleIO.Internal;
-using ConsoleToolkit.ConsoleIO.ReportDefinitions;
-using ConsoleToolkit.Utilities;
-using ConsoleToolkitTests.ConsoleIO.UnitTestUtilities;
-using ConsoleToolkitTests.TestingUtilities;
 using NUnit.Framework;
+using TestConsole.OutputFormatting;
+using TestConsole.OutputFormatting.Internal;
+using TestConsole.Tests.OutputFormatting.UnitTestutilities;
+using TestConsole.Tests.TestingUtilities;
+using TestConsole.Utilities;
 
-namespace ConsoleToolkitTests.ConsoleIO
+namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
-    [UseReporter(typeof (CustomReporter))]
+    [UseReporter(typeof(CustomReporter))]
     public class TestTabularReport
     {
         [SetUp]
@@ -35,8 +34,8 @@ namespace ConsoleToolkitTests.ConsoleIO
                 {
                     String = string.Format("String value {0}", i),
                     Int = i,
-                    Double = 3.0/(i + 1.0),
-                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i+1))
+                    Double = 3.0 / (i + 1.0),
+                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i + 1))
                 })
                 .ToList();
 
@@ -52,8 +51,8 @@ namespace ConsoleToolkitTests.ConsoleIO
                 {
                     String = string.Format("Long string value {0}. This value should be nice and long so that it doesn't fit a line. Then the algorithm has to calculate how many lines it will take to display the value within the allowable space. Better add a bit of variation to each row too: {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     Int = i,
-                    Double = 3.0/(i + 1.0),
-                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i+1))
+                    Double = 3.0 / (i + 1.0),
+                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i + 1))
                 })
                 .ToList();
 
@@ -69,8 +68,8 @@ namespace ConsoleToolkitTests.ConsoleIO
                 {
                     String = string.Format("Long string value {0}. This value should be nice and long so that it doesn't fit a line. Then the algorithm has to calculate how many lines it will take to display the value within the allowable space. Better add a bit of variation to each row too: {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     Int = i,
-                    Double = 3.0/(i + 1.0),
-                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i+1))
+                    Double = 3.0 / (i + 1.0),
+                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i + 1))
                 })
                 .ToList();
 
@@ -87,8 +86,8 @@ namespace ConsoleToolkitTests.ConsoleIO
                     String = string.Format("First long string value {0}. {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     SecondString = string.Format("Second long string value {0}. {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     Int = i,
-                    Double = 3.0/(i + 1.0),
-                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i+1))
+                    Double = 3.0 / (i + 1.0),
+                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i + 1))
                 })
                 .ToList();
 
@@ -105,8 +104,8 @@ namespace ConsoleToolkitTests.ConsoleIO
                     String = string.Format("First long string value {0}. {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     SecondString = string.Format("Second long string value {0}. {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     Int = i,
-                    Double = 3.0/(i + 1.0),
-                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i+1))
+                    Double = 3.0 / (i + 1.0),
+                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i + 1))
                 })
                 .ToList();
 
@@ -125,8 +124,8 @@ namespace ConsoleToolkitTests.ConsoleIO
                     String = string.Format("First long string value {0}. {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     SecondString = string.Format("Second long string value {0}. {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     Int = i,
-                    Double = 3.0/(i + 1.0),
-                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i+1))
+                    Double = 3.0 / (i + 1.0),
+                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i + 1))
                 })
                 .ToList();
 
@@ -145,8 +144,8 @@ namespace ConsoleToolkitTests.ConsoleIO
                     String = MakeRenderable(i),
                     SecondString = string.Format("Second long string value {0}. {1}", i, string.Join(" ", Enumerable.Repeat("variation ", i))),
                     Int = i,
-                    Double = 3.0/(i + 1.0),
-                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i+1))
+                    Double = 3.0 / (i + 1.0),
+                    DateTime = DateTime.Parse(string.Format("2014-{0}-17", i + 1))
                 })
                 .ToList();
 
@@ -378,7 +377,7 @@ namespace ConsoleToolkitTests.ConsoleIO
             var data = Enumerable.Range(0, 1)
                 .AsReport(p => p.AddColumn(r => "X", cc => cc.Heading("Value"))
                                 .AddColumn(r => "Text", cc => cc.Heading("Text."))
-                                .AddChild(i => Enumerable.Range(0,2), cr => cr.AddColumn(i => i, cc => cc.Heading("Child Int"))));
+                                .AddChild(i => Enumerable.Range(0, 2), cr => cr.AddColumn(i => i, cc => cc.Heading("Child Int"))));
 
             var sb = new StringBuilder();
 
@@ -430,6 +429,33 @@ namespace ConsoleToolkitTests.ConsoleIO
             Approvals.Verify(sb.ToString());
         }
 
+        [Test]
+        public void RenderableInObjectColumnShouldBeRendered()
+        {
+            var renderTableData = new[]
+            {
+                new {Col1 = 1, Col2 = "Two", Col3 = 3.0, Col4 = "Four"},
+                new {Col1 = 2, Col2 = "Three", Col3 = 3.1, Col4 = "One Two Three Four Five"},
+                new {Col1 = 3, Col2 = "Four point zero", Col3 = 3.2, Col4 = "One Two Three Four Five Six Seven"},
+            };
+            var renderable = new RecordingConsoleAdapter();
+            renderable.WrapLine("Wrapped text longer than allowed for by avalable space limitations. Should be wrapped in the column");
+            renderable.FormatTable(renderTableData);
+            var data = new []
+            {
+                new {Item = "Item 1", Value = (object)15},
+                new {Item = "Item 2", Value = (object)"string"},
+                new {Item = "Item 3", Value = (object)new {X = 100, Y = 200}},
+                new {Item = "Item 3", Value = (object)renderable},
+            };
+
+            var sb = new StringBuilder();
+
+            sb.Append(Report(data, 50, 10));
+
+            Approvals.Verify(sb.ToString());
+        }
+
         private RecordingConsoleAdapter MakeRenderable(int number, bool narrow = false)
         {
             var output = new RecordingConsoleAdapter();
@@ -439,7 +465,7 @@ namespace ConsoleToolkitTests.ConsoleIO
                 output.WrapLine("Some wrapped text containing the index number :{0} and some more stuff.", number);
 
             var table = Enumerable.Range(0, number)
-                .Select(i => new { Text = string.Format("Nested row {0}", i)});
+                .Select(i => new { Text = string.Format("Nested row {0}", i) });
             output.FormatTable(table, ReportFormattingOptions.StretchColumns);
 
             return output;
@@ -449,7 +475,7 @@ namespace ConsoleToolkitTests.ConsoleIO
         {
             var report = RulerFormatter.MakeRuler(width)
                          + Environment.NewLine
-                         + string.Join(string.Empty, TabularReport.Format<T, T>(data, columnFormats, width, 
+                         + string.Join(string.Empty, TabularReport.Format<T, T>(data, columnFormats, width,
                                             numRowsToUseForSizing, options, columnDivider));
             Console.WriteLine(report);
             return report;

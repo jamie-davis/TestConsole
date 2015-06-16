@@ -1,11 +1,10 @@
 using System;
 using System.Reflection;
 using ApprovalTests.Reporters;
-using ConsoleToolkit.ConsoleIO;
-using ConsoleToolkit.ConsoleIO.Internal;
 using NUnit.Framework;
+using TestConsole.OutputFormatting.Internal;
 
-namespace ConsoleToolkitTests.ConsoleIO
+namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
     [UseReporter(typeof (DiffReporter))]

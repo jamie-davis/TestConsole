@@ -1,29 +1,27 @@
 ﻿using System.Linq;
 using ApprovalTests;
 using ApprovalTests.Reporters;
-using ConsoleToolkit.ConsoleIO;
-using ConsoleToolkit.ConsoleIO.Internal;
-using ConsoleToolkit.Testing;
-using ConsoleToolkitTests.TestingUtilities;
 using NUnit.Framework;
+using TestConsole.OutputFormatting;
+using TestConsole.Tests.TestingUtilities;
+using TestConsoleLib;
 
-namespace ConsoleToolkitTests.ConsoleIO
+namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
     [UseReporter(typeof (CustomReporter))]
     public class TestReport
     {
-        private ConsoleInterfaceForTesting _consoleInterface;
-        private ConsoleAdapter _adapter;
+        private Output _adapter;
+        private OutputBuffer _buffer;
 
         [SetUp]
         public void SetUp()
         {
-            _consoleInterface = new ConsoleInterfaceForTesting();
-            _consoleInterface.BufferWidth = 80;
-            _consoleInterface.WindowWidth = 80;
+            _buffer = new OutputBuffer();
+            _buffer.BufferWidth = 80;
 
-            _adapter = new ConsoleAdapter(_consoleInterface);
+            _adapter = new Output(_buffer);
         }
 
         [Test]
@@ -54,7 +52,7 @@ namespace ConsoleToolkitTests.ConsoleIO
             _adapter.FormatTable(report);
 
             //Assert
-            Approvals.Verify(_consoleInterface.GetBuffer());
+            Approvals.Verify(_buffer.GetBuffer());
         }
 
         [Test]
@@ -85,7 +83,7 @@ namespace ConsoleToolkitTests.ConsoleIO
             _adapter.FormatTable(report);
 
             //Assert
-            Approvals.Verify(_consoleInterface.GetBuffer());
+            Approvals.Verify(_buffer.GetBuffer());
         }
 
         [Test]
@@ -116,7 +114,7 @@ namespace ConsoleToolkitTests.ConsoleIO
             _adapter.FormatTable(report);
 
             //Assert
-            Approvals.Verify(_consoleInterface.GetBuffer());
+            Approvals.Verify(_buffer.GetBuffer());
         }
 
         [Test]
@@ -152,7 +150,7 @@ namespace ConsoleToolkitTests.ConsoleIO
 
             //Assert
             _adapter.FormatTable(report);
-            Approvals.Verify(_consoleInterface.GetBuffer());
+            Approvals.Verify(_buffer.GetBuffer());
         }
     }
 }

@@ -2,12 +2,11 @@ using System;
 using System.Text;
 using ApprovalTests;
 using ApprovalTests.Reporters;
-using ConsoleToolkit.ConsoleIO;
-using ConsoleToolkit.ConsoleIO.Internal;
-using ConsoleToolkitTests.TestingUtilities;
 using NUnit.Framework;
+using TestConsole.OutputFormatting.Internal;
+using TestConsole.Tests.TestingUtilities;
 
-namespace ConsoleToolkitTests.ConsoleIO
+namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
     [UseReporter(typeof(CustomReporter))]

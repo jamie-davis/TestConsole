@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApprovalTests;
 using ApprovalTests.Reporters;
 using ApprovalUtilities.Utilities;
-using ConsoleToolkit.ConsoleIO;
-using ConsoleToolkit.ConsoleIO.Internal;
-using ConsoleToolkitTests.TestingUtilities;
 using NUnit.Framework;
-using Approvals = ApprovalTests.Approvals;
+using TestConsole.OutputFormatting.Internal;
+using TestConsole.Tests.TestingUtilities;
 
-namespace ConsoleToolkitTests.ConsoleIO
+namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
     [UseReporter(typeof(CustomReporter))]
