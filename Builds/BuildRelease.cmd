@@ -7,17 +7,10 @@ if NOT EXIST "TestConsole %testconsoleversion%" md "TestConsole %testconsolevers
 
 copy ..\src\TestConsole\bin\release\*.dll "TestConsole %testconsoleversion%"
 copy ..\src\TestConsole\bin\release\*.xml "TestConsole %testconsoleversion%"
-copy ..\src\TestConsole\bin\release\*.dll "TestConsole_current"
-copy ..\src\TestConsole\bin\release\*.xml "TestConsole_current"
 
-nuget pack ..\src\TestConsole\TestConsole.csproj -outputdirectory "TestConsole_current" -IncludeReferencedProjects -Prop Configuration=Release
+nuget pack ..\src\TestConsole\TestConsole.csproj -outputdirectory "TestConsole %testconsoleversion%" -IncludeReferencedProjects -Prop Configuration=Release -Version %testconsoleversion%
 
-copy "TestConsole_current\*.nupkg" "TestConsole %testconsoleversion%"
-
-git\git add "TestConsole %testconsoleversion%\*.dll" -f
-git\git add "TestConsole %testconsoleversion%\*.xml" -f
-git\git add "TestConsole %testconsoleversion%\*.nupkg" -f
-git\git add "TestConsole_current\*.dll" -f
-git\git add "TestConsole_current\*.xml" -f
-git\git add "TestConsole_current\*.nupkg" -f
+git add "TestConsole %testconsoleversion%\TestConsole.dll" -f
+git add "TestConsole %testconsoleversion%\TestConsole.xml" -f
+git add "TestConsole %testconsoleversion%\TestConsole.%testconsoleversion%.nupkg" -f
 pause

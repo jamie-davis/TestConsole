@@ -1,1 +1,1 @@
-nuget push "ConsoleToolkit_current\ConsoleToolkit.%consoletoolsversion%.nupkg"
+nuget push "TestConsole %testconsoleversion%\TestConsole.%consoletoolsversion%.nupkg"

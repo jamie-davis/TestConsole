@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/jamie-davis/TestConsole</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A library designed to allow unit tests to write formatted output using a simple but powerful interface. Very good for use with ApprovalTests.</description>
-    <releaseNotes>Initial release</releaseNotes>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Testing .NET</tags>
   </metadata>
