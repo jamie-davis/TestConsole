@@ -46,6 +46,16 @@ namespace TestConsole.OutputFormatting.Internal.ReportDefinitions
         /// </summary>
         public string ColumnDivider { get; set; }
 
+        /// <summary>
+        /// The number of extra spaces to indent the report.
+        /// </summary>
+        public int IndentSpaces { get; set; }
+
+        /// <summary>
+        /// A simple string to be shown as the report title.
+        /// </summary>
+        public string TitleText { get; set; }
+
         private void RebuildOptions()
         {
             var options = (ReportFormattingOptions)0;

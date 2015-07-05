@@ -53,6 +53,29 @@ namespace TestConsole.OutputFormatting.ReportDefinitions
             Details.StretchColumns = true;
             return this;
         }
+
+        /// <summary>
+        /// Specify the number of extra spaces to indent the report.
+        /// </summary>
+        /// <param name="spaces">The extra indent spaces count.</param>
+        /// <returns>The parameter object.</returns>
+        public ReportParameters<T> Indent(int spaces)
+        {
+            Details.IndentSpaces = spaces;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a title string to the report.
+        /// </summary>
+        /// <param name="titleText"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public ReportParameters<T> Title(string titleText)
+        {
+            Details.TitleText = titleText;
+            return this;
+        }
     }
 
     internal abstract class BaseChildItem<T>
@@ -85,10 +108,5 @@ namespace TestConsole.OutputFormatting.ReportDefinitions
             var report = new Report<TValueItem>(childData, _reportParameters);
             return string.Join(string.Empty, ReportExecutor.GetLines(report, width));
         }
-    }
-
-    internal class ChildConfig
-    {
-        
     }
 }

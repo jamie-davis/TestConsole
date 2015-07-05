@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,25 @@ namespace TestConsole.OutputFormatting.Internal
     /// </summary>
     internal static class ReportExecutor
     {
+        private static readonly ColumnFormat DefaultFormat = new ColumnFormat();
+
         /// <summary>
         /// Return the lines output by a report.
         /// </summary>
         /// <typeparam name="T">The type of the items that are input to the report.</typeparam>
         /// <param name="report">The report definition.</param>
-        /// <param name="width">The available width for formatting.</param>
+        /// <param name="availableWidth">The available width for formatting.</param>
         /// <returns>A set of report lines.</returns>
-        internal static IEnumerable<string> GetLines<T>(Report<T> report, int width)
+        internal static IEnumerable<string> GetLines<T>(Report<T> report, int availableWidth)
         {
+            int width;
+            var indent = string.Empty;
+            if (availableWidth > report.IndentSpaceCount)
+                width = availableWidth - report.IndentSpaceCount;
+            else
+                width = availableWidth;
+            var actualIndent = availableWidth - width;
+
             var formatMethod = MakeFormatMethodInfo(report);
             var parameters = new object[]
                              {
@@ -33,7 +44,28 @@ namespace TestConsole.OutputFormatting.Internal
                              };
 
             var tabular = MethodInvoker.Invoke(formatMethod, null, parameters) as IEnumerable<string>;
-            return tabular;
+            if (actualIndent > 0)
+                indent = new string(' ', actualIndent);
+            foreach (var line in ProduceTitle(report, availableWidth).Concat(tabular))
+            {
+                if (actualIndent > 0)
+                    yield return indent + line;
+                else
+                    yield return line;
+            }
+        }
+
+        private static IEnumerable<string> ProduceTitle<T>(Report<T> report, int availableWidth)
+        {
+            if (string.IsNullOrEmpty(report.TitleText))
+                yield break;
+
+            var lines = ColumnWrapper.WrapValue(report.TitleText, DefaultFormat, availableWidth);
+            foreach (var line in lines)
+            {
+                yield return line + Environment.NewLine;
+                yield return Underliner.Generate(line) + Environment.NewLine;
+            }
         }
 
         private static MethodInfo MakeFormatMethodInfo<T>(Report<T> report)

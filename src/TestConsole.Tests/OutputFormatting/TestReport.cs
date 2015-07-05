@@ -152,5 +152,62 @@ namespace TestConsole.Tests.OutputFormatting
             _adapter.FormatTable(report);
             Approvals.Verify(_buffer.GetBuffer());
         }
+
+        [Test]
+        public void TheReportCanBeIndented()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var indentReport = data.AsReport(rep => rep.AddColumn(n => string.Format("Test value {0}", n),
+                                                            col => col.RightAlign())
+                                                 .Indent(4)
+                                                 .StretchColumns());
+            var normalReport = data.AsReport(rep => rep.AddColumn(n => string.Format("Test value {0}", n),
+                                                            col => col.RightAlign())
+                                                 .StretchColumns());
+
+            //Act
+            _adapter.FormatTable(indentReport);
+            _adapter.FormatTable(normalReport);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void ReportTitleIsPrinted()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var report = data.AsReport(rep => rep.AddColumn(n => string.Format("Test value {0}", n),
+                                                            col => col.RightAlign())
+                                                 .Indent(4)
+                                                 .StretchColumns()
+                                                 .Title("Test Report"));
+
+            //Act
+            _adapter.FormatTable(report);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void ReportTitleIsWrapped()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var report = data.AsReport(rep => rep.AddColumn(n => string.Format("Test value {0}", n),
+                                                            col => col.RightAlign())
+                                                 .Indent(4)
+                                                 .StretchColumns()
+                                                 .Title("ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ"));
+
+            //Act
+            _adapter.FormatTable(report);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
     }
 }
