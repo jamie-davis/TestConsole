@@ -38,7 +38,8 @@ namespace TestConsole.OutputFormatting.Internal.ReportDefinitions
                 .MakeGenericMethod(rowType);
 
             originalRowGetter = MakeOriginalRowGetter<T>(rowType);
-            return MethodInvoker.Invoke(runQuery, null, new object[] {items.Cast<object>(), func}) as IEnumerable;
+            var itemsAsObjects = items == null ? new object[0] : items.Cast<object>();
+            return MethodInvoker.Invoke(runQuery, null, new object[] {itemsAsObjects, func}) as IEnumerable;
         }
 
         // ReSharper disable once UnusedMember.Local

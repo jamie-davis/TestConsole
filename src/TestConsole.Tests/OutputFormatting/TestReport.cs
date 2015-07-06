@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
@@ -145,6 +147,24 @@ namespace TestConsole.Tests.OutputFormatting
             var report = data.AsReport(rep => rep.AddColumn(n => string.Format("Test value {0}", n),
                                                             col => col.Heading("Test values"))
                                                  .AddChild(n => Enumerable.Range(1, 4),
+                                                           p => p.AddColumn(i => i, c => c.Heading("Nested Number")))
+                );
+
+            //Assert
+            _adapter.FormatTable(report);
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void ChildReportsWithANullDataSourceDoNotFail()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+
+            //Act
+            var report = data.AsReport(rep => rep.AddColumn(n => string.Format("Test value {0}", n),
+                                                            col => col.Heading("Test values"))
+                                                 .AddChild(n => (IEnumerable<int>)null,
                                                            p => p.AddColumn(i => i, c => c.Heading("Nested Number")))
                 );
 
