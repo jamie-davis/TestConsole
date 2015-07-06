@@ -8,7 +8,7 @@ if NOT EXIST "TestConsole %testconsoleversion%" md "TestConsole %testconsolevers
 copy ..\src\TestConsole\bin\release\*.dll "TestConsole %testconsoleversion%"
 copy ..\src\TestConsole\bin\release\*.xml "TestConsole %testconsoleversion%"
 
-nuget pack ..\src\TestConsole\TestConsole.csproj -outputdirectory "TestConsole %testconsoleversion%" -IncludeReferencedProjects -Prop Configuration=Release -Version %testconsoleversion%
+.nuget\nuget pack ..\src\TestConsole\TestConsole.csproj -outputdirectory "TestConsole %testconsoleversion%" -IncludeReferencedProjects -Prop Configuration=Release -Version %testconsoleversion%
 
 git add "TestConsole %testconsoleversion%\TestConsole.dll" -f
 git add "TestConsole %testconsoleversion%\TestConsole.xml" -f
