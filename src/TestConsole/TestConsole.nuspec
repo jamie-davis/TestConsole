@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/jamie-davis/TestConsole</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A library designed to allow unit tests to write formatted output using a simple but powerful interface. Very good for use with ApprovalTests.</description>
-    <releaseNotes>Reports can now have titles and can be indented.</releaseNotes>
+    <releaseNotes>Nested reports with null data sources do not crash.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Testing .NET</tags>
   </metadata>
