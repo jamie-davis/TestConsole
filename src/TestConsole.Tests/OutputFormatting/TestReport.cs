@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
@@ -189,6 +190,49 @@ namespace TestConsole.Tests.OutputFormatting
             //Act
             _adapter.FormatTable(indentReport);
             _adapter.FormatTable(normalReport);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void ReportWithChildCanBeIndented()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var indentReport = data.AsReport(rep => rep
+                                                .AddColumn(n => string.Format("Test value {0}", n), col => col.RightAlign())
+                                                .AddChild(n => Enumerable.Range(n, 4), r2 => r2.AddColumn(n => n, cc => cc.Heading("Nested")))
+                                                .Indent(4)
+                                                .StretchColumns());
+            var normalReport = data.AsReport(rep => rep
+                                                .AddColumn(n => string.Format("Test value {0}", n), col => col.RightAlign())
+                                                .AddChild(n => Enumerable.Range(n, 4), r2 => r2.AddColumn(n => n, cc => cc.Heading("Nested")))
+                                                .StretchColumns());
+
+            //Act
+            _adapter.FormatTable(indentReport);
+            _adapter.FormatTable(normalReport);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void ChildReportsAreFormattedAfterColumnsWhenAllColumnsAreEmpty()
+        {
+            //Arrange
+            var data = new[] {1};
+            var report = data.AsReport(rep => rep
+                                                .AddColumn(n => (string)null, cc => cc.Heading("Col"))
+                                                .AddChild(n => new int[0], r2 => r2.AddColumn(n => n, cc => cc.Heading("Nested")).Title("Report 1"))
+                                                .AddChild(n => Enumerable.Range(n, 4), r2 => r2.AddColumn(n => n, cc => cc.Heading("Nested")).Title("Report 2"))
+                                                .Indent(4)
+                                                .StretchColumns()
+                                                );
+
+            //Act
+            _adapter.FormatTable(report);
 
             //Assert
             Approvals.Verify(_buffer.GetBuffer());

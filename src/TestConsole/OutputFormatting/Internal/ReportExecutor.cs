@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using TestConsole.Utilities;
@@ -49,9 +50,20 @@ namespace TestConsole.OutputFormatting.Internal
             foreach (var line in ProduceTitle(report, availableWidth).Concat(tabular))
             {
                 if (actualIndent > 0)
-                    yield return indent + line;
+                    foreach (var indented in ApplyIndent(indent, line))
+                        yield return indented;
                 else
                     yield return line;
+            }
+        }
+
+        private static IEnumerable<string> ApplyIndent(string indent, string data)
+        {
+            using (var stream = new StringReader(data))
+            {
+                string line;
+                while ((line = stream.ReadLine()) != null)
+                    yield return indent + line + Environment.NewLine;
             }
         }
 
