@@ -18,7 +18,7 @@ namespace TestConsoleLib.ObjectReporting
     /// report all child objects. If the object does not implement <see cref="INotifyPropertyChanged"/>,
     /// only report on its properties.
     /// </summary>
-    internal class ObjectReporter<T>
+    public class ObjectReporter<T>
     {
         private readonly ReportType _reportType;
 
