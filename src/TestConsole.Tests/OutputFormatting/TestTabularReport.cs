@@ -430,6 +430,18 @@ namespace TestConsole.Tests.OutputFormatting
         }
 
         [Test]
+        public void EmptyListCanBeFormatted()
+        {
+            var data = new List<Tuple<int, int>>();
+
+            var sb = new StringBuilder();
+
+            sb.Append(Report(data, 50, 10));
+
+            Approvals.Verify(sb.ToString());
+        }
+
+        [Test]
         public void RenderableInObjectColumnShouldBeRendered()
         {
             var renderTableData = new[]
