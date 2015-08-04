@@ -49,6 +49,7 @@
     <Compile Include="Exceptions\MultipleHandlersForCommand.cs" />
     <Compile Include="Exceptions\NestedOptionTypeInvalid.cs" />
     <Compile Include="Exceptions\ResultTypeCannotAcceptQuery.cs" />
+    <Compile Include="ObjectReporting\ObjectReporter.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="OutputFormatting\Internal\Underliner.cs" />
     <Compile Include="OutputFormatting\ITestConsole.cs" />
