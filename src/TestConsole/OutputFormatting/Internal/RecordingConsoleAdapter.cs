@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TestConsole.OutputFormatting.Internal.RecordedCommands;
+using TestConsoleLib.ObjectReporting;
 
 namespace TestConsole.OutputFormatting.Internal
 {
@@ -50,6 +51,12 @@ namespace TestConsole.OutputFormatting.Internal
 
         public void FormatTable<T>(Report<T> report)
         {
+            _steps.Add(FormatTableCommandFactory.Make(report));
+        }
+
+        public void FormatObject<T>(T item)
+        {
+            var report = ObjectReporter<T>.MakeTableReport(item);
             _steps.Add(FormatTableCommandFactory.Make(report));
         }
 

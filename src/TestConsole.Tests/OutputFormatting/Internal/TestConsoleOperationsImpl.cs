@@ -263,6 +263,18 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             Console.WriteLine(_consoleInterface.GetBuffer()); //shouldn't reach here, so any output may be informative
         }
 
+
+        [Test]
+        public void FormatObjectProducesAReportStyleDumpOfTheObject()
+        {
+            //Act
+            _adapter.FormatObject(Tuple.Create(1, "AAA", "BBB", Tuple.Create(2, "aaaa", "bbb")));
+
+            //Assert
+            Approvals.Verify(_consoleInterface.GetBuffer());
+        }
+
+
         private static RecordingConsoleAdapter MakeRecording()
         {
             var recorder = new RecordingConsoleAdapter();

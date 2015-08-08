@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TestConsoleLib.ObjectReporting;
 
 namespace TestConsole.OutputFormatting.Internal
 {
@@ -142,6 +143,12 @@ namespace TestConsole.OutputFormatting.Internal
             var tabular = ReportExecutor.GetLines(report, BufferWidth);
             foreach (var line in tabular)
                 Write(line);
+        }
+
+        public void FormatObject<T>(T item)
+        {
+            var reporter = new ObjectReporter<T>();
+            reporter.Report(item, this, ReportType.Table);
         }
 
         /// <summary>

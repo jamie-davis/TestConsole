@@ -121,6 +121,11 @@ namespace TestConsoleLib
             _impl.FormatTable(report);
         }
 
+        public void FormatObject<T>(T item)
+        {
+            _impl.FormatObject(item);
+        }
+
         /// <summary>
         /// Output a new line.
         /// </summary>

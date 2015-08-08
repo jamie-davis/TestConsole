@@ -180,6 +180,22 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             Assert.That(recorder.CountWordWrapLineBreaks(20), Is.EqualTo(23));
         }
 
+        [Test]
+        public void AdapterPlaysBackObjectFormatting()
+        {
+            //Arrange
+            _adapter.WrapLine("Object formatted:");
+            _adapter.WriteLine();
+
+            //Act
+            _adapter.FormatObject(Tuple.Create(1, "AAA", "BBB", Tuple.Create(2, "aaaa", "bbb")));
+
+            //Assert
+            int wrappedLines;
+            var output = _adapter.Render(40, out wrappedLines);
+            Approvals.Verify(output.JoinWith(Environment.NewLine));
+        }
+
         private static RecordingConsoleAdapter MakeRecording()
         {
             var recorder = new RecordingConsoleAdapter();

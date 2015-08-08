@@ -35,7 +35,7 @@ namespace TestConsoleLib.ObjectReporting
             _reportType = reportType;
         }
 
-        public void Report(T item, Output output, ReportType reportType = ReportType.Default)
+        public void Report(T item, IConsoleOperations output, ReportType reportType = ReportType.Default)
         {
             if (reportType == ReportType.Default)
                 reportType = _reportType;
@@ -55,13 +55,13 @@ namespace TestConsoleLib.ObjectReporting
             }
         }
 
-        private static void ShowAsTable(T item, Output output)
+        private static void ShowAsTable(T item, IConsoleOperations output)
         {
             var report = MakeTableReport(item);
             output.FormatTable(report);
         }
 
-        private static Report<T> MakeTableReport(T item)
+        internal static Report<T> MakeTableReport(T item)
         {
             var items = (item as object == null) 
             ? new T[] {}
@@ -259,7 +259,7 @@ namespace TestConsoleLib.ObjectReporting
             return getterFn;
         }
 
-        private void ListProperties(T item, Output output)
+        private void ListProperties(T item, IConsoleOperations output)
         {
             var props = GetPropertyColumns(item);
             output.FormatTable(props

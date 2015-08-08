@@ -65,6 +65,13 @@ namespace TestConsole.OutputFormatting
         void FormatTable<T>(Report<T> report);
 
         /// <summary>
+        /// Format an object using the ObjectReporter.
+        /// </summary>
+        /// <typeparam name="T">The item type.</typeparam>
+        /// <param name="item">The item to format.</param>
+        void FormatObject<T>(T item);
+
+        /// <summary>
         /// Output a new line.
         /// </summary>
         void WriteLine();
