@@ -171,6 +171,18 @@ namespace TestConsole.Tests.ObjectReporting
             }
         }
 
+        class TypeContainingIEnumerable
+        {
+            public IEnumerable<NestedTypeWIthChildren> Children { get; set; }
+
+            public TypeContainingIEnumerable()
+            {
+                Children = Enumerable.Range(0, 2)
+                    .Select(n => new NestedTypeWIthChildren("Child " + n))
+                    .ToList();
+            }
+        }
+
         class TypeWithNoProperties
         {
         }
@@ -345,6 +357,22 @@ namespace TestConsole.Tests.ObjectReporting
             var item = new TypeWithChild("A", 1, "2015-07-27");
             item.Child = null;
             var reporter = new ObjectReporter<TypeWithChild>(ReportType.Table);
+
+            //Act
+            reporter.Report(item, _output);
+
+            //Assert
+            Console.WriteLine(_output.Report);
+            Approvals.Verify(_output.Report);
+        }
+
+        [Test]
+        // ReSharper disable once InconsistentNaming
+        public void IEnumerablePropertyIsDisplayed()
+        {
+            //Arrange
+            var item = new TypeContainingIEnumerable();
+            var reporter = new ObjectReporter<TypeContainingIEnumerable>(ReportType.Table);
 
             //Act
             reporter.Report(item, _output);
