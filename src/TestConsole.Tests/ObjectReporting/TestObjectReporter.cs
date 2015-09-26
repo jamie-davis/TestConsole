@@ -173,18 +173,23 @@ namespace TestConsole.Tests.ObjectReporting
 
         class TypeContainingIEnumerable
         {
-            public IEnumerable<NestedTypeWIthChildren> Children { get; set; }
+            public IEnumerable<TypeWithGuid> Children { get; set; }
 
             public TypeContainingIEnumerable()
             {
-                Children = Enumerable.Range(0, 2)
-                    .Select(n => new NestedTypeWIthChildren("Child " + n))
+                Children = new [] { Guid.Parse("0A3932E5-A6DF-4D2D-BC37-CD512A31C0AF"), Guid.Parse("91A82F0F-0AE8-4790-A708-99B70845AF87"), Guid.Parse("5562F5F1-E76F-4AB0-8CB8-69EF944647E5") }
+                    .Select(g => new TypeWithGuid { GuidValue = g})
                     .ToList();
             }
         }
 
         class TypeWithNoProperties
         {
+        }
+
+        class TypeWithGuid
+        {
+            public Guid GuidValue { get; set; }
         }
 
         #endregion

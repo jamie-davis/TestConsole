@@ -87,7 +87,7 @@ namespace TestConsoleLib.ObjectReporting
                 if (propertyInfo.GetIndexParameters().Any())
                     continue;
 
-                if (Type.GetTypeCode(propertyInfo.PropertyType) == TypeCode.Object)
+                if (Type.GetTypeCode(propertyInfo.PropertyType) == TypeCode.Object && propertyInfo.PropertyType != typeof(Guid))
                     childReports.Add(propertyInfo);
                 else
                 {
