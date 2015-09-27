@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/jamie-davis/TestConsole</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A library designed to allow unit tests to write formatted output using a simple but powerful interface. Very good for use with ApprovalTests.</description>
-    <releaseNotes>Added the ObjectReporter tool to display CLR objects.</releaseNotes>
+    <releaseNotes>Added support for IEnumerable properties in the ObjectReporter.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Testing .NET</tags>
   </metadata>
