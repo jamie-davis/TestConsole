@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallRecording\TestCallRecorder.cs" />
     <Compile Include="ObjectReporting\TestObjectReporter.cs" />
     <Compile Include="OutputFormatting\Internal\TestUnderliner.cs" />
     <Compile Include="OutputFormatting\TestTabularReport.cs" />

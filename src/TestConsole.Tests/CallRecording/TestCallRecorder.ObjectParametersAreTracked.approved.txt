@@ -1,0 +1,7 @@
+﻿Call to ObjectParamCall(TestConsole.Tests.CallRecording.TestCallRecorder+TestClass param)      
+1. param                                                                                       
+                                                                                               
+StringVar      IntVar                                                                          
+--------- -----------                                                                          
+string            500                                                                          
+                                                                                               

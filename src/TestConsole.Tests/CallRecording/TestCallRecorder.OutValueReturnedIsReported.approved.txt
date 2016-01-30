@@ -1,0 +1,4 @@
+﻿Call to ValueOutParameter(System.Int32& n)                                                     
+ref 1. n=5000                                                                                  
+ref n Returned 2015                                                                            
+                                                                                               

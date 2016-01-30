@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallRecording\CallRecorder.cs" />
+    <Compile Include="CallRecording\Internals\CallRecorderPrinting.cs" />
     <Compile Include="Exceptions\BadExpressionType.cs" />
     <Compile Include="Exceptions\InvalidOperationForRedirectedConsole.cs" />
     <Compile Include="Exceptions\MemberReferenceExpected.cs" />

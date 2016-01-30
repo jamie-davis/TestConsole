@@ -1,0 +1,8 @@
+﻿Call to ObjectReturn()                                                                         
+                                                                                               
+Returned                                                                                       
+                                                                                               
+StringVar        IntVar                                                                        
+----------- -----------                                                                        
+test string        2015                                                                        
+                                                                                               

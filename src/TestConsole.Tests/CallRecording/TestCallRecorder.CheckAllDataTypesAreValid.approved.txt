@@ -1,0 +1,625 @@
+﻿-------------------------------------------------                                              
+Running test on System.Nullable`1[System.Decimal]                                              
+-------------------------------------------------                                              
+Call to Param(System.Nullable`1[System.Decimal] param)                                         
+1. param                                                                                       
+                                                                                               
+HasValue                             Value                                                     
+-------- ---------------------------------                                                     
+True                                150.50                                                     
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned                                                                                       
+                                                                                               
+HasValue                             Value                                                     
+-------- ---------------------------------                                                     
+True                                150.50                                                     
+                                                                                               
+Call to OutParam(System.Nullable`1[System.Decimal]& param)                                     
+ref 1. param                                                                                   
+                                                                                               
+HasValue                             Value                                                     
+-------- ---------------------------------                                                     
+True                               -200.00                                                     
+ref param Returned                                                                             
+                                                                                               
+HasValue                             Value                                                     
+-------- ---------------------------------                                                     
+True                                150.50                                                     
+                                                                                               
+Call to RefParam(System.Nullable`1[System.Decimal]& param)                                     
+ref 1. param                                                                                   
+                                                                                               
+HasValue                             Value                                                     
+-------- ---------------------------------                                                     
+True                               -200.00                                                     
+ref param Returned                                                                             
+                                                                                               
+HasValue                             Value                                                     
+-------- ---------------------------------                                                     
+True                                150.50                                                     
+                                                                                               
+------------------------------                                                                 
+Running test on System.Decimal                                                                 
+------------------------------                                                                 
+Call to Param(System.Decimal param)                                                            
+1. param=79228162514264337593543950335                                                         
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 79228162514264337593543950335                                                         
+                                                                                               
+Call to OutParam(System.Decimal& param)                                                        
+ref 1. param=150.5                                                                             
+ref param Returned 79228162514264337593543950335                                               
+                                                                                               
+Call to RefParam(System.Decimal& param)                                                        
+ref 1. param=150.5                                                                             
+ref param Returned 79228162514264337593543950335                                               
+                                                                                               
+-----------------------------                                                                  
+Running test on System.DBNull                                                                  
+-----------------------------                                                                  
+Call to Param(System.DBNull param)                                                             
+1. param=                                                                                      
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned                                                                                       
+                                                                                               
+Call to OutParam(System.DBNull& param)                                                         
+ref 1. param=                                                                                  
+ref param Returned                                                                             
+                                                                                               
+Call to RefParam(System.DBNull& param)                                                         
+ref 1. param=                                                                                  
+ref param Returned                                                                             
+                                                                                               
+------------------------------                                                                 
+Running test on System.Boolean                                                                 
+------------------------------                                                                 
+Call to Param(System.Boolean param)                                                            
+1. param=True                                                                                  
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned True                                                                                  
+                                                                                               
+Call to OutParam(System.Boolean& param)                                                        
+ref 1. param=False                                                                             
+ref param Returned True                                                                        
+                                                                                               
+Call to RefParam(System.Boolean& param)                                                        
+ref 1. param=False                                                                             
+ref param Returned True                                                                        
+                                                                                               
+-------------------------------------------------                                              
+Running test on System.Nullable`1[System.Boolean]                                              
+-------------------------------------------------                                              
+Call to Param(System.Nullable`1[System.Boolean] param)                                         
+1. param                                                                                       
+                                                                                               
+HasValue Value                                                                                 
+-------- -----                                                                                 
+True     True                                                                                  
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned                                                                                       
+                                                                                               
+HasValue Value                                                                                 
+-------- -----                                                                                 
+True     True                                                                                  
+                                                                                               
+Call to OutParam(System.Nullable`1[System.Boolean]& param)                                     
+ref 1. param                                                                                   
+                                                                                               
+HasValue Value                                                                                 
+-------- -----                                                                                 
+True     False                                                                                 
+ref param Returned                                                                             
+                                                                                               
+HasValue Value                                                                                 
+-------- -----                                                                                 
+True     True                                                                                  
+                                                                                               
+Call to RefParam(System.Nullable`1[System.Boolean]& param)                                     
+ref 1. param                                                                                   
+                                                                                               
+HasValue Value                                                                                 
+-------- -----                                                                                 
+True     False                                                                                 
+ref param Returned                                                                             
+                                                                                               
+HasValue Value                                                                                 
+-------- -----                                                                                 
+True     True                                                                                  
+                                                                                               
+-------------------------------                                                                
+Running test on System.String[]                                                                
+-------------------------------                                                                
+Call to Param(System.String[] param)                                                           
+1. param                                                                                       
+                                                                                               
+     Length           LongLength        Rank IsReadOnly IsFixedSize IsSynchronized             
+----------- -------------------- ----------- ---------- ----------- --------------             
+          3                    3           1 False      True        False                      
+                                                                                               
+    SyncRoot                                                                                   
+    --------                                                                                   
+    Object                                                                                     
+    ------                                                                                     
+                                                                                               
+                                                                                               
+    String                                                                                     
+    ------                                                                                     
+    a                                                                                          
+    b                                                                                          
+    c                                                                                          
+                                                                                               
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned                                                                                       
+                                                                                               
+     Length           LongLength        Rank IsReadOnly IsFixedSize IsSynchronized             
+----------- -------------------- ----------- ---------- ----------- --------------             
+          3                    3           1 False      True        False                      
+                                                                                               
+    SyncRoot                                                                                   
+    --------                                                                                   
+    Object                                                                                     
+    ------                                                                                     
+                                                                                               
+                                                                                               
+    String                                                                                     
+    ------                                                                                     
+    a                                                                                          
+    b                                                                                          
+    c                                                                                          
+                                                                                               
+                                                                                               
+Call to OutParam(System.String[]& param)                                                       
+ref 1. param                                                                                   
+                                                                                               
+     Length           LongLength        Rank IsReadOnly IsFixedSize IsSynchronized             
+----------- -------------------- ----------- ---------- ----------- --------------             
+          3                    3           1 False      True        False                      
+                                                                                               
+    SyncRoot                                                                                   
+    --------                                                                                   
+    Object                                                                                     
+    ------                                                                                     
+                                                                                               
+                                                                                               
+    String                                                                                     
+    ------                                                                                     
+    1                                                                                          
+    2                                                                                          
+    3                                                                                          
+                                                                                               
+ref param Returned                                                                             
+                                                                                               
+     Length           LongLength        Rank IsReadOnly IsFixedSize IsSynchronized             
+----------- -------------------- ----------- ---------- ----------- --------------             
+          3                    3           1 False      True        False                      
+                                                                                               
+    SyncRoot                                                                                   
+    --------                                                                                   
+    Object                                                                                     
+    ------                                                                                     
+                                                                                               
+                                                                                               
+    String                                                                                     
+    ------                                                                                     
+    a                                                                                          
+    b                                                                                          
+    c                                                                                          
+                                                                                               
+                                                                                               
+Call to RefParam(System.String[]& param)                                                       
+ref 1. param                                                                                   
+                                                                                               
+     Length           LongLength        Rank IsReadOnly IsFixedSize IsSynchronized             
+----------- -------------------- ----------- ---------- ----------- --------------             
+          3                    3           1 False      True        False                      
+                                                                                               
+    SyncRoot                                                                                   
+    --------                                                                                   
+    Object                                                                                     
+    ------                                                                                     
+                                                                                               
+                                                                                               
+    String                                                                                     
+    ------                                                                                     
+    1                                                                                          
+    2                                                                                          
+    3                                                                                          
+                                                                                               
+ref param Returned                                                                             
+                                                                                               
+     Length           LongLength        Rank IsReadOnly IsFixedSize IsSynchronized             
+----------- -------------------- ----------- ---------- ----------- --------------             
+          3                    3           1 False      True        False                      
+                                                                                               
+    SyncRoot                                                                                   
+    --------                                                                                   
+    Object                                                                                     
+    ------                                                                                     
+                                                                                               
+                                                                                               
+    String                                                                                     
+    ------                                                                                     
+    a                                                                                          
+    b                                                                                          
+    c                                                                                          
+                                                                                               
+                                                                                               
+-------------------------------                                                                
+Running test on System.DateTime                                                                
+-------------------------------                                                                
+Call to Param(System.DateTime param)                                                           
+1. param=31/12/9999 23:59:59                                                                   
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 31/12/9999 23:59:59                                                                   
+                                                                                               
+Call to OutParam(System.DateTime& param)                                                       
+ref 1. param=01/01/0001 00:00:00                                                               
+ref param Returned 31/12/9999 23:59:59                                                         
+                                                                                               
+Call to RefParam(System.DateTime& param)                                                       
+ref 1. param=01/01/0001 00:00:00                                                               
+ref param Returned 31/12/9999 23:59:59                                                         
+                                                                                               
+--------------------------------------------------                                             
+Running test on System.Nullable`1[System.DateTime]                                             
+--------------------------------------------------                                             
+Call to Param(System.Nullable`1[System.DateTime] param)                                        
+1. param                                                                                       
+                                                                                               
+HasValue Value                                                                                 
+-------- -------------------                                                                   
+True     31/12/9999 23:59:59                                                                   
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned                                                                                       
+                                                                                               
+HasValue Value                                                                                 
+-------- -------------------                                                                   
+True     31/12/9999 23:59:59                                                                   
+                                                                                               
+Call to OutParam(System.Nullable`1[System.DateTime]& param)                                    
+ref 1. param                                                                                   
+                                                                                               
+HasValue Value                                                                                 
+-------- -------------------                                                                   
+ref param Returned                                                                             
+                                                                                               
+HasValue Value                                                                                 
+-------- -------------------                                                                   
+True     31/12/9999 23:59:59                                                                   
+                                                                                               
+Call to RefParam(System.Nullable`1[System.DateTime]& param)                                    
+ref 1. param                                                                                   
+                                                                                               
+HasValue Value                                                                                 
+-------- -------------------                                                                   
+ref param Returned                                                                             
+                                                                                               
+HasValue Value                                                                                 
+-------- -------------------                                                                   
+True     31/12/9999 23:59:59                                                                   
+                                                                                               
+-----------------------------                                                                  
+Running test on System.Single                                                                  
+-----------------------------                                                                  
+Call to Param(System.Single param)                                                             
+1. param=3.402823E+38                                                                          
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 3.402823E+38                                                                          
+                                                                                               
+Call to OutParam(System.Single& param)                                                         
+ref 1. param=50.5                                                                              
+ref param Returned 3.402823E+38                                                                
+                                                                                               
+Call to RefParam(System.Single& param)                                                         
+ref 1. param=50.5                                                                              
+ref param Returned 3.402823E+38                                                                
+                                                                                               
+------------------------------------------------                                               
+Running test on System.Nullable`1[System.Single]                                               
+------------------------------------------------                                               
+Call to Param(System.Nullable`1[System.Single] param)                                          
+1. param                                                                                       
+                                                                                               
+HasValue                                      Value                                            
+-------- ------------------------------------------                                            
+True     340282300000000000000000000000000000000.00                                            
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned                                                                                       
+                                                                                               
+HasValue                                      Value                                            
+-------- ------------------------------------------                                            
+True     340282300000000000000000000000000000000.00                                            
+                                                                                               
+Call to OutParam(System.Nullable`1[System.Single]& param)                                      
+ref 1. param                                                                                   
+                                                                                               
+HasValue          Value                                                                        
+-------- --------------                                                                        
+ref param Returned                                                                             
+                                                                                               
+HasValue                                      Value                                            
+-------- ------------------------------------------                                            
+True     340282300000000000000000000000000000000.00                                            
+                                                                                               
+Call to RefParam(System.Nullable`1[System.Single]& param)                                      
+ref 1. param                                                                                   
+                                                                                               
+HasValue          Value                                                                        
+-------- --------------                                                                        
+ref param Returned                                                                             
+                                                                                               
+HasValue                                      Value                                            
+-------- ------------------------------------------                                            
+True     340282300000000000000000000000000000000.00                                            
+                                                                                               
+-----------------------------                                                                  
+Running test on System.Double                                                                  
+-----------------------------                                                                  
+Call to Param(System.Double param)                                                             
+1. param=1.79769313486232E+308                                                                 
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 1.79769313486232E+308                                                                 
+                                                                                               
+Call to OutParam(System.Double& param)                                                         
+ref 1. param=50.5                                                                              
+ref param Returned 1.79769313486232E+308                                                       
+                                                                                               
+Call to RefParam(System.Double& param)                                                         
+ref 1. param=50.5                                                                              
+ref param Returned 1.79769313486232E+308                                                       
+                                                                                               
+------------------------------------------------                                               
+Running test on System.Nullable`1[System.Double]                                               
+------------------------------------------------                                               
+Call to Param(System.Nullable`1[System.Double] param)                                          
+1. param                                                                                       
+                                                                                               
+HasValue:                                                                                  True
+Value:                                                                                         
+17976931348623200000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                                                    000000000000000000000000.00
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned                                                                                       
+                                                                                               
+HasValue:                                                                                  True
+Value:                                                                                         
+17976931348623200000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                                                    000000000000000000000000.00
+                                                                                               
+Call to OutParam(System.Nullable`1[System.Double]& param)                                      
+ref 1. param                                                                                   
+                                                                                               
+HasValue            Value                                                                      
+-------- ----------------                                                                      
+ref param Returned                                                                             
+                                                                                               
+HasValue:                                                                                  True
+Value:                                                                                         
+17976931348623200000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                                                    000000000000000000000000.00
+                                                                                               
+Call to RefParam(System.Nullable`1[System.Double]& param)                                      
+ref 1. param                                                                                   
+                                                                                               
+HasValue            Value                                                                      
+-------- ----------------                                                                      
+ref param Returned                                                                             
+                                                                                               
+HasValue:                                                                                  True
+Value:                                                                                         
+17976931348623200000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                                                    000000000000000000000000.00
+                                                                                               
+---------------------------                                                                    
+Running test on System.Byte                                                                    
+---------------------------                                                                    
+Call to Param(System.Byte param)                                                               
+1. param=255                                                                                   
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 255                                                                                   
+                                                                                               
+Call to OutParam(System.Byte& param)                                                           
+ref 1. param=0                                                                                 
+ref param Returned 255                                                                         
+                                                                                               
+Call to RefParam(System.Byte& param)                                                           
+ref 1. param=0                                                                                 
+ref param Returned 255                                                                         
+                                                                                               
+----------------------------                                                                   
+Running test on System.SByte                                                                   
+----------------------------                                                                   
+Call to Param(System.SByte param)                                                              
+1. param=127                                                                                   
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 127                                                                                   
+                                                                                               
+Call to OutParam(System.SByte& param)                                                          
+ref 1. param=0                                                                                 
+ref param Returned 127                                                                         
+                                                                                               
+Call to RefParam(System.SByte& param)                                                          
+ref 1. param=0                                                                                 
+ref param Returned 127                                                                         
+                                                                                               
+---------------------------                                                                    
+Running test on System.Char                                                                    
+---------------------------                                                                    
+Call to Param(System.Char param)                                                               
+1. param=x                                                                                     
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned x                                                                                     
+                                                                                               
+Call to OutParam(System.Char& param)                                                           
+ref 1. param=y                                                                                 
+ref param Returned x                                                                           
+                                                                                               
+Call to RefParam(System.Char& param)                                                           
+ref 1. param=y                                                                                 
+ref param Returned x                                                                           
+                                                                                               
+----------------------------                                                                   
+Running test on System.Int16                                                                   
+----------------------------                                                                   
+Call to Param(System.Int16 param)                                                              
+1. param=32767                                                                                 
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 32767                                                                                 
+                                                                                               
+Call to OutParam(System.Int16& param)                                                          
+ref 1. param=0                                                                                 
+ref param Returned 32767                                                                       
+                                                                                               
+Call to RefParam(System.Int16& param)                                                          
+ref 1. param=0                                                                                 
+ref param Returned 32767                                                                       
+                                                                                               
+-----------------------------                                                                  
+Running test on System.UInt16                                                                  
+-----------------------------                                                                  
+Call to Param(System.UInt16 param)                                                             
+1. param=65535                                                                                 
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 65535                                                                                 
+                                                                                               
+Call to OutParam(System.UInt16& param)                                                         
+ref 1. param=0                                                                                 
+ref param Returned 65535                                                                       
+                                                                                               
+Call to RefParam(System.UInt16& param)                                                         
+ref 1. param=0                                                                                 
+ref param Returned 65535                                                                       
+                                                                                               
+----------------------------                                                                   
+Running test on System.Int32                                                                   
+----------------------------                                                                   
+Call to Param(System.Int32 param)                                                              
+1. param=2147483647                                                                            
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 2147483647                                                                            
+                                                                                               
+Call to OutParam(System.Int32& param)                                                          
+ref 1. param=0                                                                                 
+ref param Returned 2147483647                                                                  
+                                                                                               
+Call to RefParam(System.Int32& param)                                                          
+ref 1. param=0                                                                                 
+ref param Returned 2147483647                                                                  
+                                                                                               
+-----------------------------                                                                  
+Running test on System.UInt32                                                                  
+-----------------------------                                                                  
+Call to Param(System.UInt32 param)                                                             
+1. param=4294967295                                                                            
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 4294967295                                                                            
+                                                                                               
+Call to OutParam(System.UInt32& param)                                                         
+ref 1. param=0                                                                                 
+ref param Returned 4294967295                                                                  
+                                                                                               
+Call to RefParam(System.UInt32& param)                                                         
+ref 1. param=0                                                                                 
+ref param Returned 4294967295                                                                  
+                                                                                               
+----------------------------                                                                   
+Running test on System.Int64                                                                   
+----------------------------                                                                   
+Call to Param(System.Int64 param)                                                              
+1. param=9223372036854775807                                                                   
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 9223372036854775807                                                                   
+                                                                                               
+Call to OutParam(System.Int64& param)                                                          
+ref 1. param=0                                                                                 
+ref param Returned 9223372036854775807                                                         
+                                                                                               
+Call to RefParam(System.Int64& param)                                                          
+ref 1. param=0                                                                                 
+ref param Returned 9223372036854775807                                                         
+                                                                                               
+-----------------------------                                                                  
+Running test on System.UInt64                                                                  
+-----------------------------                                                                  
+Call to Param(System.UInt64 param)                                                             
+1. param=18446744073709551615                                                                  
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned 18446744073709551615                                                                  
+                                                                                               
+Call to OutParam(System.UInt64& param)                                                         
+ref 1. param=0                                                                                 
+ref param Returned 18446744073709551615                                                        
+                                                                                               
+Call to RefParam(System.UInt64& param)                                                         
+ref 1. param=0                                                                                 
+ref param Returned 18446744073709551615                                                        
+                                                                                               
+-----------------------------                                                                  
+Running test on System.String                                                                  
+-----------------------------                                                                  
+Call to Param(System.String param)                                                             
+1. param=text                                                                                  
+                                                                                               
+Call to Return()                                                                               
+                                                                                               
+Returned text                                                                                  
+                                                                                               
+Call to OutParam(System.String& param)                                                         
+ref 1. param=                                                                                  
+ref param Returned text                                                                        
+                                                                                               
+Call to RefParam(System.String& param)                                                         
+ref 1. param=                                                                                  
+ref param Returned text                                                                        
+                                                                                               
+                                                                                               

@@ -1,0 +1,14 @@
+﻿Call to ObjectOutParameter(TestConsole.Tests.CallRecording.TestCallRecorder+TestClass&         
+testClass)                                                                                     
+ref 1. testClass                                                                               
+                                                                                               
+StringVar      IntVar                                                                          
+--------- -----------                                                                          
+                                                                                               
+Returned 100                                                                                   
+ref testClass Returned                                                                         
+                                                                                               
+StringVar      IntVar                                                                          
+--------- -----------                                                                          
+out              2015                                                                          
+                                                                                               
