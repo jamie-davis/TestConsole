@@ -1,0 +1,13 @@
+﻿TypeContainingIEnumerable                                                                      
+-------------------------                                                                      
+                                                                                               
+                                                                                               
+    Children                                                                                   
+    --------                                                                                   
+    GuidValue                                                                                  
+    ------------------------------------                                                       
+    0a3932e5-a6df-4d2d-bc37-cd512a31c0af                                                       
+    91a82f0f-0ae8-4790-a708-99b70845af87                                                       
+    5562f5f1-e76f-4ab0-8cb8-69ef944647e5                                                       
+                                                                                               
+                                                                                               

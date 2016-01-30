@@ -171,8 +171,25 @@ namespace TestConsole.Tests.ObjectReporting
             }
         }
 
+        class TypeContainingIEnumerable
+        {
+            public IEnumerable<TypeWithGuid> Children { get; set; }
+
+            public TypeContainingIEnumerable()
+            {
+                Children = new [] { Guid.Parse("0A3932E5-A6DF-4D2D-BC37-CD512A31C0AF"), Guid.Parse("91A82F0F-0AE8-4790-A708-99B70845AF87"), Guid.Parse("5562F5F1-E76F-4AB0-8CB8-69EF944647E5") }
+                    .Select(g => new TypeWithGuid { GuidValue = g})
+                    .ToList();
+            }
+        }
+
         class TypeWithNoProperties
         {
+        }
+
+        class TypeWithGuid
+        {
+            public Guid GuidValue { get; set; }
         }
 
         #endregion
@@ -345,6 +362,22 @@ namespace TestConsole.Tests.ObjectReporting
             var item = new TypeWithChild("A", 1, "2015-07-27");
             item.Child = null;
             var reporter = new ObjectReporter<TypeWithChild>(ReportType.Table);
+
+            //Act
+            reporter.Report(item, _output);
+
+            //Assert
+            Console.WriteLine(_output.Report);
+            Approvals.Verify(_output.Report);
+        }
+
+        [Test]
+        // ReSharper disable once InconsistentNaming
+        public void IEnumerablePropertyIsDisplayed()
+        {
+            //Arrange
+            var item = new TypeContainingIEnumerable();
+            var reporter = new ObjectReporter<TypeContainingIEnumerable>(ReportType.Table);
 
             //Act
             reporter.Report(item, _output);

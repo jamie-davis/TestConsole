@@ -87,7 +87,7 @@ namespace TestConsoleLib.ObjectReporting
                 if (propertyInfo.GetIndexParameters().Any())
                     continue;
 
-                if (Type.GetTypeCode(propertyInfo.PropertyType) == TypeCode.Object)
+                if (Type.GetTypeCode(propertyInfo.PropertyType) == TypeCode.Object && propertyInfo.PropertyType != typeof(Guid))
                     childReports.Add(propertyInfo);
                 else
                 {
@@ -212,8 +212,9 @@ namespace TestConsoleLib.ObjectReporting
 
         private static bool GetEnumeratedType(Type type, out Type enumeratedType)
         {
-            var enumerable = type.GetInterfaces()
-                .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof (IEnumerable<>));
+            Func<Type, bool> isEnumerable = i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof (IEnumerable<>);
+            var enumerable = isEnumerable(type) ? type : type.GetInterfaces()
+                .FirstOrDefault(isEnumerable);
             if (enumerable != null)
             {
                 enumeratedType = enumerable.GetGenericArguments()[0];
