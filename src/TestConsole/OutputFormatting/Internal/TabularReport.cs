@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using TestConsole.OutputFormatting.ReportDefinitions;
 using TestConsole.Utilities;
+using TestConsoleLib.OutputFormatting.Internal;
 
 namespace TestConsole.OutputFormatting.Internal
 {
@@ -153,8 +154,8 @@ namespace TestConsole.OutputFormatting.Internal
 
             var sizer = new ColumnWidthNegotiator(columns, columnDivider.Length);
 
-            var headingsRequired = (options & ReportFormattingOptions.OmitHeadings) == 0;
-            if (headingsRequired)
+            var headingsControl = new HeadingManager((options & ReportFormattingOptions.OmitHeadings) == 0, (options & ReportFormattingOptions.SuppressHeadingsAfterChildReport) == 0);
+            if (headingsControl.ShowHeadings)
                 sizer.AddHeadings();
 
             var sizeRows = 0;
@@ -174,12 +175,15 @@ namespace TestConsole.OutputFormatting.Internal
                 .Concat(StackedColumnWidths(sizer))
                 .ToArray();
 
-            if (headingsRequired)
-                foreach (var l in ReportHeadings(sizer.Columns, tabLength, columnDivider))
+            if (headingsControl.ShowHeadings)
+            {
+                headingsControl.HeadingsParameters(sizer.Columns, tabLength, columnDivider);
+                foreach (var l in headingsControl.ReportHeadings())
                     yield return l;
+            }
 
             var sizeStats = new Statistics();
-            foreach (var l in ReportRowsUsedForSizing<T, TChild>(columns, sizer, tabLength, columnDivider, widths, sizeStats, childReports))
+            foreach (var l in ReportRowsUsedForSizing<T, TChild>(columns, sizer, tabLength, columnDivider, widths, sizeStats, childReports, headingsControl))
                 yield return l;
 
             statistics.WordWrapLineBreaks = sizeStats.WordWrapLineBreaks;
@@ -189,19 +193,19 @@ namespace TestConsole.OutputFormatting.Internal
                 do
                 {
                     var reportStats = new Statistics();
-                    foreach (var l in ReportRow<T, TChild>(dataEnumerator.Current, columns, sizer, tabLength, columnDivider, widths, reportStats, childReports))
+                    foreach (var l in ReportRow<T, TChild>(dataEnumerator.Current, columns, sizer, tabLength, columnDivider, widths, reportStats, childReports, headingsControl))
                         yield return l;
                     statistics.WordWrapLineBreaks += reportStats.WordWrapLineBreaks;
                 } while (dataEnumerator.MoveNext());
             }
         }
 
-        private static IEnumerable<string> ReportRow<T, TChild>(object item, List<PropertyColumnFormat> columns, ColumnWidthNegotiator sizer, int tabLength, string columnSeperator, int[] widths, Statistics statistics, IEnumerable<BaseChildItem<TChild>> children)
+        private static IEnumerable<string> ReportRow<T, TChild>(object item, List<PropertyColumnFormat> columns, ColumnWidthNegotiator sizer, int tabLength, string columnSeperator, int[] widths, Statistics statistics, IEnumerable<BaseChildItem<TChild>> children, HeadingManager headingsControl)
         {
             var rowValues = columns
                 .Select(c => GetColValue(item, c))
                 .ToList();
-            foreach (var l in ReportRowValues<T, TChild>(columns, sizer, tabLength, columnSeperator, item, rowValues, widths, statistics, children))
+            foreach (var l in ReportRowValues<T, TChild>(columns, sizer, tabLength, columnSeperator, item, rowValues, widths, statistics, children, headingsControl))
                 yield return l;
         }
 
@@ -219,20 +223,27 @@ namespace TestConsole.OutputFormatting.Internal
             return new FormattingIntermediate(ValueFormatter.Format(c.Format, value));
         }
 
-        private static IEnumerable<string> ReportRowsUsedForSizing<T, TChild>(List<PropertyColumnFormat> columns, ColumnWidthNegotiator sizer, int tabLength, string columnSeperator, int[] widths, Statistics statistics, IEnumerable<BaseChildItem<TChild>> children)
+        private static IEnumerable<string> ReportRowsUsedForSizing<T, TChild>(List<PropertyColumnFormat> columns, ColumnWidthNegotiator sizer, int tabLength, string columnSeperator, int[] widths, Statistics statistics, IEnumerable<BaseChildItem<TChild>> children, HeadingManager headingsControl)
         {
             foreach (var rowValues in sizer.GetSizingValues())
             {
                 var stats = new Statistics();
                 var columnValues = rowValues.GetValues().ToList();
-                foreach (var l in ReportRowValues<T, TChild>(columns, sizer, tabLength, columnSeperator, rowValues.RowItem, columnValues, widths, stats, children))
+                foreach (var l in ReportRowValues<T, TChild>(columns, sizer, tabLength, columnSeperator, rowValues.RowItem, columnValues, widths, stats, children, headingsControl))
                     yield return l;
                 statistics.WordWrapLineBreaks += stats.WordWrapLineBreaks;
             }
         }
 
-        private static IEnumerable<string> ReportRowValues<T, TChild>(List<PropertyColumnFormat> columns, ColumnWidthNegotiator sizer, int tabLength, string columnSeperator, object rowItem, IList<FormattingIntermediate> rowValues, int[] widths, Statistics statistics, IEnumerable<BaseChildItem<TChild>> children)
+        private static IEnumerable<string> ReportRowValues<T, TChild>(List<PropertyColumnFormat> columns, ColumnWidthNegotiator sizer, int tabLength, string columnSeperator, object rowItem, IList<FormattingIntermediate> rowValues, int[] widths, Statistics statistics, IEnumerable<BaseChildItem<TChild>> children, HeadingManager headingsControl)
         {
+            if (headingsControl.ShowHeadings && children != null && children.Any())
+            {
+                foreach (var heading in headingsControl.ReportHeadings())
+                {
+                    yield return heading;
+                }
+            }
             var maxLineBreaks = 0;
             var wrappedValues = columns
                 .Select((c, i) =>
@@ -269,7 +280,10 @@ namespace TestConsole.OutputFormatting.Internal
                 }
 
                 if (childRendered)
+                {
                     yield return Environment.NewLine;
+                    headingsControl.ChildGenerated();
+                }
             }
         }
 
@@ -305,26 +319,6 @@ namespace TestConsole.OutputFormatting.Internal
                 return new int[] { };
 
             return new[] {sizer.StackedColumnWidth};
-        }
-
-        private static IEnumerable<string> ReportHeadings(List<PropertyColumnFormat> columns, int tabLength, string columnSeperator)
-        {
-            if (!columns.Any()) yield break;
-
-            var widths = columns.Select(c => c.Format.ActualWidth).ToArray();
-            var headings = columns.Select(c => WrapValue(tabLength, c, c.Format.Heading)).ToArray();
-            var underlines = columns.Select(c => new [] {new string('-', c.Format.ActualWidth)}).ToArray();
-            var headingLines = ReportColumnAligner.AlignColumns(widths, headings, ColVerticalAligment.Bottom, columnSeperator);
-            var headingUnderLines = ReportColumnAligner.AlignColumns(widths, underlines, ColVerticalAligment.Bottom, columnSeperator);
-
-            yield return headingLines;
-            yield return headingUnderLines;
-       }
-
-        private static string[] WrapValue(int tabLength, PropertyColumnFormat pcf, object value)
-        {
-            var formatted = ValueFormatter.Format(pcf.Format, value);
-            return ColumnWrapper.WrapValue(formatted, pcf.Format, pcf.Format.ActualWidth, tabLength);
         }
     }
 }

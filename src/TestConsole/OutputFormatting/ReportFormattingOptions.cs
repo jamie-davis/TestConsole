@@ -23,6 +23,11 @@ namespace TestConsole.OutputFormatting
         /// </summary>
         IncludeAllColumns = 4,
 
+        /// <summary>
+        /// If child reports are present, do not repeat the report headings. By default, the report headings will be displayed again when a row has a child report. Use this option to suppress the headings repetition.
+        /// </summary>
+        SuppressHeadingsAfterChildReport = 8,
+
         Default = 0,
     }
 }

@@ -55,6 +55,20 @@ namespace TestConsole.OutputFormatting.Internal.ReportDefinitions
         /// A simple string to be shown as the report title.
         /// </summary>
         public string TitleText { get; set; }
+        private bool _suppressHeadingRepetition;
+
+        /// <summary>
+        /// Select option to not repeat headings when a row has a child report.
+        /// </summary>
+        public bool SuppressHeadingRepetition
+        {
+            get { return _suppressHeadingRepetition; }
+            set
+            {
+                _suppressHeadingRepetition = value;
+                RebuildOptions();
+            }
+        }
 
         private void RebuildOptions()
         {
@@ -63,6 +77,8 @@ namespace TestConsole.OutputFormatting.Internal.ReportDefinitions
                 options |= ReportFormattingOptions.OmitHeadings;
             if (_stretchColumns)
                 options |= ReportFormattingOptions.StretchColumns;
+            if (_suppressHeadingRepetition)
+                options |= ReportFormattingOptions.SuppressHeadingsAfterChildReport;
 
             Options = options;
         }

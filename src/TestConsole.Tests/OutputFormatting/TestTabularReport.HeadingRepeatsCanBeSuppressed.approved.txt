@@ -13,8 +13,6 @@ X     Text
                   0
                   1
     
-      Child Int
-    -----------
               1
     
            Child of

@@ -51,6 +51,7 @@
     <Compile Include="Exceptions\ResultTypeCannotAcceptQuery.cs" />
     <Compile Include="ObjectReporting\ObjectReporter.cs" />
     <Compile Include="Output.cs" />
+    <Compile Include="OutputFormatting\Internal\HeadingManager.cs" />
     <Compile Include="OutputFormatting\Internal\Underliner.cs" />
     <Compile Include="OutputFormatting\ITestConsole.cs" />
     <Compile Include="OutputFormatting\IConsoleOutInterface.cs" />

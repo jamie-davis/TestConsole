@@ -24,6 +24,8 @@ X                    10
                       3                                                                        
                       4                                                                        
                                                                                                
+        StringValue    IntValue DateValue                                                      
+        ----------- ----------- -------------------                                            
         Nested 1              1 26/06/2015 08:11:00                                            
                                                                                                
             Children                                                                           
@@ -37,6 +39,8 @@ X                    10
                       4                                                                        
                                                                                                
                                                                                                
+    Text                                                                                       
+    -------                                                                                    
     Child 1                                                                                    
                                                                                                
         Children                                                                               
@@ -55,6 +59,8 @@ X                    10
                       3                                                                        
                       4                                                                        
                                                                                                
+        StringValue    IntValue DateValue                                                      
+        ----------- ----------- -------------------                                            
         Nested 1              1 26/06/2015 08:11:00                                            
                                                                                                
             Children                                                                           

@@ -108,7 +108,7 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
             Assert.That(result, Is.EqualTo("[10, 1.5] [20, 3.5]"));
         }
 
-        [Test,ExpectedException(typeof (ResultTypeCannotAcceptQuery))]
+        [Test]
         public void MoreExpressionsThanPropertiesThrows()
         {
             //Arrange
@@ -119,10 +119,10 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
                                   };
 
             //Act
-            ReportQueryRowFunctionBuilder.MakeQueryFunction<ResultType>(expressions);
+            Assert.Throws<ResultTypeCannotAcceptQuery>(() => ReportQueryRowFunctionBuilder.MakeQueryFunction<ResultType>(expressions));
         }
 
-        [Test, ExpectedException(typeof(MixedInputTypesInQueryExpressions))]
+        [Test]
         public void MixedTargetTypeThrows()
         {
             //Arrange
@@ -133,7 +133,7 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
                                   };
 
             //Act
-            ReportQueryRowFunctionBuilder.MakeQueryFunction<ResultType>(expressions);
+            Assert.Throws<MixedInputTypesInQueryExpressions>(() => ReportQueryRowFunctionBuilder.MakeQueryFunction<ResultType>(expressions));
         }
     }
 }
