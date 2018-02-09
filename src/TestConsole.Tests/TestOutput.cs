@@ -45,7 +45,7 @@ namespace TestConsole.Tests
             }
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             //Don't rely on this data for anything other than the formatting in this test
