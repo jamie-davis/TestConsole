@@ -4,6 +4,9 @@
 # Custom for Visual Studio
 *.cs     diff=csharp
 
+# Make approval files text files
+*.txt eol=crlf
+
 # Standard to msysgit
 *.doc	 diff=astextplain
 *.DOC	 diff=astextplain
