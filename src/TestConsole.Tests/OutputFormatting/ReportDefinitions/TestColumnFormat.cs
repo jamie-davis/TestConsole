@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq.Expressions;
+using NUnit.Framework;
 using TestConsole.OutputFormatting.ReportDefinitions;
 
 namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
@@ -19,7 +20,7 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
         public void DefaultColumnFormatHasNoHeading()
         {
             //Arrange
-            var format = new ColumnConfig(null);
+            var format = new ColumnConfig((Expression)null);
             format.MakeFormat<int>();
 
             //Assert
@@ -30,7 +31,7 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
         public void DefaultColumnFormatCorrectColumnType()
         {
             //Arrange
-            var format = new ColumnConfig(null);
+            var format = new ColumnConfig((Expression)null);
             format.MakeFormat<int>();
 
             //Assert
@@ -41,7 +42,7 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
         public void DefaultColumnFormatHasNoFixedWidth()
         {
             //Arrange
-            var format = new ColumnConfig(null);
+            var format = new ColumnConfig((Expression)null);
             format.MakeFormat<int>();
 
             //Assert

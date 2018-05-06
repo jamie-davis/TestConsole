@@ -3,9 +3,12 @@ using TestConsole.OutputFormatting.Internal;
 
 namespace TestConsole.OutputFormatting.ReportDefinitions
 {
+    /// <summary>
+    /// Configuration details of a <see cref="Report{T}"/> column.
+    /// </summary>
     public class ColumnConfig
     {
-        internal Expression ValueExpression { get; private set; }
+        internal Expression ValueExpression { get; }
         internal ColumnFormat ColumnFormat { get; private set; }
 
         internal ColumnConfig(Expression valueExpression)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -39,7 +40,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data, options: ReportFormattingOptions.StretchColumns);
+            var report = Run(data, options: ReportFormattingOptions.StretchColumns);
             Approvals.Verify(report);
         }
 
@@ -56,7 +57,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data);
+            var report = Run(data);
             Approvals.Verify(report);
         }
 
@@ -73,7 +74,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data, options: ReportFormattingOptions.Default | ReportFormattingOptions.OmitHeadings);
+            var report = Run(data, options: ReportFormattingOptions.Default | ReportFormattingOptions.OmitHeadings);
             Approvals.Verify(report);
         }
 
@@ -91,7 +92,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data);
+            var report = Run(data);
             Approvals.Verify(report);
         }
 
@@ -169,7 +170,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data, width: 19);
+            var report = Run(data, width: 19);
             Approvals.Verify(report);
         }
 
@@ -187,7 +188,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data, width: 17);
+            var report = Run(data, width: 17);
             Approvals.Verify(report);
         }
 
@@ -204,7 +205,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data, width: 20);
+            var report = Run(data, width: 20);
             Approvals.Verify(report);
         }
 
@@ -221,7 +222,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data, width: 4);
+            var report = Run(data, width: 4);
             Approvals.Verify(report);
         }
 
@@ -236,7 +237,7 @@ namespace TestConsole.Tests.OutputFormatting
                 })
                 .ToList();
 
-            var report = Report(data, width: 9, numRowsToUseForSizing: 9);
+            var report = Run(data, width: 9, numRowsToUseForSizing: 9);
             Approvals.Verify(report);
         }
 
@@ -258,7 +259,7 @@ namespace TestConsole.Tests.OutputFormatting
             for (var width = 80; width > 0; width -= 5)
             {
                 sb.AppendLine(string.Format("Test width {0}:", width));
-                sb.Append(Report(data, width: width));
+                sb.Append(Run(data, width: width));
                 sb.AppendLine();
             }
             Approvals.Verify(sb.ToString());
@@ -286,7 +287,7 @@ namespace TestConsole.Tests.OutputFormatting
             for (var width = 80; width > 0; width -= 5)
             {
                 sb.AppendLine(string.Format("Test width {0}:", width));
-                sb.Append(Report(data, width, columnFormats: cols.Select(c => c.Format)));
+                sb.Append(Run(data, width, columnFormats: cols.Select(c => c.Format)));
                 sb.AppendLine();
             }
             Approvals.Verify(sb.ToString());
@@ -317,7 +318,7 @@ namespace TestConsole.Tests.OutputFormatting
             for (var width = 80; width > 0; width -= 5)
             {
                 sb.AppendLine(string.Format("Test width {0}:", width));
-                sb.Append(Report(data, width, columnFormats: cols.Select(c => c.Format)));
+                sb.Append(Run(data, width, columnFormats: cols.Select(c => c.Format)));
                 sb.AppendLine();
             }
             Approvals.Verify(sb.ToString());
@@ -338,7 +339,7 @@ namespace TestConsole.Tests.OutputFormatting
 
             var sb = new StringBuilder();
 
-            sb.Append(Report(data, width: 50, columnDivider: "XXX"));
+            sb.Append(Run(data, width: 50, columnDivider: "XXX"));
             sb.AppendLine();
 
             Approvals.Verify(sb.ToString());
@@ -359,13 +360,13 @@ namespace TestConsole.Tests.OutputFormatting
 
             sb.AppendLine("With headings:");
             sb.AppendLine();
-            sb.Append(Report(data, width: 50));
+            sb.Append(Run(data, width: 50));
             sb.AppendLine();
             sb.AppendLine();
             sb.AppendLine("Without headings:");
             sb.AppendLine();
 
-            sb.Append(Report(data, width: 50, options: ReportFormattingOptions.OmitHeadings));
+            sb.Append(Run(data, width: 50, options: ReportFormattingOptions.OmitHeadings));
             sb.AppendLine();
 
             Approvals.Verify(sb.ToString());
@@ -381,7 +382,7 @@ namespace TestConsole.Tests.OutputFormatting
 
             var sb = new StringBuilder();
 
-            sb.Append(Report(data, 50));
+            sb.Append(Run(data, 50));
 
             Approvals.Verify(sb.ToString());
         }
@@ -399,7 +400,7 @@ namespace TestConsole.Tests.OutputFormatting
 
             var sb = new StringBuilder();
 
-            sb.Append(Report(data, 50));
+            sb.Append(Run(data, 50));
 
             Approvals.Verify(sb.ToString());
         }
@@ -411,7 +412,7 @@ namespace TestConsole.Tests.OutputFormatting
 
             var sb = new StringBuilder();
 
-            sb.Append(Report(data, width: 50, numRowsToUseForSizing: 10));
+            sb.Append(Run(data, width: 50, numRowsToUseForSizing: 10));
 
             Approvals.Verify(sb.ToString());
         }
@@ -424,7 +425,7 @@ namespace TestConsole.Tests.OutputFormatting
 
             var sb = new StringBuilder();
 
-            sb.Append(Report(data, 50, 10));
+            sb.Append(Run(data, 50, 10));
 
             Approvals.Verify(sb.ToString());
         }
@@ -436,7 +437,7 @@ namespace TestConsole.Tests.OutputFormatting
 
             var sb = new StringBuilder();
 
-            sb.Append(Report(data, 50, 10));
+            sb.Append(Run(data, 50, 10));
 
             Approvals.Verify(sb.ToString());
         }
@@ -463,7 +464,7 @@ namespace TestConsole.Tests.OutputFormatting
 
             var sb = new StringBuilder();
 
-            sb.Append(Report(data, 50, 10));
+            sb.Append(Run(data, 50, 10));
 
             Approvals.Verify(sb.ToString());
         }
@@ -483,9 +484,25 @@ namespace TestConsole.Tests.OutputFormatting
 
             var sb = new StringBuilder();
 
-            sb.Append(Report(data, 50));
+            sb.Append(Run(data, 50));
 
             Approvals.Verify(sb.ToString());
+        }
+
+        [Test]
+        public void ComputedColumnsCanBeUsed()
+        {
+            var data = Enumerable.Range(0, 2)
+                .AsReport(p => p
+                    .AddColumn(p.Lambda(r =>
+                    {
+                        if (r == 0) return "X";
+                        return "Y";
+                    }), cc => cc.Heading("Value"))
+                    .AddColumn(p.Lambda(r => new string(".txeT".Reverse().ToArray())), cc => cc.Heading("Text."))
+                );
+
+            Approvals.Verify(Run(data, 50));
         }
 
         private RecordingConsoleAdapter MakeRenderable(int number, bool narrow = false)
@@ -503,7 +520,7 @@ namespace TestConsole.Tests.OutputFormatting
             return output;
         }
 
-        private static string Report<T>(IEnumerable<T> data, int width = 80, int numRowsToUseForSizing = 0, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<ColumnFormat> columnFormats = null)
+        private static string Run<T>(IEnumerable<T> data, int width = 80, int numRowsToUseForSizing = 0, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<ColumnFormat> columnFormats = null)
         {
             var report = RulerFormatter.MakeRuler(width)
                          + Environment.NewLine
@@ -513,7 +530,7 @@ namespace TestConsole.Tests.OutputFormatting
             return report;
         }
 
-        private static string Report<T>(Report<T> report, int width = 80, int numRowsToUseForSizing = 0)
+        private static string Run<T>(Report<T> report, int width = 80, int numRowsToUseForSizing = 0)
         {
             var formatMethod = MakeFormatMethodInfo(report);
             var parameters = new object[]

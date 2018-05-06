@@ -82,6 +82,17 @@ namespace TestConsole.OutputFormatting.ReportDefinitions
             Details.TitleText = titleText;
             return this;
         }
+
+        /// <summary>
+        /// Use this wrapping function to use a computed column that cannot be represented as a Linq <see cref="Expression"/>.
+        /// </summary>
+        /// <param name="valueLambda">The lambda that produces the column value.</param>
+        /// <returns></returns>
+        public Expression<Func<T, TValue>> Lambda<TValue>(Func<T, TValue> func)
+        {
+            var callParameter = Expression.Parameter(typeof(T), "source");
+            return Expression.Lambda<Func<T, TValue>>(Expression.ConvertChecked(Expression.Invoke(Expression.Constant(func), callParameter), typeof(TValue)), callParameter);
+        }
     }
 
     internal abstract class BaseChildItem<T>
