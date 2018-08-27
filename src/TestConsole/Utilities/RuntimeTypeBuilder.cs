@@ -19,7 +19,7 @@ namespace TestConsole.Utilities
         
         public RunTimeTypeBuilder(string assemblyName)
         {
-            _assemblyBuilder = Thread.GetDomain()
+            _assemblyBuilder = AssemblyBuilder
                               .DefineDynamicAssembly(new AssemblyName(assemblyName), AssemblyBuilderAccess.Run);
             _moduleBuilder = _assemblyBuilder.DefineDynamicModule(assemblyName);
         }
@@ -39,7 +39,7 @@ namespace TestConsole.Utilities
                 MakeProperty(typeBuilder, property.Name, property.Type);
             }
 
-            var type = typeBuilder.CreateType();
+            var type = typeBuilder.CreateTypeInfo();
             _typeCache[identity] = type;
             return type;
         }

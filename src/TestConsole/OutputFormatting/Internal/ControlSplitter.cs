@@ -17,7 +17,8 @@ namespace TestConsole.OutputFormatting.Internal
         {
             while (text.Length > 0)
             {
-                var newLinePos = text.IndexOfAny(Environment.NewLine.ToCharArray());
+                var windowsNewLine = "\r\n";
+                var newLinePos = text.IndexOfAny(windowsNewLine.ToCharArray());
                 if (newLinePos >= 0)
                 {
                     if (newLinePos > 0)
@@ -29,8 +30,8 @@ namespace TestConsole.OutputFormatting.Internal
                             TextControlItem.ControlInstruction.NewLine
                         }));
 
-                    text = text.Substring(newLinePos).StartsWith(Environment.NewLine) 
-                        ? text.Substring(newLinePos + Environment.NewLine.Length)
+                    text = text.Substring(newLinePos).StartsWith(windowsNewLine) 
+                        ? text.Substring(newLinePos + windowsNewLine.Length)
                         : text.Substring(newLinePos + 1);
                 }
                 else

@@ -1,144 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0C89C332-7B67-4D29-9E6A-4E0862336CF9}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestConsole</RootNamespace>
-    <AssemblyName>TestConsole</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\TestConsole.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\TestConsole.xml</DocumentationFile>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageLicenseUrl>http://jamie-davis.github.io/TestConsole/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>http://jamie-davis.github.io/TestConsole/</PackageProjectUrl>
+    <PackageTags>Unit Test TDD .NET</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+    <Description>Test Console is a library that helps you perform unit testing by allowing you to emit data in a readable format as strings. Features include word wrapping and automatic tabulation of data, and the auto formatting of entire objects.
+
+The library was named Test Console because in the simplest use case, the interface for reporting information is like using the .NET Console object. It's not a great name, because the libary's features go a lot further than allowing you to emit unformatted text.
+
+Test Console is now a netstandard library, for compatibility with netcoreapps. Originally, the intention was that Test Console would be paired with ApprovalTests, and you would construct text for approval using TestConsole's Output object. However, at the time of writing, ApprovalTests is not .Net Core compatible, and compatibility still seems some way off, so Test Console now includes functionality similar to the appropriate parts of ApprovalTests, becuase without the ability to approve output the library has no use case. In the fullness of time, Approval Tests will no doubt be released in a netcoreapp compatible form and it may be possible to remove the overlapping features from Test Console.
+
+Comprehensive documentation is available from the library project page.
+    </Description>
+    <Version>2.0.0</Version>
+    <Authors>Jamie Davis</Authors>
+    <Product>Test Console</Product>
+    <Copyright>Jamie Davis 2014-2018</Copyright>
+    <PackageReleaseNotes>Updated the library to be a netstandard2.0 library. A later release will target an earlier netstandard version, but changes to the library will be required in order to achieve that.
+    </PackageReleaseNotes>
+    <RootNamespace>TestConsoleLib</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Exceptions\BadExpressionType.cs" />
-    <Compile Include="Exceptions\InvalidOperationForRedirectedConsole.cs" />
-    <Compile Include="Exceptions\MemberReferenceExpected.cs" />
-    <Compile Include="Exceptions\MixedInputTypesInQueryExpressions.cs" />
-    <Compile Include="Exceptions\MultipleHandlersForCommand.cs" />
-    <Compile Include="Exceptions\NestedOptionTypeInvalid.cs" />
-    <Compile Include="Exceptions\ResultTypeCannotAcceptQuery.cs" />
-    <Compile Include="ObjectReporting\ObjectReporter.cs" />
-    <Compile Include="Output.cs" />
-    <Compile Include="OutputFormatting\Internal\HeadingManager.cs" />
-    <Compile Include="OutputFormatting\Internal\Underliner.cs" />
-    <Compile Include="OutputFormatting\ITestConsole.cs" />
-    <Compile Include="OutputFormatting\IConsoleOutInterface.cs" />
-    <Compile Include="OutputFormatting\IConsoleRedirectTester.cs" />
-    <Compile Include="OutputFormatting\Internal\CachedRows.cs" />
-    <Compile Include="OutputFormatting\Internal\TextControlItem.cs" />
-    <Compile Include="OutputFormatting\Internal\ControlSplitter.cs" />
-    <Compile Include="OutputFormatting\Internal\ConsoleWriter.cs" />
-    <Compile Include="OutputFormatting\Internal\ColumnAlign.cs" />
-    <Compile Include="OutputFormatting\Internal\ColumnExpander.cs" />
-    <Compile Include="OutputFormatting\Internal\ColumnFormat.cs" />
-    <Compile Include="OutputFormatting\Internal\ColumnShrinker.cs" />
-    <Compile Include="OutputFormatting\Internal\ColumnSizer.cs" />
-    <Compile Include="OutputFormatting\Internal\ColumnSizingParameters.cs" />
-    <Compile Include="OutputFormatting\Internal\ColumnWidthNegotiator.cs" />
-    <Compile Include="OutputFormatting\Internal\ColumnWrapper.cs" />
-    <Compile Include="OutputFormatting\Internal\ColVerticalAligment.cs" />
-    <Compile Include="OutputFormatting\Internal\ConsoleOperationsImpl.cs" />
-    <Compile Include="OutputFormatting\Internal\ConsoleRedirectionStateDetector.cs" />
-    <Compile Include="OutputFormatting\Internal\ConsoleRedirectTester.cs" />
-    <Compile Include="OutputFormatting\Internal\DefaultWidthCalculator.cs" />
-    <Compile Include="OutputFormatting\Internal\FormatAnalyser.cs" />
-    <Compile Include="OutputFormatting\Internal\FormattingIntermediate.cs" />
-    <Compile Include="OutputFormatting\Internal\InstanceConstructor.cs" />
-    <Compile Include="OutputFormatting\Internal\IPropertySource.cs" />
-    <Compile Include="OutputFormatting\Internal\IReadInfo.cs" />
-    <Compile Include="OutputFormatting\Internal\MinReportWidthCalculator.cs" />
-    <Compile Include="OutputFormatting\Internal\OptionDefinition.cs" />
-    <Compile Include="OutputFormatting\Internal\PropertyColumnFormat.cs" />
-    <Compile Include="OutputFormatting\Internal\PropertyNameConverter.cs" />
-    <Compile Include="OutputFormatting\Internal\PropertyStackColumnFormatter.cs" />
-    <Compile Include="OutputFormatting\Internal\PropertyStackColumnSizer.cs" />
-    <Compile Include="OutputFormatting\Internal\PropertyStackFormatter.cs" />
-    <Compile Include="OutputFormatting\Internal\ProportionalColumnSizer.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\FormatTableCommand.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\FormatTableCommandFactory.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\IRecordedCommand.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\NewLineCommand.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\RenderCommand.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\ReplayBuffer.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\SimpleTextCommandBase.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\WrapCommand.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordedCommands\WriteCommand.cs" />
-    <Compile Include="OutputFormatting\Internal\RecordingConsoleAdapter.cs" />
-    <Compile Include="OutputFormatting\Internal\ReportColumnAligner.cs" />
-    <Compile Include="OutputFormatting\Internal\ReportDefinitions\IColumnSource.cs" />
-    <Compile Include="OutputFormatting\Internal\ReportDefinitions\ReportParameterDetails.cs" />
-    <Compile Include="OutputFormatting\Internal\ReportDefinitions\ReportQueryBuilder.cs" />
-    <Compile Include="OutputFormatting\Internal\ReportDefinitions\ReportQueryExpression.cs" />
-    <Compile Include="OutputFormatting\Internal\ReportDefinitions\ReportQueryRowFunctionBuilder.cs" />
-    <Compile Include="OutputFormatting\Internal\ReportExecutor.cs" />
-    <Compile Include="OutputFormatting\Internal\SplitWord.cs" />
-    <Compile Include="OutputFormatting\Internal\TabularReport.cs" />
-    <Compile Include="OutputFormatting\Internal\TempCulture.cs" />
-    <Compile Include="OutputFormatting\Internal\TextStats.cs" />
-    <Compile Include="OutputFormatting\Internal\ValueFormatter.cs" />
-    <Compile Include="OutputFormatting\Internal\WidthCalculators\BooleanWidthCalculator.cs" />
-    <Compile Include="OutputFormatting\Internal\WidthCalculators\DateTimeWidthCalculator.cs" />
-    <Compile Include="OutputFormatting\Internal\WidthCalculators\NumericWidthCalculator.cs" />
-    <Compile Include="OutputFormatting\Internal\WidthCalculators\StringWidthCalculator.cs" />
-    <Compile Include="OutputFormatting\Internal\WidthCalculators\TimeSpanWidthCalculator.cs" />
-    <Compile Include="OutputFormatting\Internal\WordSplitter.cs" />
-    <Compile Include="OutputFormatting\OutputBuffer.cs" />
-    <Compile Include="OutputFormatting\Report.cs" />
-    <Compile Include="OutputFormatting\ReportDefinitions\ColumnConfig.cs" />
-    <Compile Include="OutputFormatting\ReportDefinitions\ColumnNameExtractor.cs" />
-    <Compile Include="OutputFormatting\ReportDefinitions\ReportParameters.cs" />
-    <Compile Include="OutputFormatting\ReportExtensions.cs" />
-    <Compile Include="OutputFormatting\ReportFormattingOptions.cs" />
-    <Compile Include="Utilities\MethodInvoker.cs" />
-    <Compile Include="Utilities\PrefixLines.cs" />
-    <Compile Include="Utilities\RuntimeTypeBuilder.cs" />
-    <Compile Include="Utilities\RuntimeTypeBuilderProperty.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Testing\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TestConsole.nuspec" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

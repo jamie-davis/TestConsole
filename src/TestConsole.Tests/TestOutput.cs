@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Security.Authentication.ExtendedProtection.Configuration;
+﻿using System.Linq;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
