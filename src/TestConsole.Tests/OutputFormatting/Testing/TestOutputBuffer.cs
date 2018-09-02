@@ -3,6 +3,7 @@ using ApprovalTests.Reporters;
 using NUnit.Framework;
 using TestConsole.OutputFormatting;
 using TestConsole.Tests.TestingUtilities;
+using TestConsoleLib.Testing;
 
 namespace TestConsole.Tests.OutputFormatting.Testing
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using ApprovalUtilities.Utilities;
+using TestConsoleLib.Testing;
 using NUnit.Framework;
 using TestConsole.Exceptions;
 using TestConsole.OutputFormatting.Internal.ReportDefinitions;

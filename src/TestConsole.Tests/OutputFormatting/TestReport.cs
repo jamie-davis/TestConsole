@@ -8,6 +8,7 @@ using NUnit.Framework;
 using TestConsole.OutputFormatting;
 using TestConsole.Tests.TestingUtilities;
 using TestConsoleLib;
+using TestConsoleLib.Testing;
 
 namespace TestConsole.Tests.OutputFormatting
 {

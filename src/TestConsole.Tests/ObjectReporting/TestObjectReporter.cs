@@ -8,6 +8,8 @@ using NUnit.Framework;
 using TestConsole.Tests.TestingUtilities;
 using TestConsoleLib;
 using TestConsoleLib.ObjectReporting;
+using TestConsoleLib.Testing;
+
 // ReSharper disable MemberCanBePrivate.Local
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local

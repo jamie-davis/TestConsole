@@ -7,6 +7,7 @@ using NUnit.Framework;
 using TestConsole.OutputFormatting.Internal;
 using TestConsole.Tests.OutputFormatting.UnitTestutilities;
 using TestConsole.Tests.TestingUtilities;
+using TestConsoleLib.Testing;
 
 namespace TestConsole.Tests.OutputFormatting.Internal
 {

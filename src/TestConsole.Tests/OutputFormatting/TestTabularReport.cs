@@ -13,6 +13,7 @@ using TestConsole.OutputFormatting.Internal;
 using TestConsole.Tests.OutputFormatting.UnitTestutilities;
 using TestConsole.Tests.TestingUtilities;
 using TestConsole.Utilities;
+using TestConsoleLib.Testing;
 
 namespace TestConsole.Tests.OutputFormatting
 {

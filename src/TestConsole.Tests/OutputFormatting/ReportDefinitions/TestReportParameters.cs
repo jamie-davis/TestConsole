@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using ApprovalUtilities.Utilities;
+using TestConsoleLib.Testing;
 using NUnit.Framework;
 using TestConsole.OutputFormatting.ReportDefinitions;
 

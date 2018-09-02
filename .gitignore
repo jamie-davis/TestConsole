@@ -231,3 +231,6 @@ $RECYCLE.BIN/
 *.lnk
 *.approved.txt.bak
 /src/.vs/TestConsole/v15/Server/sqlite3
+
+#rider
+/src/.idea/
