@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace TestConsole.Exceptions
+namespace TestConsoleLib.Exceptions
 {
     internal class BadExpressionType : Exception
     {

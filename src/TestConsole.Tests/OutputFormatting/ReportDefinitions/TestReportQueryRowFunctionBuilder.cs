@@ -5,6 +5,7 @@ using TestConsoleLib.Testing;
 using NUnit.Framework;
 using TestConsole.Exceptions;
 using TestConsole.OutputFormatting.Internal.ReportDefinitions;
+using TestConsoleLib.Exceptions;
 
 // ReSharper disable ClassNeverInstantiated.Local
 

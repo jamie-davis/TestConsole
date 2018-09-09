@@ -4,7 +4,7 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
+using TestConsoleLib.Exceptions;
 
 namespace TestConsoleLib.Testing
 {
@@ -62,26 +62,32 @@ namespace TestConsoleLib.Testing
 
         public static void CompareFiles(string receivedFile, string approvedFile)
         {
-            
-            if (_reporters == null)
-                RefreshReporters();
-            
-            var reporterName = Environment.GetEnvironmentVariable("TESTREPORTER");
-            if (!_reporters.TryGetValue(reporterName, out var reporter))
-                return;
-
-            var arguments = reporter.Arguments == null
-                ? $"\"{receivedFile}\" \"{approvedFile}\""
-                : reporter.Arguments.Replace("$1", receivedFile).Replace("$2", approvedFile);
-            
-            var startInfo = new ProcessStartInfo
+            try
             {
-                FileName = reporter.FileName,
-                Arguments = arguments
-            };
-            var process = new Process();
-            process.StartInfo = startInfo;
-            process.Start();
+                if (_reporters == null)
+                    RefreshReporters();
+
+                var reporterName = Environment.GetEnvironmentVariable("TESTREPORTER") ?? string.Empty;
+                if (!_reporters.TryGetValue(reporterName, out var reporter))
+                    return;
+
+                var arguments = reporter.Arguments == null
+                    ? $"\"{receivedFile}\" \"{approvedFile}\""
+                    : reporter.Arguments.Replace("$1", receivedFile).Replace("$2", approvedFile);
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = reporter.FileName,
+                    Arguments = arguments
+                };
+                var process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
+            }
+            catch (Exception e)
+            {
+                throw new UnableToInvokeFileCompare(e);
+            }
         }
     }
 }

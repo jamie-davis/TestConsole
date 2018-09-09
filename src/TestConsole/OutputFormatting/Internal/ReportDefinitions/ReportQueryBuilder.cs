@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using TestConsole.Exceptions;
 using TestConsole.Utilities;
+using TestConsoleLib.Exceptions;
 
 namespace TestConsole.OutputFormatting.Internal.ReportDefinitions
 {
