@@ -62,10 +62,11 @@ namespace TestConsoleLib.Testing
 
         public static void CompareFiles(string receivedFile, string approvedFile)
         {
+            
             if (_reporters == null)
                 RefreshReporters();
             
-            var reporterName = Environment.GetEnvironmentVariable("ApprovalsReporter");
+            var reporterName = Environment.GetEnvironmentVariable("TESTREPORTER");
             if (!_reporters.TryGetValue(reporterName, out var reporter))
                 return;
 
