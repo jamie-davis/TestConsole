@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApprovalTests;
-using ApprovalTests.Reporters;
 using NUnit.Framework;
 using TestConsole.OutputFormatting.Internal;
 using TestConsole.Tests.OutputFormatting.UnitTestutilities;
@@ -12,7 +10,6 @@ using TestConsoleLib.Testing;
 namespace TestConsole.Tests.OutputFormatting.Internal
 {
     [TestFixture]
-    [UseReporter(typeof (CustomReporter))]
     public class TestPropertyStackColumnFormatter
     {
         private TestType _data;

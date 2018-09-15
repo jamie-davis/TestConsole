@@ -1,17 +1,13 @@
 ﻿using System.Linq;
-using ApprovalTests;
-using ApprovalTests.Reporters;
 using NUnit.Framework;
 using TestConsole.OutputFormatting;
 using TestConsole.OutputFormatting.Internal;
-using TestConsole.Tests.TestingUtilities;
 using TestConsoleLib;
 using TestConsoleLib.Testing;
 
 namespace TestConsole.Tests
 {
     [TestFixture]
-    [UseReporter(typeof (CustomReporter))]
     public class TestOutput
     {
         private Tree[] _data;

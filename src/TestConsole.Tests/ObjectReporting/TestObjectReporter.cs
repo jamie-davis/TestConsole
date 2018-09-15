@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using ApprovalTests;
-using ApprovalTests.Reporters;
 using NUnit.Framework;
-using TestConsole.Tests.TestingUtilities;
 using TestConsoleLib;
 using TestConsoleLib.ObjectReporting;
 using TestConsoleLib.Testing;
@@ -18,7 +15,6 @@ using TestConsoleLib.Testing;
 namespace TestConsole.Tests.ObjectReporting
 {
     [TestFixture]
-    [UseReporter(typeof (CustomReporter))]
     public class TestObjectReporter
     {
         private Output _output;

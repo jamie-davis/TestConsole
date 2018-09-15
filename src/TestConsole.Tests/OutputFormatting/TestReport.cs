@@ -1,19 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using ApprovalTests;
-using ApprovalTests.Reporters;
 using NUnit.Framework;
 using TestConsole.OutputFormatting;
-using TestConsole.Tests.TestingUtilities;
 using TestConsoleLib;
 using TestConsoleLib.Testing;
 
 namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
-    [UseReporter(typeof (CustomReporter))]
     public class TestReport
     {
         private Output _adapter;

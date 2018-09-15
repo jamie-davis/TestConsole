@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using ApprovalTests;
-using ApprovalTests.Reporters;
 using NUnit.Framework;
 using TestConsole.OutputFormatting;
 using TestConsole.OutputFormatting.Internal;
@@ -18,7 +15,6 @@ using TestConsoleLib.Testing;
 namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
-    [UseReporter(typeof(CustomReporter))]
     public class TestTabularReport
     {
         [SetUp]

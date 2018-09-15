@@ -1,14 +1,11 @@
 using System;
 using System.Reflection;
-using ApprovalTests.Reporters;
 using NUnit.Framework;
 using TestConsole.OutputFormatting.Internal;
-using TestConsole.Tests.TestingUtilities;
 
 namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
-    [UseReporter(typeof (CustomReporter))]
     public class TestCachedColumn
     {
         private static readonly DateTime TestDate = DateTime.Parse("2014-06-11 21:20");

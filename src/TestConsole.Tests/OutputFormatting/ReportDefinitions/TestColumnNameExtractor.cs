@@ -15,7 +15,9 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
         class TestType
         {
             public string PropertyOne { get; set; }
+#pragma warning disable 649
             public string FieldOne;
+#pragma warning restore 649
         }
 
         #endregion

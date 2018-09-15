@@ -1,14 +1,10 @@
-﻿using ApprovalTests;
-using ApprovalTests.Reporters;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using TestConsole.OutputFormatting;
-using TestConsole.Tests.TestingUtilities;
 using TestConsoleLib.Testing;
 
 namespace TestConsole.Tests.OutputFormatting.Testing
 {
     [TestFixture]
-    [UseReporter(typeof (CustomReporter))]
     public class TestOutputBuffer
     {
         private OutputBuffer _console;

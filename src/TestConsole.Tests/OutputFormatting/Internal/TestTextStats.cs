@@ -1,13 +1,10 @@
 ﻿using System.Linq;
-using ApprovalTests.Reporters;
 using NUnit.Framework;
 using TestConsole.OutputFormatting.Internal;
-using TestConsole.Tests.TestingUtilities;
 
 namespace TestConsole.Tests.OutputFormatting.Internal
 {
     [TestFixture]
-    [UseReporter(typeof (CustomReporter))]
     public class TestTextStats
     {
         [Test]

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApprovalTests;
-using ApprovalTests.Reporters;
 using TestConsoleLib.Testing;
 using NUnit.Framework;
 using TestConsole.OutputFormatting.Internal;
@@ -11,7 +9,6 @@ using TestConsole.Tests.TestingUtilities;
 namespace TestConsole.Tests.OutputFormatting
 {
     [TestFixture]
-    [UseReporter(typeof(CustomReporter))]
     public class TestCachedRows
     {
         private static readonly DateTime TestDate = DateTime.Parse("2014-06-11 20:36");
