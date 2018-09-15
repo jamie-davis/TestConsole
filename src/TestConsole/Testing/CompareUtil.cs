@@ -67,8 +67,8 @@ namespace TestConsoleLib.Testing
                 if (_reporters == null)
                     RefreshReporters();
 
-                var reporterName = Environment.GetEnvironmentVariable("TESTREPORTER") ?? string.Empty;
-                if (!_reporters.TryGetValue(reporterName, out var reporter))
+                var reporterName = ReporterResolver.Resolve(receivedFile);
+                if (reporterName == null || !_reporters.TryGetValue(reporterName, out var reporter))
                     return;
 
                 var arguments = reporter.Arguments == null

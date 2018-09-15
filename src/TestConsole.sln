@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\.gitignore = ..\.gitignore
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApprovalTestsKludge", "ApprovalTestsKludge\ApprovalTestsKludge.csproj", "{26B5E60A-E6AC-4E1D-95AA-B4AEFB04C286}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +31,6 @@ Global
 		{FE9125CE-96AA-4E67-897E-2B5004DC7FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE9125CE-96AA-4E67-897E-2B5004DC7FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE9125CE-96AA-4E67-897E-2B5004DC7FA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26B5E60A-E6AC-4E1D-95AA-B4AEFB04C286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26B5E60A-E6AC-4E1D-95AA-B4AEFB04C286}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26B5E60A-E6AC-4E1D-95AA-B4AEFB04C286}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26B5E60A-E6AC-4E1D-95AA-B4AEFB04C286}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

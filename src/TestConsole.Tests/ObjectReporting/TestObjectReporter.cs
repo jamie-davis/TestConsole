@@ -213,7 +213,7 @@ namespace TestConsole.Tests.ObjectReporting
             reporter.Report(st, _output);
 
             //Assert
-            Approvals.Verify(_output.Report);
+            (_output.Report).Verify();
         }
 
         [Test]
