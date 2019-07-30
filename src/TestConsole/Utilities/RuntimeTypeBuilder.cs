@@ -13,6 +13,7 @@ namespace TestConsole.Utilities
     /// </summary>
     internal class RunTimeTypeBuilder
     {
+        private object _lock = new object();
         private AssemblyBuilder _assemblyBuilder;
         private ModuleBuilder _moduleBuilder;
         private Dictionary<string, Type> _typeCache = new Dictionary<string, Type>(); 
@@ -26,22 +27,25 @@ namespace TestConsole.Utilities
 
         public Type MakeRuntimeType(IEnumerable<RuntimeTypeBuilderProperty> propertyTypes)
         {
-            var properties = propertyTypes.ToList();
-            var identity = MakeTypeIdentity(properties);
-            Type existingType;
-            if (_typeCache.TryGetValue(identity, out existingType))
-                return existingType;
-
-            var typeBuilder = _moduleBuilder.DefineType(string.Format("T{0}", _typeCache.Count));
-
-            foreach (var property in properties)
+            lock (_lock)
             {
-                MakeProperty(typeBuilder, property.Name, property.Type);
-            }
+                var properties = propertyTypes.ToList();
+                var identity = MakeTypeIdentity(properties);
+                Type existingType;
+                if (_typeCache.TryGetValue(identity, out existingType))
+                    return existingType;
 
-            var type = typeBuilder.CreateTypeInfo();
-            _typeCache[identity] = type;
-            return type;
+                var typeBuilder = _moduleBuilder.DefineType(string.Format("T{0}", _typeCache.Count));
+
+                foreach (var property in properties)
+                {
+                    MakeProperty(typeBuilder, property.Name, property.Type);
+                }
+
+                var type = typeBuilder.CreateTypeInfo();
+                _typeCache[identity] = type;
+                return type;
+            }
         }
 
         private static void MakeProperty(TypeBuilder typeBuilder, string name, Type type)
