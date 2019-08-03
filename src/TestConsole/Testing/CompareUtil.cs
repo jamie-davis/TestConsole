@@ -89,5 +89,10 @@ namespace TestConsoleLib.Testing
                 throw new UnableToInvokeFileCompare(e);
             }
         }
+
+        public static IEnumerable<(string ReporterName, Type ReporterType)> ListReporters()
+        {
+            return _reporters.Select(r => (r.Key, r.Value.GetType()));
+        }
     }
 }

@@ -1,3 +1,0 @@
-IntCol      = ColumnFormat("Int Col", System.Int32, Right, 2DP, Actual 0, , Requested )
-StringCol   = ColumnFormat("My String", System.String, Left, 2DP, Actual 0, , Requested )
-RenderCol   = ColumnFormat("Render Col", TestConsole.OutputFormatting.IConsoleRenderer, Left, 2DP, Actual 0, , Requested )
