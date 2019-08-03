@@ -1,8 +1,0 @@
-Reporter                                                                                       
-Name     Reporter Type                                                                         
--------- ---------------------------------------------------------------------------           
-testtool TestConsole.Tests.OutputFormatting.Testing.TestCompareUtil+TestToolReporter           
-kompare  TestConsoleLib.Testing.KompareReporter                                                
-meld     TestConsoleLib.Testing.MeldReporter                                                   
-winmerge TestConsoleLib.Testing.WinMergeReporter                                               
-                                                                                               
