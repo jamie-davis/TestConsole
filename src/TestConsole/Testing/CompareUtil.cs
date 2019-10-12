@@ -75,7 +75,7 @@ namespace TestConsoleLib.Testing
 
                 var arguments = reporter.Arguments == null
                     ? $"\"{receivedFile}\" \"{approvedFile}\""
-                    : reporter.Arguments.Replace("$1", "\"receivedFile\"").Replace("$2", "\"approvedFile\"");
+                    : reporter.Arguments.Replace("$1", $"\"{receivedFile}\"").Replace("$2", $"\"{approvedFile}\"");
 
                 var startInfo = new ProcessStartInfo
                 {
