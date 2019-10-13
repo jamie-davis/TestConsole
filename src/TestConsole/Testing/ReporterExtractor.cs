@@ -2,12 +2,17 @@ using System.Linq;
 
 namespace TestConsoleLib.Testing
 {
-    public static class ReporterExtractor
+    internal static class ReporterExtractor
     {
         public const string ReporterSetting = "reporter";
+        public const string CustomSetting = "custom";
+        public const string CustomArgs = "template";
 
-        public static bool Extract(string[] settingsFile, out string reporterName)
+        public static ExtractedReporterInfo Extract(string[] settingsFile)
         {
+            ExtractedReporterInfo found = null;
+            string customPath = null;
+            string customArgs = null;
             foreach (var setting in settingsFile.Select(l => l.Trim()))
             {
                 var eqPos = setting.IndexOf('=');
@@ -17,14 +22,30 @@ namespace TestConsoleLib.Testing
                     var settingValue = setting.Substring(eqPos + 1).Trim();
                     if (settingName == ReporterSetting && !string.IsNullOrWhiteSpace(settingValue))
                     {
-                        reporterName = settingValue;
-                        return true;
+                        found = found ?? new ExtractedReporterInfo(settingValue);
+                        if (customPath == null)
+                            break;
+                    } else if (settingName == CustomSetting && !string.IsNullOrWhiteSpace(settingValue))
+                    {
+                        customPath = customPath ?? settingValue;
+                    } else if (settingName == CustomArgs && !string.IsNullOrWhiteSpace(settingValue))
+                    {
+                        customArgs = customArgs ?? settingValue;
                     }
+
+                    if (customPath != null && customArgs != null)
+                    {
+                        break;
+                    }
+
                 }
             }
 
-            reporterName = null;
-            return false;
+            if (customPath != null)
+            {
+                return new ExtractedReporterInfo(customPath, customArgs);
+            }
+            return found ?? new ExtractedReporterInfo();
         }
     }
 }

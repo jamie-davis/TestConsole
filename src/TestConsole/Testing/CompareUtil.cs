@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using TestConsoleLib.Exceptions;
 
@@ -67,18 +69,18 @@ namespace TestConsoleLib.Testing
                 if (_reporters == null)
                     RefreshReporters();
 
-                var reporterName = ReporterResolver.Resolve(receivedFile);
-                if (reporterName == null || !_reporters.TryGetValue(reporterName, out var reporter))
+                var reporter = ReporterResolver.Resolve(receivedFile, _reporters);
+                if (reporter == null)
                     return;
 
                 var arguments = reporter.Arguments == null
                     ? $"\"{receivedFile}\" \"{approvedFile}\""
-                    : reporter.Arguments.Replace("$1", receivedFile).Replace("$2", approvedFile);
+                    : reporter.Arguments.Replace("$1", $"\"{receivedFile}\"").Replace("$2", $"\"{approvedFile}\"");
 
                 var startInfo = new ProcessStartInfo
                 {
                     FileName = reporter.FileName,
-                    Arguments = arguments
+                    Arguments = arguments,
                 };
                 var process = new Process();
                 process.StartInfo = startInfo;

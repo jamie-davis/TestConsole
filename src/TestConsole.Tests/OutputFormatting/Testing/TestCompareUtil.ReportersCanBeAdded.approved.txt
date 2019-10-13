@@ -4,5 +4,7 @@ Name     Reporter Type
 testtool TestConsole.Tests.OutputFormatting.Testing.TestCompareUtil+TestToolReporter           
 kompare  TestConsoleLib.Testing.KompareReporter                                                
 meld     TestConsoleLib.Testing.MeldReporter                                                   
+code     TestConsoleLib.Testing.VisualStudioCodeReporter                                       
+devenv   TestConsoleLib.Testing.VisualStudioReporter                                           
 winmerge TestConsoleLib.Testing.WinMergeReporter                                               
                                                                                                

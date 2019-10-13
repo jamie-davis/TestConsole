@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "TestConsole.Tests": {
+      "commandName": "Project"
+    }
+  }
+}
