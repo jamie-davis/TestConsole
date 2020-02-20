@@ -268,5 +268,41 @@ namespace TestConsole.Tests.OutputFormatting
             //Assert
             Approvals.Verify(_buffer.GetBuffer());
         }
+
+        [Test]
+        public void MaxColumnWidthIsRespected()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4)
+                .Select(a => new
+                {
+                    LongText = string.Concat(Enumerable.Range(0,a + 1).Select(n => $"LongText{n+1}")) 
+                });
+            var report = data.AsReport(rep => rep
+                .AddColumn(e => e.LongText, col => col.MaxWidth(10))
+                .AddColumn(e => e.LongText, col => col.Heading("Default")));
+
+            //Act
+            _adapter.FormatTable(report);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void MinColumnWidthIsRespected()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var report = data.AsReport(rep => rep
+                .AddColumn(e => "short", col => col.Heading("S").MinWidth(10))
+                .AddColumn(e => "short", col => col.Heading("Def")));
+
+            //Act
+            _adapter.FormatTable(report);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
     }
 }

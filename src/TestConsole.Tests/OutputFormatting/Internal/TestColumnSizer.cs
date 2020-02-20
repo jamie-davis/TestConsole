@@ -88,6 +88,16 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         }
 
         [Test]
+        public void IdealMinWidthRespectsFormatterMaxWidth()
+        {
+            var sizer = new ColumnSizer(typeof(string), new ColumnFormat { MaxWidth = 3});
+            sizer.ColumnValue("XXXX XXXX");
+            sizer.ColumnValue("YYYYYY XXXXX");
+            
+            Assert.That(sizer.GetIdealMinimumWidth(), Is.EqualTo(3));
+        }
+
+        [Test]
         public void IdealMinWidthIsCalculated()
         {
             var sizer = new ColumnSizer(typeof(string));
