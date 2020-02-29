@@ -55,6 +55,22 @@ namespace TestConsole.OutputFormatting.Internal.ReportDefinitions
         /// A simple string to be shown as the report title.
         /// </summary>
         public string TitleText { get; set; }
+
+        private bool _unlimitedBuffer;
+
+        /// <summary>
+        /// Stretch the buffer width to fit all columns
+        /// </summary>
+        public bool UnlimitedBuffer
+        {
+            get => _unlimitedBuffer;
+            set
+            {
+                _unlimitedBuffer = value;
+                RebuildOptions();
+            }
+        }
+
         private bool _suppressHeadingRepetition;
 
         /// <summary>
@@ -79,6 +95,8 @@ namespace TestConsole.OutputFormatting.Internal.ReportDefinitions
                 options |= ReportFormattingOptions.StretchColumns;
             if (_suppressHeadingRepetition)
                 options |= ReportFormattingOptions.SuppressHeadingsAfterChildReport;
+            if (_unlimitedBuffer)
+                options |= ReportFormattingOptions.UnlimitedBuffer;
 
             Options = options;
         }

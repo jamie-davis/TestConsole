@@ -270,7 +270,7 @@ namespace TestConsole.OutputFormatting.Internal
                 var childRendered = false;
                 foreach (var baseChildItem in children)
                 {
-                    var childOutput = PrefixLines.Do(baseChildItem.Render(rowItem, sizer.AvailableWidth - 4), "    ");
+                    var childOutput = PrefixLines.Do(baseChildItem.Render(rowItem, sizer.BaseWidth - 4), "    ");
                     if (string.IsNullOrEmpty(childOutput))
                         continue;
 

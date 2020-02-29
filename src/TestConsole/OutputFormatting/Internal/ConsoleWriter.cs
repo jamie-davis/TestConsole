@@ -24,11 +24,11 @@ namespace TestConsole.OutputFormatting.Internal
 
         public string PrefixText { get; set; }
 
-        public void Write(List<TextControlItem> components)
+        public void Write(List<TextControlItem> components, bool limitWidth)
         {
             foreach (var colourControlItem in components)
             {
-                ProcessItem(colourControlItem);
+                ProcessItem(colourControlItem, limitWidth);
             }
         }
 
@@ -37,10 +37,10 @@ namespace TestConsole.OutputFormatting.Internal
             _consoleOutInterface.NewLine();
         }
 
-        private void ProcessItem(TextControlItem textControlItem)
+        private void ProcessItem(TextControlItem textControlItem, bool limitWidth)
         {
             if (textControlItem.Text != null)
-                WriteText(textControlItem);
+                WriteText(textControlItem, limitWidth);
             else
             {
                 foreach (var instruction in textControlItem.Instructions)
@@ -58,12 +58,12 @@ namespace TestConsole.OutputFormatting.Internal
             }
         }
 
-        private void WriteText(TextControlItem textControlItem)
+        private void WriteText(TextControlItem textControlItem, bool limitWidth)
         {
             if (PrefixText != null)
                 WriteTextWithPrefix(textControlItem);
             else
-                _consoleOutInterface.Write(textControlItem.Text);
+                _consoleOutInterface.Write(textControlItem.Text, limitWidth);
 
             _lastWriteWasPassiveNewLine = (textControlItem.Text.Length > 0 &&
                                            _consoleOutInterface.CursorLeft == 0);

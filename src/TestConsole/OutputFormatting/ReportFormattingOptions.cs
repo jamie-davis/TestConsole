@@ -28,6 +28,11 @@ namespace TestConsole.OutputFormatting
         /// </summary>
         SuppressHeadingsAfterChildReport = 8,
 
+        /// <summary>
+        /// Stretch the buffer width to fit all columns.
+        /// </summary>
+        UnlimitedBuffer = 16,
+
         Default = 0,
     }
 }

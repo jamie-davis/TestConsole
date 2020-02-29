@@ -4,7 +4,7 @@ using System.Linq;
 namespace TestConsole.OutputFormatting.Internal
 {
     /// <summary>
-    /// Caclulate a width for each column in a tablular report.
+    /// Calculate a width for each column in a tabular report.
     /// </summary>
     internal class ColumnWidthNegotiator
     {
@@ -37,6 +37,7 @@ namespace TestConsole.OutputFormatting.Internal
         private List<object> _rowItems = new List<object>();
         public List<PropertyColumnFormat> Columns { get { return _parameters.Columns; } }
         public int AvailableWidth { get; private set; }
+        public int BaseWidth { get; private set; }
 
         public List<PropertyColumnFormat> StackedColumns
         {
@@ -90,8 +91,8 @@ namespace TestConsole.OutputFormatting.Internal
 
         public void CalculateWidths(int width, ReportFormattingOptions options = ReportFormattingOptions.Default)
         {
-            AvailableWidth = width;
-            SizeColumns(width);
+            BaseWidth = width;
+            AvailableWidth = SizeColumns(width, (options & ReportFormattingOptions.UnlimitedBuffer) == 0);
 
             if (_parameters.ProportionalColumnSizingRequired)
             {
@@ -109,10 +110,10 @@ namespace TestConsole.OutputFormatting.Internal
             ProportionalColumnSizer.Size(width, SeperatorOverhead(), _parameters);
         }
 
-        private void SizeColumns(int width)
+        private int SizeColumns(int width, bool limitWidth)
         {
             var seperatorOverhead = SeperatorOverhead();
-            ColumnShrinker.ShrinkColumns(width, seperatorOverhead, _parameters);
+            return ColumnShrinker.ShrinkColumns(width, seperatorOverhead, _parameters, limitWidth);
         }
 
         private void StretchColumnsToFillWidth(int width, bool maximiseWidth)

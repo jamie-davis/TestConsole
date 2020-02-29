@@ -5,15 +5,29 @@ namespace TestConsole.OutputFormatting.Internal
 {
     internal static class ColumnShrinker
     {
-        public static void ShrinkColumns(int width, int seperatorOverhead, ColumnSizingParameters parameters)
+        /// <summary>
+        /// Shrink columns to fit. Return the actual buffer width used, which may vary from the input width if the buffer width is not being enforced.
+        /// </summary>
+        /// <param name="width">The buffer width</param>
+        /// <param name="seperatorOverhead">The overhead created by column separators</param>
+        /// <param name="parameters">The sizing parameters used to control sizing</param>
+        /// <param name="limitWidth">Enforce the input buffer width. If true, columns will be stacked to remain within the width restriction. If false, the width will be increased to avoid stacking.</param>
+        /// <returns>The actual buffer width used. if <see cref="limitWidth"/> is true, this will be the input width, otherwise this may be a higher figure than the input width if required to fit all of the columns.</returns>
+        public static int ShrinkColumns(int width, int seperatorOverhead, ColumnSizingParameters parameters, bool limitWidth)
         {
             var minPossibleWidth = MinPossibleWidth(seperatorOverhead, parameters);
-            if (minPossibleWidth > width)
+            if (minPossibleWidth > width && limitWidth)
+            {
                 StackColumns(width, parameters);
+            }
             else
             {
+                if (minPossibleWidth > width)
+                    width = minPossibleWidth;
                 FitColumns(width, seperatorOverhead, parameters);
             }
+
+            return width;
         }
 
         private static int MinPossibleWidth(int seperatorOverhead, ColumnSizingParameters parameters)

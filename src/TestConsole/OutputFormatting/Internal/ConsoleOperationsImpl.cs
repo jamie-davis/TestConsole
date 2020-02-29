@@ -51,8 +51,14 @@ namespace TestConsole.OutputFormatting.Internal
             var anyArgs = !(arg == null || arg.Length == 0);
 
             var formatted = anyArgs ? string.Format(format, arg) : format;
+
+            WriteRaw(formatted, true);
+        }
+
+        private void WriteRaw(string formatted, bool limitWidth)
+        {
             var components = ControlSplitter.Split(formatted);
-            _writer.Write(components);
+            _writer.Write(components, limitWidth);
         }
 
         /// <summary>
@@ -142,7 +148,7 @@ namespace TestConsole.OutputFormatting.Internal
         {
             var tabular = ReportExecutor.GetLines(report, BufferWidth);
             foreach (var line in tabular)
-                Write(line);
+                WriteRaw(line, false);
         }
 
         public void FormatObject<T>(T item)

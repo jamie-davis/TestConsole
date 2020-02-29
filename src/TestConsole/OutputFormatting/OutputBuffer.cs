@@ -39,7 +39,7 @@ namespace TestConsole.OutputFormatting
         private int _lengthLimit;
 
         /// <summary>
-        /// The width of the buffer. This is the width of the data in the console window and can be wider than the actual window itself.
+        /// The width of the buffer.
         /// </summary>
         public int BufferWidth { get; set; }
 
@@ -70,20 +70,19 @@ namespace TestConsole.OutputFormatting
         {
             _encoding = encoding ?? Encoding.Default;
             BufferWidth = 95;
-
-            CreateBufferTo(0); //ensure that the buffer contains the first line.
         }
 
         /// <summary>
         /// Write some text to the console buffer. Does not add a line feed.
         /// </summary>
         /// <param name="data">The text data to write. This must not contain colour instructions.</param>
-        public void Write(string data)
+        /// <param name="limitWidth">True indicates that the buffer width should be respected.</param>
+        public void Write(string data, bool limitWidth = true)
         {
-            while (data.Contains(Environment.NewLine) || (data.Length + _cursorLeft > BufferWidth))
+            while (data.Contains(Environment.NewLine) || (data.Length + _cursorLeft > BufferWidth && limitWidth))
             {
                 string nextData;
-                var usableLength = BufferWidth - _cursorLeft;
+                var usableLength = limitWidth ? BufferWidth - _cursorLeft : data.Length; 
                 var newlinePos = data.IndexOf(Environment.NewLine, StringComparison.Ordinal);
                 if (newlinePos >= 0 && newlinePos < usableLength)
                 {
@@ -96,14 +95,14 @@ namespace TestConsole.OutputFormatting
                 {
                     nextData = data.Substring(0, usableLength);
                     data = data.Substring(usableLength);
-                    Write(nextData);
+                    Write(nextData, limitWidth);
                 }
 
             }
 
             CreateBufferTo(_cursorTop);
 
-            OverWrite(_buffer, _cursorTop, _cursorLeft, data);
+            OverWrite(_buffer, _cursorTop, _cursorLeft, data, limitWidth);
 
             _cursorLeft += data.Length;
 
@@ -123,7 +122,8 @@ namespace TestConsole.OutputFormatting
         /// <param name="lineIndex">The index of the line to overwrite</param>
         /// <param name="overwritePosition">The position within the line to overwrite.</param>
         /// <param name="data">The text to place in the buffer at the specified position.</param>
-        private void OverWrite(IList<string> buffer, int lineIndex, int overwritePosition, string data)
+        /// <param name="limitWidth">True indicates that the buffer width should be respected.</param>
+        private void OverWrite(IList<string> buffer, int lineIndex, int overwritePosition, string data, bool limitWidth)
         {
             var line = buffer[lineIndex];
 
@@ -136,7 +136,7 @@ namespace TestConsole.OutputFormatting
             if (newLine.Length < line.Length)
                 newLine += line.Substring(newLine.Length); //copy the remainder of the line from the original data
 
-            if (newLine.Length > BufferWidth)
+            if (newLine.Length > BufferWidth && limitWidth)
                 newLine = newLine.Substring(0, BufferWidth);
             else if (newLine.Length < BufferWidth)
                 newLine += new string(' ', BufferWidth - newLine.Length);
