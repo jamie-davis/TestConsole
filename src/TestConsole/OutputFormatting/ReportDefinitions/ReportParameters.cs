@@ -84,6 +84,15 @@ namespace TestConsole.OutputFormatting.ReportDefinitions
         }
 
         /// <summary>
+        /// Allow the report to exceed the buffer width.
+        /// </summary>
+        public ReportParameters<T> RemoveBufferLimit()
+        {
+            Details.UnlimitedBuffer = true;
+            return this;
+        }
+
+        /// <summary>
         /// Use this wrapping function to use a computed column that cannot be represented as a Linq <see cref="Expression"/>.
         /// </summary>
         /// <param name="valueLambda">The lambda that produces the column value.</param>

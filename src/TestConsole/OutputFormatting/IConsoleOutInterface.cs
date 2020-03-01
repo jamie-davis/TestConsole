@@ -17,7 +17,8 @@ namespace TestConsole.OutputFormatting
         /// Output a string to the console in the current cursor position.
         /// </summary>
         /// <param name="data">The text to output.</param>
-        void Write(string data);
+        /// <param name="limitWidth">True indicates that the buffer width should be respected.</param>
+        void Write(string data, bool limitWidth = true);
 
         /// <summary>
         /// Output a new line to the console at the current cursor position. The cursor will move the beginning of the next line.

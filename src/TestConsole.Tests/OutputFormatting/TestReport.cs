@@ -214,6 +214,66 @@ namespace TestConsole.Tests.OutputFormatting
         }
 
         [Test]
+        public void NestedReportCanHaveUnlimitedBuffer()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var indentReport = data.AsReport(rep => rep
+                                                .AddColumn(n => string.Format("Test value {0}", n), col => col.RightAlign())
+                                                .AddChild(n => Enumerable.Range(n, 4), r2 => r2
+                                                    .RemoveBufferLimit()
+                                                    .AddColumn(n => "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", cc => cc.Heading("100 Characters")))
+                                                .Indent(4)
+                                                .StretchColumns());
+
+            //Act
+            _adapter.FormatTable(indentReport);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void NestedReportDoesNotInheritUnlimitedBuffer()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var indentReport = data.AsReport(rep => rep
+                                                .RemoveBufferLimit()
+                                                .AddColumn(n => "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", col => col.Heading("100 Characters"))
+                                                .AddChild(n => Enumerable.Range(n, 4), r2 => r2
+                                                    .AddColumn(n => "1234 6789 1234 6789 1234 6789 1234 6789 1234 6789 1234 6789 1234 6789 1234 6789 1234 6789 1234 67890", cc => cc.Heading("Nested 100 Characters")))
+                                                .Indent(4)
+                                                .StretchColumns());
+
+            //Act
+            _adapter.FormatTable(indentReport);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void UnlimitedBufferCanBeUsedOnMainAndNestedReport()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var indentReport = data.AsReport(rep => rep
+                                                .RemoveBufferLimit()
+                                                .AddColumn(n => "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", col => col.Heading("100 Characters"))
+                                                .AddChild(n => Enumerable.Range(n, 4), r2 => r2
+                                                    .RemoveBufferLimit()
+                                                    .AddColumn(n => "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", cc => cc.Heading("Nested 100 Characters")))
+                                                .StretchColumns());
+
+            //Act
+            _adapter.FormatTable(indentReport);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
         public void ChildReportsAreFormattedAfterColumnsWhenAllColumnsAreEmpty()
         {
             //Arrange
@@ -261,6 +321,42 @@ namespace TestConsole.Tests.OutputFormatting
                                                  .Indent(4)
                                                  .StretchColumns()
                                                  .Title("ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ ABCDEF GHIJKLM NOPQRST UVWXYZ"));
+
+            //Act
+            _adapter.FormatTable(report);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void MaxColumnWidthIsRespected()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4)
+                .Select(a => new
+                {
+                    LongText = string.Concat(Enumerable.Range(0,a + 1).Select(n => $"LongText{n+1}")) 
+                });
+            var report = data.AsReport(rep => rep
+                .AddColumn(e => e.LongText, col => col.MaxWidth(10))
+                .AddColumn(e => e.LongText, col => col.Heading("Default")));
+
+            //Act
+            _adapter.FormatTable(report);
+
+            //Assert
+            Approvals.Verify(_buffer.GetBuffer());
+        }
+
+        [Test]
+        public void MinColumnWidthIsRespected()
+        {
+            //Arrange
+            var data = Enumerable.Range(0, 4);
+            var report = data.AsReport(rep => rep
+                .AddColumn(e => "short", col => col.Heading("S").MinWidth(10))
+                .AddColumn(e => "short", col => col.Heading("Def")));
 
             //Act
             _adapter.FormatTable(report);

@@ -190,6 +190,24 @@ namespace TestConsole.Tests.OutputFormatting
         }
 
         [Test]
+        public void BufferWidthIsOveriddenWhenOptionsAllow()
+        {
+            var data = Enumerable.Range(0, 1)
+                .Select(i => new
+                {
+                    S = "X X X Y",
+                    S2 = "X X X YY",
+                    S3 = "XXX XXX XXX YYY",
+                    S4 = "XXX XXX XXX XXX XXX YYYY",
+                    S5 = "XXX XXX XXX YYYYY",
+                })
+                .ToList();
+
+            var report = Run(data, width: 17, options: ReportFormattingOptions.UnlimitedBuffer);
+            Approvals.Verify(report);
+        }
+
+        [Test]
         public void AllColumnsCanBeStacked()
         {
             var data = Enumerable.Range(0, 1)
@@ -203,6 +221,23 @@ namespace TestConsole.Tests.OutputFormatting
                 .ToList();
 
             var report = Run(data, width: 20);
+            Approvals.Verify(report);
+        }
+
+        [Test]
+        public void WidthUsedEconomicallyWithoutBufferLimit()
+        {
+            var data = Enumerable.Range(0, 1)
+                .Select(i => new
+                {
+                    Value = 1.5,
+                    LongText = "Long text that could be wrapped quite easily if required.",
+                    Short = "Short text",
+                    Date = DateTime.Parse("2014-05-07 19:59:20"),
+                })
+                .ToList();
+
+            var report = Run(data, width: 20, options: ReportFormattingOptions.UnlimitedBuffer);
             Approvals.Verify(report);
         }
 

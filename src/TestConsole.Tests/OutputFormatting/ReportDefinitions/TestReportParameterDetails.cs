@@ -34,6 +34,19 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
         }
 
         [Test]
+        public void UnlimitedBufferSetsReportOptions()
+        {
+            //Arrange
+            var details = new ReportParameterDetails();
+
+            //Act
+            details.UnlimitedBuffer = true;
+
+            //Assert
+            Assert.That(details.Options, Is.EqualTo(ReportFormattingOptions.UnlimitedBuffer));
+        }
+
+        [Test]
         public void SuppressHeadingRepetitionSetsReportOptions()
         {
             //Arrange
@@ -56,11 +69,13 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
             details.OmitHeadings = true;
             details.StretchColumns = true;
             details.SuppressHeadingRepetition = true;
+            details.UnlimitedBuffer = true;
 
             //Assert
             Assert.That(details.Options, Is.EqualTo(ReportFormattingOptions.StretchColumns
                                                     | ReportFormattingOptions.OmitHeadings
-                                                    | ReportFormattingOptions.SuppressHeadingsAfterChildReport));
+                                                    | ReportFormattingOptions.SuppressHeadingsAfterChildReport
+                                                    | ReportFormattingOptions.UnlimitedBuffer));
         }
     }
 }
