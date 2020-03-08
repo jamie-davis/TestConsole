@@ -98,6 +98,23 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             Approvals.Verify(_consoleInterface.GetBuffer());
         }
 
+
+        [Test]
+        public void TabularDataCanExceedBufferLimit()
+        {
+            Action<ConsoleOperationsImpl> act = adapter =>
+                                                    {
+                                                        adapter.WriteLine(RulerFormatter.MakeRuler(adapter.BufferWidth));
+                                                        var data = Enumerable.Range(10, 15)
+                                                                             .Select(i => new { Number = i, String = string.Concat(Enumerable.Repeat("blah", i)) });
+                                                        adapter.FormatTable(data, ReportFormattingOptions.UnlimitedBuffer);
+                                                    };
+
+            Execute(act);
+
+            Approvals.Verify(_consoleInterface.GetBuffer());
+        }
+
         [Test]
         public void WrapLinesAreWordWrappedToConsole()
         {

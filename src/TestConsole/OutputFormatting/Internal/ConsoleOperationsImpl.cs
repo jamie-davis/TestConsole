@@ -141,7 +141,7 @@ namespace TestConsole.OutputFormatting.Internal
         {
             var tabular = TabularReport.Format<T, T>(items, null, BufferWidth, options: options, columnDivider: columnSeperator);
             foreach (var line in tabular)
-                Write(line);
+                WriteRaw(line, (options & ReportFormattingOptions.UnlimitedBuffer) == 0);
         }
 
         public void FormatTable<T>(Report<T> report)

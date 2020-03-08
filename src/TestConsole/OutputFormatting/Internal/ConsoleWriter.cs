@@ -61,7 +61,7 @@ namespace TestConsole.OutputFormatting.Internal
         private void WriteText(TextControlItem textControlItem, bool limitWidth)
         {
             if (PrefixText != null)
-                WriteTextWithPrefix(textControlItem);
+                WriteTextWithPrefix(textControlItem, limitWidth);
             else
                 _consoleOutInterface.Write(textControlItem.Text, limitWidth);
 
@@ -69,7 +69,7 @@ namespace TestConsole.OutputFormatting.Internal
                                            _consoleOutInterface.CursorLeft == 0);
         }
 
-        private void WriteTextWithPrefix(TextControlItem textControlItem)
+        private void WriteTextWithPrefix(TextControlItem textControlItem, bool limitWidth)
         {
             var text = textControlItem.Text;
             var remaining = text.Length;
@@ -78,13 +78,15 @@ namespace TestConsole.OutputFormatting.Internal
             {
                 if (_consoleOutInterface.CursorLeft == 0)
                 {
-                    _consoleOutInterface.Write(PrefixText);
+                    _consoleOutInterface.Write(PrefixText, limitWidth);
                 }
 
-                var available = _consoleOutInterface.BufferWidth - _consoleOutInterface.CursorLeft;
+                var available = limitWidth
+                    ? _consoleOutInterface.BufferWidth - _consoleOutInterface.CursorLeft
+                    : int.MaxValue;
                 var section = remaining > available ? text.Substring(textPos, available) : text.Substring(textPos);
 
-                _consoleOutInterface.Write(section);
+                _consoleOutInterface.Write(section, limitWidth);
                 textPos += section.Length;
                 remaining -= section.Length;
             } while (remaining > 0);

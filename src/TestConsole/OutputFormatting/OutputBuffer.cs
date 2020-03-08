@@ -106,7 +106,7 @@ namespace TestConsole.OutputFormatting
 
             _cursorLeft += data.Length;
 
-            if (_cursorLeft >= BufferWidth)
+            if (_cursorLeft >= BufferWidth && limitWidth)
             {
                 _cursorTop++;
                 _cursorLeft = 0;

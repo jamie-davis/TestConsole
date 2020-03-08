@@ -1,0 +1,43 @@
+Normal adapter:                                             
+-->                                                         
+----+----|----+----|----+----|----+----|----+----|----+----|
+Number String                                                                                          
+------ ------------------------------------------------------------------------------------------------
+    10 blahblahblahblahblahblahblahblahblahblah                                                        
+    11 blahblahblahblahblahblahblahblahblahblahblah                                                    
+    12 blahblahblahblahblahblahblahblahblahblahblahblah                                                
+    13 blahblahblahblahblahblahblahblahblahblahblahblahblah                                            
+    14 blahblahblahblahblahblahblahblahblahblahblahblahblahblah                                        
+    15 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                                    
+    16 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                                
+    17 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                            
+    18 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                        
+    19 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                    
+    20 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                
+    21 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah            
+    22 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah        
+    23 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah    
+    24 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+<--                                                         
+                                                            
+Prefixed adapter:                                           
+-->                                                         
+prefix: ----+----|----+----|----+----|----+----|----+----|--
+prefix: Number String                                                                                          
+prefix: ------ ------------------------------------------------------------------------------------------------
+prefix:     10 blahblahblahblahblahblahblahblahblahblah                                                        
+prefix:     11 blahblahblahblahblahblahblahblahblahblahblah                                                    
+prefix:     12 blahblahblahblahblahblahblahblahblahblahblahblah                                                
+prefix:     13 blahblahblahblahblahblahblahblahblahblahblahblahblah                                            
+prefix:     14 blahblahblahblahblahblahblahblahblahblahblahblahblahblah                                        
+prefix:     15 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                                    
+prefix:     16 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                                
+prefix:     17 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                            
+prefix:     18 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                        
+prefix:     19 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                    
+prefix:     20 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah                
+prefix:     21 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah            
+prefix:     22 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah        
+prefix:     23 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah    
+prefix:     24 blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+<--                                                         
