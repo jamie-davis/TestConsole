@@ -1,0 +1,7 @@
+Table                                                                                          
+-----                                                                                          
+Difference Name         A       C       B                                                      
+---------- ------------ ------- ------- -------                                                
+Updated    Test 1       5 ==> 6 7 ==> 6                                                        
+Updated    Test 3               7 ==> 6 6 ==> 7                                                
+                                                                                               

@@ -1,0 +1,31 @@
+Numeric types                                                                                  
+                                                                                               
+        Is                                                                                     
+Type    Numeric                                                                                
+------- -------                                                                                
+SByte   True                                                                                   
+Byte    True                                                                                   
+Int16   True                                                                                   
+UInt16  True                                                                                   
+Int32   True                                                                                   
+UInt32  True                                                                                   
+Int64   True                                                                                   
+UInt64  True                                                                                   
+Decimal True                                                                                   
+Single  True                                                                                   
+Double  True                                                                                   
+                                                                                               
+                                                                                               
+                                                                                               
+Non-Numeric types                                                                              
+                                                                                               
+         Is                                                                                    
+Type     Numeric                                                                               
+-------- -------                                                                               
+String   False                                                                                 
+Char     False                                                                                 
+DateTime False                                                                                 
+TimeSpan False                                                                                 
+Boolean  False                                                                                 
+Object   False                                                                                 
+                                                                                               

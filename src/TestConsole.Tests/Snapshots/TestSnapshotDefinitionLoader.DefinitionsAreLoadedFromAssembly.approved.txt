@@ -1,0 +1,34 @@
+Table Definitions                                                                              
+-----------------                                                                              
+Table Name                                                                                     
+------------                                                                                   
+ParentTable                                                                                    
+                                                                                               
+         Is      Is                               Referenced                                   
+         Primary Compare Is            Referenced Property                                     
+    Name Key     Key     Unpredictable Table Name Name                                         
+    ---- ------- ------- ------------- ---------- ----------                                   
+    Id   True    False   True                                                                  
+                                                                                               
+Table Name                                                                                     
+------------                                                                                   
+RelatedTable                                                                                   
+                                                                                               
+              Is      Is                                Referenced                             
+              Primary Compare Is            Referenced  Property                               
+    Name      Key     Key     Unpredictable Table Name  Name                                   
+    --------- ------- ------- ------------- ----------- ----------                             
+    Id        True    False   True                                                             
+    ParentId1 False   False   False         ParentTable Id                                     
+                                                                                               
+Table Name                                                                                     
+------------                                                                                   
+Table                                                                                          
+                                                                                               
+         Is      Is                               Referenced                                   
+         Primary Compare Is            Referenced Property                                     
+    Name Key     Key     Unpredictable Table Name Name                                         
+    ---- ------- ------- ------------- ---------- ----------                                   
+    Id   True    False   True                                                                  
+                                                                                               
+                                                                                               
