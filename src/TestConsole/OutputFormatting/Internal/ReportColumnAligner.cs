@@ -25,7 +25,7 @@ namespace TestConsole.OutputFormatting.Internal
         {
             Debug.Assert(widths.Length == data.Length);
             var formattedColumns = widths.Select((width, ix) => FormatColumn(width, data[ix])).ToList();
-            var totalLines = formattedColumns.Max(c => c.Length);
+            var totalLines = formattedColumns.Max(c => (int?)c.Length) ?? 0;
             var padding = formattedColumns
                 .Select((c, colIndex) => c.Length < totalLines
                     ? Enumerable.Range(0, totalLines - c.Length)
