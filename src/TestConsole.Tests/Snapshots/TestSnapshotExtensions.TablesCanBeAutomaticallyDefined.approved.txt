@@ -1,7 +1,0 @@
-Tables Defined                                                                                 
---------------                                                                                 
-Table Primary Compare                                                                          
-Name  Key     Key                                                                              
------ ------- -------                                                                          
-Data          A + B                                                                            
-                                                                                               

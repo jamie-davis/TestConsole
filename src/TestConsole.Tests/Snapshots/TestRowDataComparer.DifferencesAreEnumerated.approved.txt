@@ -1,7 +1,0 @@
-Matched = False                                                                                
-                                                                                               
-Name      Before       After                                                                   
---------- ------------ ------------                                                            
-Variable  1            2                                                                       
-Variable2 before       after                                                                   
-                                                                                               

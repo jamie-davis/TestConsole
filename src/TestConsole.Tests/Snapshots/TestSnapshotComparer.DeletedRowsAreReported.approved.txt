@@ -1,6 +1,0 @@
-Table                                                                                          
------                                                                                          
-Difference Name                                                                                
----------- ------------                                                                        
-Deleted    Test 3                                                                              
-                                                                                               
