@@ -20,11 +20,11 @@ namespace TestConsole.OutputFormatting.ReportDefinitions
             Children = new List<BaseChildItem<T>>();
         }
         
-        public ReportParameters<T> AddColumn<TValue>(Expression<Func<T, TValue>> valueExpression, Action<ColumnConfig> defineCol)
+        public ReportParameters<T> AddColumn<TValue>(Expression<Func<T, TValue>> valueExpression, Action<ColumnConfig> defineCol = null)
         {
             var columnConfig = new ColumnConfig(valueExpression);
             columnConfig.MakeFormat<TValue>();
-            defineCol(columnConfig);
+            defineCol?.Invoke(columnConfig);
             columnConfig.FinalizeColumnSettings();
             _columnSource.AddColumn(columnConfig);
             ColumnConfigs.Add(columnConfig);

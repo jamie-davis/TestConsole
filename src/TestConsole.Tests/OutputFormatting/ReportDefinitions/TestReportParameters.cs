@@ -88,6 +88,19 @@ namespace TestConsole.Tests.OutputFormatting.ReportDefinitions
         }
 
         [Test]
+        public void ColumnConfiguratorIsOptional()
+        {
+            //Arrange
+            var parameters = new ReportParameters<TestRec>();
+
+            //Act
+            parameters.AddColumn(i => i.Integer);
+
+            //Assert
+            Assert.That(parameters.ColumnSource.Columns.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
         public void AddedColumnsHaveCorrectType()
         {
             //Arrange

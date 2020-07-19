@@ -1,4 +1,5 @@
 ﻿using System;
+using TestConsoleLib.Utilities;
 
 namespace TestConsole.OutputFormatting.Internal
 {
@@ -50,7 +51,7 @@ namespace TestConsole.OutputFormatting.Internal
             {
                 if (Alignment == ColumnAlign.Auto)
                 {
-                    if (IsNumeric(Type))
+                    if (NumericTypeHelper.IsNumeric(Type))
                         Alignment = ColumnAlign.Right;
                     else
                         Alignment = ColumnAlign.Left;
@@ -61,29 +62,6 @@ namespace TestConsole.OutputFormatting.Internal
         public bool DetermineWidthFromData()
         {
             return FixedWidth == 0;
-        }
-
-        private bool IsNumeric(Type type)
-        {
-            var typeCode = Type.GetTypeCode(type);
-            switch (typeCode)
-            {
-                case TypeCode.SByte:
-                case TypeCode.Byte:
-                case TypeCode.Int16:
-                case TypeCode.UInt16:
-                case TypeCode.Int32:
-                case TypeCode.UInt32:
-                case TypeCode.Int64:
-                case TypeCode.UInt64:
-                case TypeCode.Decimal:
-                case TypeCode.Single:
-                case TypeCode.Double:
-                    return true;
-
-                default:
-                    return false;
-            }
         }
 
         internal void SetActualWidth(int actualWidth)
