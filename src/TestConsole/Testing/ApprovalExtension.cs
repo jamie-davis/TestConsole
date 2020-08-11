@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using TestConsoleLib.Exceptions;
 
@@ -10,17 +11,15 @@ namespace TestConsoleLib.Testing
 {
     public static class ApprovalExtension
     {
-        public static void Verify(this string text)
+        public static void Verify(this string text, [CallerMemberName] string callerMethod = null, [CallerFilePath] string callerPath = null)
         {
-            var frame = FindStackFrame();
-            var path = Path.GetDirectoryName(frame.GetFileName());
-            var method = frame.GetMethod();
+            var frame = StackInterpreter.GetCallerStackFrameInfo(callerMethod, callerPath, typeof(ApprovalExtension), typeof(Approvals));
 
-            var baseFileName = $"{method.DeclaringType.Name}.{method.Name}";
+            var baseFileName = $"{frame.Type.Name}.{frame.Method.Name}";
             var receivedOutput = $"{baseFileName}.received.txt";
             var approvedOutput = $"{baseFileName}.approved.txt";
-            var approvedFile = Path.Combine(path, approvedOutput);
-            var receivedFile = Path.Combine(path, receivedOutput);
+            var approvedFile = Path.Combine(frame.Path, approvedOutput);
+            var receivedFile = Path.Combine(frame.Path, receivedOutput);
             if (File.Exists(approvedFile))
             {
                 var approved = FixPlatformLineEndings(File.ReadAllText(approvedFile));
@@ -40,17 +39,6 @@ namespace TestConsoleLib.Testing
             File.WriteAllText(approvedFile, string.Empty);
             CompareUtil.CompareFiles(receivedFile, approvedFile);
             throw new NoApprovedFileException();
-        }
-
-        private static StackFrame FindStackFrame()
-        {
-            var stackTrace = new StackTrace(true);
-            Debug.Assert(stackTrace != null);
-            var frames = stackTrace.GetFrames();
-            Debug.Assert(frames != null);
-            return frames.Select(f => new { Frame = f, Method = f.GetMethod()})
-                .First(m => m.Method.DeclaringType != typeof(ApprovalExtension) && m.Method.DeclaringType != typeof(Approvals))
-                .Frame;
         }
 
         private static string FixPlatformLineEndings(string text)
@@ -127,7 +115,5 @@ namespace TestConsoleLib.Testing
 
             return sb.ToString();
         }
-
     }
-
 }
