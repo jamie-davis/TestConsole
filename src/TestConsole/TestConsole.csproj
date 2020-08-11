@@ -27,7 +27,7 @@ TestConsole.Core inherits all of the formatting capabilities from the original T
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\ConsoleTools\LICENSE">
+    <None Include="..\..\..\TestConsole\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

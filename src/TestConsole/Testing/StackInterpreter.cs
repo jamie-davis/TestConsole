@@ -85,7 +85,6 @@ namespace TestConsoleLib.Testing
                 var path = sf.GetFileName();
                 var methodName = match.Result("$1");
 
-                Type declaringType = null;
                 foreach (var stackFrame in stackFrames)
                 {
                     var candidateType = stackFrame.GetMethod()?.DeclaringType;

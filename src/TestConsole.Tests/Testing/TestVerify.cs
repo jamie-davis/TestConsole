@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using TestConsoleLib.Testing;
+#pragma warning disable 1998
 
 namespace TestConsole.Tests.Testing
 {
