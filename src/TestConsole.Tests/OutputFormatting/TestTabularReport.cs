@@ -322,7 +322,7 @@ namespace TestConsole.Tests.OutputFormatting
                 sb.Append(Run(data, width, columnFormats: cols.Select(c => c.Format)));
                 sb.AppendLine();
             }
-            Approvals.Verify(sb.ToString());
+            sb.ToString().Verify();
         }
 
         [Test]
