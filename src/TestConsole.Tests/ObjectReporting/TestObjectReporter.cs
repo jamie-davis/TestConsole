@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using NUnit.Framework;
+using TestConsole.Tests.TestingUtilities;
 using TestConsoleLib;
 using TestConsoleLib.ObjectReporting;
 using TestConsoleLib.Testing;
@@ -195,6 +196,7 @@ namespace TestConsole.Tests.ObjectReporting
         [SetUp]
         public void SetUp()
         {
+            SetUpTests.OverrideCulture();
             _output = new Output();
         }
 
