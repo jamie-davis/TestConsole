@@ -27,7 +27,7 @@ namespace TestConsoleLib.Testing
                 {
                     File.WriteAllText(receivedFile, text);
                     CompareUtil.CompareFiles(receivedFile, approvedFile);
-                    throw new ApprovedFileMismatchException();
+                    throw new ApprovedFileMismatchException(receivedFile, approvedFile);
                 }
                 
                 if (File.Exists(receivedFile))
