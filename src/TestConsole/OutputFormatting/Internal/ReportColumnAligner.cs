@@ -17,11 +17,11 @@ namespace TestConsole.OutputFormatting.Internal
         /// <param name="widths">An array containing the required width for each column.</param>
         /// <param name="data">The data to be displayed in each column. This must be aligned with <see cref="widths"/>.</param>
         /// <param name="alignment">Whether the data in each column should be aligned with the top of the column or the bottom.</param>
-        /// <param name="columnSeperator">A string to place between each column.</param>
+        /// <param name="columnSeparator">A string to place between each column.</param>
         /// <returns></returns>
         public static string AlignColumns(int[] widths, string[][] data,
             ColVerticalAligment alignment = ColVerticalAligment.Top, 
-            string columnSeperator = " ")
+            string columnSeparator = " ")
         {
             Debug.Assert(widths.Length == data.Length);
             var formattedColumns = widths.Select((width, ix) => FormatColumn(width, data[ix])).ToList();
@@ -49,7 +49,7 @@ namespace TestConsole.OutputFormatting.Internal
             }
 
             var outputLines = Enumerable.Range(0, totalLines)
-                .Select(i => string.Join(columnSeperator, alignedColumns.Select(c => c[i]))).ToList();
+                .Select(i => string.Join(columnSeparator, alignedColumns.Select(c => c[i]))).ToList();
             return string.Join(Environment.NewLine, outputLines)
                    + Environment.NewLine;
         }

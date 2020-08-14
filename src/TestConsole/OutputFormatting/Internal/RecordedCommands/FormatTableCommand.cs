@@ -26,24 +26,24 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
         private readonly ReportFormattingOptions options;
         private readonly IEnumerable<ColumnFormat> _columns;
         private readonly IEnumerable<BaseChildItem<TChild>> _childReports;
-        private readonly string _columnSeperator;
+        private readonly string _columnSeparator;
         private readonly CachedRows<T> _data;
         private int _minReportWidth;
 
-        public FormatTableCommand(IEnumerable<T> data, ReportFormattingOptions options, string columnSeperator, IEnumerable<BaseChildItem<TChild>> childReports = null, IEnumerable<ColumnFormat> columns = null)
+        public FormatTableCommand(IEnumerable<T> data, ReportFormattingOptions options, string columnSeparator, IEnumerable<BaseChildItem<TChild>> childReports = null, IEnumerable<ColumnFormat> columns = null)
         {
             this.options = options;
             _columns = columns;
             _childReports = childReports == null ? null : childReports.ToList();
-            _columnSeperator = columnSeperator ?? TabularReport.DefaultColumnDivider;
+            _columnSeparator = columnSeparator ?? TabularReport.DefaultColumnDivider;
             _data = CachedRowsFactory.Make(data);
-            _minReportWidth = MinReportWidthCalculator.Calculate(_data, _columnSeperator.Length);
+            _minReportWidth = MinReportWidthCalculator.Calculate(_data, _columnSeparator.Length);
         }
 
         public void Replay(ReplayBuffer buffer)
         {
             var  wrappedLineBreaks = new TabularReport.Statistics();
-            var report = TabularReport.Format(_data, _columns, buffer.Width, wrappedLineBreaks, options, _columnSeperator, _childReports);
+            var report = TabularReport.Format(_data, _columns, buffer.Width, wrappedLineBreaks, options, _columnSeparator, _childReports);
             foreach (var line in report)
             {
                 buffer.Write(line);

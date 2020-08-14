@@ -16,7 +16,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         {
             _parameters = new ColumnSizingParameters();
             _parameters.TabLength = 4;
-            _parameters.SeperatorLength = 1;
+            _parameters.SeparatorLength = 1;
         }
 
         private int[] GetWidths()

@@ -34,7 +34,7 @@ namespace TestConsoleLib.OutputFormatting.Internal
         }
 
 
-        private IEnumerable<string> ReportHeadings(List<PropertyColumnFormat> columns, int tabLength, string columnSeperator)
+        private IEnumerable<string> ReportHeadings(List<PropertyColumnFormat> columns, int tabLength, string columnSeparator)
         {
             _showHeadings = false;
 
@@ -43,8 +43,8 @@ namespace TestConsoleLib.OutputFormatting.Internal
             var widths = columns.Select(c => c.Format.ActualWidth).ToArray();
             var headings = columns.Select(c => WrapValue(tabLength, c, c.Format.Heading)).ToArray();
             var underlines = columns.Select(c => new[] { new string('-', c.Format.ActualWidth) }).ToArray();
-            var headingLines = ReportColumnAligner.AlignColumns(widths, headings, ColVerticalAligment.Bottom, columnSeperator);
-            var headingUnderLines = ReportColumnAligner.AlignColumns(widths, underlines, ColVerticalAligment.Bottom, columnSeperator);
+            var headingLines = ReportColumnAligner.AlignColumns(widths, headings, ColVerticalAligment.Bottom, columnSeparator);
+            var headingUnderLines = ReportColumnAligner.AlignColumns(widths, underlines, ColVerticalAligment.Bottom, columnSeparator);
 
             yield return headingLines;
             yield return headingUnderLines;

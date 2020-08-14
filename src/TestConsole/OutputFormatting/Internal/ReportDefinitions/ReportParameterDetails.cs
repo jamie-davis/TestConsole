@@ -42,7 +42,7 @@ namespace TestConsole.OutputFormatting.Internal.ReportDefinitions
         public ReportFormattingOptions Options { get; set; }
 
         /// <summary>
-        /// The string that should be used to seperate columns in the report.
+        /// The string that should be used to separate columns in the report.
         /// </summary>
         public string ColumnDivider { get; set; }
 

@@ -125,5 +125,21 @@ namespace TestConsole.Tests
             Approvals.Verify(buffer.GetBuffer());
         }
 
+        [Test]
+        public void TitleCanBeSpecifiedForSimpleFormatTable()
+        {
+            //Arrange
+            var buffer = new OutputBuffer {BufferWidth = 50};
+
+            var output = new Output(buffer);
+
+            //Act (runs all methods on Output)
+            output.WrapLine("First output", _data.Length);
+            output.FormatTable(_data.Take(5), title:"Test Title");
+            
+            //Assert
+            Approvals.Verify(buffer.GetBuffer());
+        }
+
     }
 }

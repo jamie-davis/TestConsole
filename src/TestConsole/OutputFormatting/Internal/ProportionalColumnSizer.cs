@@ -5,12 +5,12 @@ namespace TestConsole.OutputFormatting.Internal
 {
     internal static class ProportionalColumnSizer
     {
-        public static void Size(int width, int seperatorOverhead, ColumnSizingParameters parameters)
+        public static void Size(int width, int separatorOverhead, ColumnSizingParameters parameters)
         {
             var nonProportionalColumnTotalWidth = parameters.Sizers.Where(s => !s.WidthIsProportional()).Sum(s => s.PropertyColumnFormat.Format.ActualWidth);
             var proportionalColumns = parameters.Sizers.Where(s => s.WidthIsProportional()).ToList();
 
-            var availableWidth = width - seperatorOverhead - nonProportionalColumnTotalWidth - parameters.StackedColumnWidth;
+            var availableWidth = width - separatorOverhead - nonProportionalColumnTotalWidth - parameters.StackedColumnWidth;
 
             var totalProportions = proportionalColumns.Sum(s => s.PropertyColumnFormat.Format.ProportionalWidth);
             var proportions = proportionalColumns

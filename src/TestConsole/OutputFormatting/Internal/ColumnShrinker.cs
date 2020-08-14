@@ -9,13 +9,13 @@ namespace TestConsole.OutputFormatting.Internal
         /// Shrink columns to fit. Return the actual buffer width used, which may vary from the input width if the buffer width is not being enforced.
         /// </summary>
         /// <param name="width">The buffer width</param>
-        /// <param name="seperatorOverhead">The overhead created by column separators</param>
+        /// <param name="separatorOverhead">The overhead created by column separators</param>
         /// <param name="parameters">The sizing parameters used to control sizing</param>
         /// <param name="limitWidth">Enforce the input buffer width. If true, columns will be stacked to remain within the width restriction. If false, the width will be increased to avoid stacking.</param>
         /// <returns>The actual buffer width used. if <see cref="limitWidth"/> is true, this will be the input width, otherwise this may be a higher figure than the input width if required to fit all of the columns.</returns>
-        public static int ShrinkColumns(int width, int seperatorOverhead, ColumnSizingParameters parameters, bool limitWidth)
+        public static int ShrinkColumns(int width, int separatorOverhead, ColumnSizingParameters parameters, bool limitWidth)
         {
-            var minPossibleWidth = MinPossibleWidth(seperatorOverhead, parameters);
+            var minPossibleWidth = MinPossibleWidth(separatorOverhead, parameters);
             if (minPossibleWidth > width && limitWidth)
             {
                 StackColumns(width, parameters);
@@ -24,16 +24,16 @@ namespace TestConsole.OutputFormatting.Internal
             {
                 if (minPossibleWidth > width)
                     width = minPossibleWidth;
-                FitColumns(width, seperatorOverhead, parameters);
+                FitColumns(width, separatorOverhead, parameters);
             }
 
             return width;
         }
 
-        private static int MinPossibleWidth(int seperatorOverhead, ColumnSizingParameters parameters)
+        private static int MinPossibleWidth(int separatorOverhead, ColumnSizingParameters parameters)
         {
             var minStackWidth = parameters.StackSizer != null ? parameters.StackSizer.GetMinWidth(parameters.TabLength) : 0;
-            var minPossibleWidth = parameters.Sizers.Sum(s => s.Sizer.GetIdealMinimumWidth()) + seperatorOverhead + minStackWidth;
+            var minPossibleWidth = parameters.Sizers.Sum(s => s.Sizer.GetIdealMinimumWidth()) + separatorOverhead + minStackWidth;
             return minPossibleWidth;
         }
 
@@ -49,21 +49,21 @@ namespace TestConsole.OutputFormatting.Internal
                 parameters.Sizers.Remove(lastColumn);
                 parameters.Columns.Remove(lastColumn.PropertyColumnFormat);
 
-                var seperatorOverhead = parameters.Sizers.Count * parameters.SeperatorLength; //all columns in sizer list need seperator.
-                if (MinPossibleWidth(seperatorOverhead, parameters) <= width)
+                var separatorOverhead = parameters.Sizers.Count * parameters.SeparatorLength; //all columns in sizer list need separator.
+                if (MinPossibleWidth(separatorOverhead, parameters) <= width)
                     break;
             }
 
             if (parameters.Sizers.Any())
             {
-                FitColumns(width, parameters.Sizers.Count * parameters.SeperatorLength, parameters);
+                FitColumns(width, parameters.Sizers.Count * parameters.SeparatorLength, parameters);
                 parameters.StackedColumnWidth = parameters.StackSizer.GetMinWidth(parameters.TabLength);
             }
             else
                 parameters.StackedColumnWidth = width;
         }
 
-        private static void FitColumns(int width, int seperatorOverhead, ColumnSizingParameters parameters)
+        private static void FitColumns(int width, int separatorOverhead, ColumnSizingParameters parameters)
         {
             if (!parameters.Sizers.Any()) return;
 
@@ -75,7 +75,7 @@ namespace TestConsole.OutputFormatting.Internal
                     .Select(s => new { Sizer = s, Width = Math.Max(s.Sizer.MinWidth(linebreaks), s.Sizer.GetIdealMinimumWidth()) })
                     .ToList();
                 var totalWidth = widths.Sum(w => w.Width);
-                if (totalWidth <= width - seperatorOverhead - minStackWidth)
+                if (totalWidth <= width - separatorOverhead - minStackWidth)
                 {
                     foreach (var propWidth in widths)
                     {

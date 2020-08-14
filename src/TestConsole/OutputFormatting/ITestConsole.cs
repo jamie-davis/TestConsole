@@ -53,9 +53,10 @@ namespace TestConsole.OutputFormatting
         /// <typeparam name="T">The item type.</typeparam>
         /// <param name="items">The items to be formatted.</param>
         /// <param name="options">Options that effect the way in which the table is formatted.</param>
-        /// <param name="columnSeperator">The text to use to seperate columns.</param>
+        /// <param name="columnSeparator">The text to use to separate columns.</param>
+        /// <param name="title">The title for the tabular report.</param>
         void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default,
-            string columnSeperator = null);
+            string columnSeparator = null, string title = null);
 
         /// <summary>
         /// Format an enumerable set of rows as a tabular report, using a report definition.
