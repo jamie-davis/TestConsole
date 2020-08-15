@@ -133,9 +133,23 @@ namespace TestConsole.Tests
 
             var output = new Output(buffer);
 
-            //Act (runs all methods on Output)
-            output.WrapLine("First output", _data.Length);
+            //Act
             output.FormatTable(_data.Take(5), title:"Test Title");
+            
+            //Assert
+            Approvals.Verify(buffer.GetBuffer());
+        }
+
+        [Test]
+        public void TitleIsWrappedIfRequired()
+        {
+            //Arrange
+            var buffer = new OutputBuffer {BufferWidth = 50};
+
+            var output = new Output(buffer);
+
+            //Act
+            output.FormatTable(_data.Take(5), title:"123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 ");
             
             //Assert
             Approvals.Verify(buffer.GetBuffer());

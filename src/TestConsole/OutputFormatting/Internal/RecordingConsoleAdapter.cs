@@ -44,7 +44,7 @@ namespace TestConsole.OutputFormatting.Internal
             WriteLine();
         }
 
-        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null)
+        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null)
         {
             _steps.Add(new FormatTableCommand<T, T>(items, options, columnSeparator));
         }

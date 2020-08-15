@@ -108,7 +108,7 @@ namespace TestConsoleLib
         /// <param name="columnSeparator">The text to use to separate columns.</param>
         public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null)
         {
-            _impl.FormatTable(items, options, columnSeparator);
+            _impl.FormatTable(items, options, columnSeparator, title);
         }
 
         /// <summary>

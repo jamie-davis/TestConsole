@@ -137,8 +137,16 @@ namespace TestConsole.OutputFormatting.Internal
             return string.Format(format, arg);
         }
 
-        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null)
+        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null)
         {
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                foreach (var titleLine in TitleLinesGenerator.Generate(title, BufferWidth))
+                {
+                    WriteRaw(titleLine, false);
+                }
+            }
+
             var tabular = TabularReport.Format<T, T>(items, null, BufferWidth, options: options, columnDivider: columnSeparator);
             foreach (var line in tabular)
                 WriteRaw(line, (options & ReportFormattingOptions.UnlimitedBuffer) == 0);

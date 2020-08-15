@@ -8,6 +8,8 @@ namespace TestConsole.OutputFormatting.Internal
     /// </summary>
     internal class ColumnFormat
     {
+        internal static readonly ColumnFormat DefaultFormat = new ColumnFormat();
+
         public string Heading { get; internal set; }
         public Type Type { get; private set; }
         public ColumnAlign Alignment { get; internal set; }
