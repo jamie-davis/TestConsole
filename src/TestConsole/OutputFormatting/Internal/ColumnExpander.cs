@@ -13,13 +13,13 @@ namespace TestConsole.OutputFormatting.Internal
         /// Perform the stretch operation. This method takes any stacked columns into account.
         /// </summary>
         /// <param name="width">The available width.</param>
-        /// <param name="seperatorOverhead">The amount of space occupied by column seperators.</param>
+        /// <param name="separatorOverhead">The amount of space occupied by column separators.</param>
         /// <param name="parameters">The column sizing parameters for this operation.</param>
         /// <param name="maximiseWidth">True to systematically use all of the available width when sizing the columns.</param>
-        public static void FillAvailableSpace(int width, int seperatorOverhead, ColumnSizingParameters parameters, bool maximiseWidth)
+        public static void FillAvailableSpace(int width, int separatorOverhead, ColumnSizingParameters parameters, bool maximiseWidth)
         {
             var columnPriorityList = parameters.Sizers.Where(s => s.PropertyColumnFormat.Format.DetermineWidthFromData()).ToList();
-            while (CurrentWidth(seperatorOverhead, parameters.Sizers, parameters.StackedColumnWidth) < width)
+            while (CurrentWidth(separatorOverhead, parameters.Sizers, parameters.StackedColumnWidth) < width)
             {
                 if (!WidenBasedOnLineBreaks(columnPriorityList) 
                     && !WidenBasedOnMaximumWidth(columnPriorityList, maximiseWidth) 
@@ -102,9 +102,9 @@ namespace TestConsole.OutputFormatting.Internal
             columnPriorityList.Add(column);
         }
 
-        private static int CurrentWidth(int seperatorOverhead, IEnumerable<ColumnWidthNegotiator.ColumnSizerInfo> sizers, int stackedColumnWidth)
+        private static int CurrentWidth(int separatorOverhead, IEnumerable<ColumnWidthNegotiator.ColumnSizerInfo> sizers, int stackedColumnWidth)
         {
-            return sizers.Sum(s => s.PropertyColumnFormat.Format.ActualWidth) + seperatorOverhead + stackedColumnWidth;
+            return sizers.Sum(s => s.PropertyColumnFormat.Format.ActualWidth) + separatorOverhead + stackedColumnWidth;
         }
 
     }

@@ -105,10 +105,10 @@ namespace TestConsoleLib
         /// <typeparam name="T">The item type.</typeparam>
         /// <param name="items">The items to be formatted.</param>
         /// <param name="options">Options that effect the way in which the table is formatted.</param>
-        /// <param name="columnSeperator">The text to use to seperate columns.</param>
-        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeperator = null)
+        /// <param name="columnSeparator">The text to use to separate columns.</param>
+        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null)
         {
-            _impl.FormatTable(items, options, columnSeperator);
+            _impl.FormatTable(items, options, columnSeparator, title);
         }
 
         /// <summary>

@@ -9,9 +9,9 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
 {
     internal static class FormatTableCommandFactory
     {
-        public static FormatTableCommand<T, T> Make<T>(IEnumerable<T> data, string columnSeperator = null, ReportFormattingOptions options = ReportFormattingOptions.Default, IEnumerable<BaseChildItem<T>> childReports = null, IEnumerable<ColumnFormat> columns = null)
+        public static FormatTableCommand<T, T> Make<T>(IEnumerable<T> data, string columnSeparator = null, ReportFormattingOptions options = ReportFormattingOptions.Default, IEnumerable<BaseChildItem<T>> childReports = null, IEnumerable<ColumnFormat> columns = null)
         {
-            return new FormatTableCommand<T, T>(data, options, columnSeperator ?? " ", columns: columns, childReports: childReports);
+            return new FormatTableCommand<T, T>(data, options, columnSeparator ?? " ", columns: columns, childReports: childReports);
         }
 
         internal static IRecordedCommand Make<T>(Report<T> report)

@@ -47,10 +47,10 @@ namespace TestConsole.OutputFormatting.Internal
         public int StackedColumnWidth { get { return _parameters.StackedColumnWidth; } }
         public int TabLength { get { return _parameters.TabLength; } }
 
-        public ColumnWidthNegotiator(List<PropertyColumnFormat> columns, int seperatorLength, int tabLength = 4)
+        public ColumnWidthNegotiator(List<PropertyColumnFormat> columns, int separatorLength, int tabLength = 4)
         {
             _parameters.Columns = columns;
-            _parameters.SeperatorLength = seperatorLength;
+            _parameters.SeparatorLength = separatorLength;
             _parameters.TabLength = tabLength;
             _parameters.Sizers = columns
                 .Select(c => new ColumnSizerInfo(c, tabLength))
@@ -107,28 +107,28 @@ namespace TestConsole.OutputFormatting.Internal
 
         private void SizeProportionalColumns(int width)
         {
-            ProportionalColumnSizer.Size(width, SeperatorOverhead(), _parameters);
+            ProportionalColumnSizer.Size(width, SeparatorOverhead(), _parameters);
         }
 
         private int SizeColumns(int width, bool limitWidth)
         {
-            var seperatorOverhead = SeperatorOverhead();
-            return ColumnShrinker.ShrinkColumns(width, seperatorOverhead, _parameters, limitWidth);
+            var separatorOverhead = SeparatorOverhead();
+            return ColumnShrinker.ShrinkColumns(width, separatorOverhead, _parameters, limitWidth);
         }
 
         private void StretchColumnsToFillWidth(int width, bool maximiseWidth)
         {
-            var seperatorOverhead = SeperatorOverhead();
+            var separatorOverhead = SeparatorOverhead();
             var stackedColumnWidth = _parameters.StackedColumnWidth;
-            ColumnExpander.FillAvailableSpace(width, seperatorOverhead, _parameters, maximiseWidth);
+            ColumnExpander.FillAvailableSpace(width, separatorOverhead, _parameters, maximiseWidth);
             _parameters.StackedColumnWidth = stackedColumnWidth;
         }
 
-        private int SeperatorOverhead()
+        private int SeparatorOverhead()
         {
-            var seperatorCount = Columns.Count - 1 + (StackedColumns.Any() ? 1 : 0);
-            var seperatorOverhead = seperatorCount * _parameters.SeperatorLength;
-            return seperatorOverhead;
+            var separatorCount = Columns.Count - 1 + (StackedColumns.Any() ? 1 : 0);
+            var separatorOverhead = separatorCount * _parameters.SeparatorLength;
+            return separatorOverhead;
         }
 
         public void AddHeadings()

@@ -7,7 +7,7 @@ namespace TestConsole.OutputFormatting.Internal
     {
         public int TabLength { get; set; }
         public List<ColumnWidthNegotiator.ColumnSizerInfo> Sizers { get; set; }
-        public int SeperatorLength { get; set; }
+        public int SeparatorLength { get; set; }
         public PropertyStackColumnSizer StackSizer { get; set; }
         public int StackedColumnWidth { get; set; }
         public List<PropertyColumnFormat> Columns { get; set; }

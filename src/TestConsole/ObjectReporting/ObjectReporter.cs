@@ -311,7 +311,7 @@ namespace TestConsoleLib.ObjectReporting
                 var formatMethod = renderable.GetType()
                     .GetMethods()
                     .FirstOrDefault(m => m.Name == "FormatTable"
-                                         && m.GetParameters().Count() == 3
+                                         && m.GetParameters().Count() == 4
                                          && m.IsGenericMethodDefinition
                                          && m.GetParameters()[1].ParameterType == typeof (ReportFormattingOptions));
                 if (formatMethod != null)
@@ -322,6 +322,7 @@ namespace TestConsoleLib.ObjectReporting
                     {
                         value,
                         ReportFormattingOptions.Default,
+                        null,
                         null
                     });
                     return renderable;

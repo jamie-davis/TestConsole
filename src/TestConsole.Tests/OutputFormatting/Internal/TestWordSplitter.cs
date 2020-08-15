@@ -9,7 +9,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
     /*
      * Notes about splitting text for wrapping:
      * 
-     * Initially, the problem was splitting plain text. It was simple, because white space was simply a seperator for words,
+     * Initially, the problem was splitting plain text. It was simple, because white space was simply a separator for words,
      * and the blanks could therefore be assigned to the word that precedes them and they could later be dropped if the word
      * is last on the line.
      * 
@@ -27,7 +27,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
      * the:1
      * cat.:0
      * 
-     * (In this notation, the text is followed by a colon, and then the number of spaces that seperate the word from the next.)
+     * (In this notation, the text is followed by a colon, and then the number of spaces that separate the word from the next.)
      * 
      * Consider the same text with added colour:
      * 
@@ -79,7 +79,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
      * 
      * Therefore a very different approach is needed.
      * 
-     * It would be better if words and whitespace were seperate. Whitespace must be able to carry formatting instructions.
+     * It would be better if words and whitespace were separate. Whitespace must be able to carry formatting instructions.
      * When whitespace is omitted, the formatting instructions should not be. Whitespace runs are valid when they carry 
      * different formatting instructions. It would not be incorrect to split words on formatting instructions.
      * 

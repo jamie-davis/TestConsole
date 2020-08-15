@@ -14,7 +14,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
     {
         private ColumnSizingParameters _parameters;
         private List<TestType> _data;
-        private int _seperatorOverhead;
+        private int _separatorOverhead;
         private string _initialReport;
 
         // ReSharper disable MemberCanBePrivate.Local
@@ -48,13 +48,13 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             _parameters.Columns = FormatAnalyser.Analyse(typeof(TestType), null, true);
             _parameters.Sizers = _parameters.Columns.Select(f => new ColumnWidthNegotiator.ColumnSizerInfo(f, 4)).ToList();
             _parameters.TabLength = 4;
-            _parameters.SeperatorLength = 1;
+            _parameters.SeparatorLength = 1;
 
             ImportSizeData();
 
-            _seperatorOverhead = 3;
+            _separatorOverhead = 3;
             const int defaultWidth = 26;
-            ColumnShrinker.ShrinkColumns(defaultWidth, _seperatorOverhead, _parameters, false);
+            ColumnShrinker.ShrinkColumns(defaultWidth, _separatorOverhead, _parameters, false);
 
             CreateInitialReport(defaultWidth);
         }
@@ -87,7 +87,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         public void ReportWithNoWrappingIsExpanded()
         {
             const int width = 80;
-            ColumnExpander.FillAvailableSpace(width, _seperatorOverhead, _parameters, true);
+            ColumnExpander.FillAvailableSpace(width, _separatorOverhead, _parameters, true);
 
             var ruler = RulerFormatter.MakeRuler(width) + Environment.NewLine;
             var report = TabularReportRenderTool.Report(_parameters, _data);
@@ -98,7 +98,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         public void ReportWithWrappingIsExpanded()
         {
             const int width = 43;
-            ColumnExpander.FillAvailableSpace(width, _seperatorOverhead, _parameters, true);
+            ColumnExpander.FillAvailableSpace(width, _separatorOverhead, _parameters, true);
 
             var ruler = RulerFormatter.MakeRuler(width) + Environment.NewLine;
             var report = TabularReportRenderTool.Report(_parameters, _data);
@@ -110,7 +110,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         {
             const int width = 43;
             _parameters.Columns.First(c => c.Format.Heading == "Long String").Format.FixedWidth = 4;
-            ColumnExpander.FillAvailableSpace(width, _seperatorOverhead, _parameters, true);
+            ColumnExpander.FillAvailableSpace(width, _separatorOverhead, _parameters, true);
 
             var ruler = RulerFormatter.MakeRuler(width) + Environment.NewLine;
             var report = TabularReportRenderTool.Report(_parameters, _data);
@@ -122,7 +122,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         {
             const int width = 43;
             _parameters.Columns.First(c => c.Format.Heading == "Long String").Format.MaxWidth = 13;
-            ColumnExpander.FillAvailableSpace(width, _seperatorOverhead, _parameters, true);
+            ColumnExpander.FillAvailableSpace(width, _separatorOverhead, _parameters, true);
 
             var ruler = RulerFormatter.MakeRuler(width) + Environment.NewLine;
             var report = TabularReportRenderTool.Report(_parameters, _data);

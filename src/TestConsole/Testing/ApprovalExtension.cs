@@ -15,6 +15,9 @@ namespace TestConsoleLib.Testing
         {
             var frame = StackInterpreter.GetCallerStackFrameInfo(callerMethod, callerPath, typeof(ApprovalExtension), typeof(Approvals));
 
+            if (frame.Path == null)
+                throw new UnableToLocateApprovedFileException();
+
             var baseFileName = $"{frame.Type.Name}.{frame.Method.Name}";
             var receivedOutput = $"{baseFileName}.received.txt";
             var approvedOutput = $"{baseFileName}.approved.txt";

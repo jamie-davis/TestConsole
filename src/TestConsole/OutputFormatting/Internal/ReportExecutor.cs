@@ -13,8 +13,6 @@ namespace TestConsole.OutputFormatting.Internal
     /// </summary>
     internal static class ReportExecutor
     {
-        private static readonly ColumnFormat DefaultFormat = new ColumnFormat();
-
         /// <summary>
         /// Return the lines output by a report.
         /// </summary>
@@ -72,12 +70,8 @@ namespace TestConsole.OutputFormatting.Internal
             if (string.IsNullOrEmpty(report.TitleText))
                 yield break;
 
-            var lines = ColumnWrapper.WrapValue(report.TitleText, DefaultFormat, availableWidth);
-            foreach (var line in lines)
-            {
-                yield return line + Environment.NewLine;
-                yield return Underliner.Generate(line) + Environment.NewLine;
-            }
+            foreach (var line in Internal.TitleLinesGenerator.Generate(report.TitleText, availableWidth))
+                yield return line;
         }
 
         private static MethodInfo MakeFormatMethodInfo<T>(Report<T> report)
