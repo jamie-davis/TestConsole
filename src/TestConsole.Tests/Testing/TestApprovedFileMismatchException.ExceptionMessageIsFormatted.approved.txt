@@ -2,8 +2,8 @@
                                                                                                
 File                   Length       Lines                                                      
 -------- -------------------- -----------                                                      
-Approved                   14           2                                                      
-Received                   19           2                                                      
+Approved                   13           2                                                      
+Received                   18           2                                                      
                                                                                                
 File             Line Text                                                                     
 -------- ------------ -----------                                                              

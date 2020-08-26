@@ -3,7 +3,7 @@
 File                   Length       Lines                                                      
 -------- -------------------- -----------                                                      
 Approved                    0           0                                                      
-Received                   14           2                                                      
+Received                   13           2                                                      
                                                                                                
 File             Line Text                                                                     
 -------- ------------ ------                                                                   

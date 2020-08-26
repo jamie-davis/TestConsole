@@ -117,7 +117,7 @@ Line 2";
 
         private TempFile WriteTempFile(string text)
         {
-            return new TempFile(text);
+            return new TempFile(text.Replace("\r\n", "\n"));
         }
 
         private class TempFile : IDisposable
