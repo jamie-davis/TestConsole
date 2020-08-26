@@ -1,0 +1,12 @@
+1 Differences found between approved and received:                                             
+                                                                                               
+File                   Length       Lines                                                      
+-------- -------------------- -----------                                                      
+Approved                   14           2                                                      
+Received                   19           2                                                      
+                                                                                               
+File             Line Text                                                                     
+-------- ------------ -----------                                                              
+Approved            2 Line 2                                                                   
+Received            2 Line 2 Diff                                                              
+                                                                                               

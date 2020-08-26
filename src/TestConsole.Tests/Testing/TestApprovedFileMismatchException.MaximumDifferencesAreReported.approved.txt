@@ -1,0 +1,61 @@
+50 Differences found between approved and received:                                            
+                                                                                               
+File                   Length       Lines                                                      
+-------- -------------------- -----------                                                      
+Approved                  890         100                                                      
+Received                  845         100                                                      
+                                                                                               
+File             Line Text                                                                     
+-------- ------------ -------                                                                  
+Approved            1 Line 1                                                                   
+Received            1 Line X                                                                   
+Approved            3 Line 3                                                                   
+Received            3 Line X                                                                   
+Approved            5 Line 5                                                                   
+Received            5 Line X                                                                   
+Approved            7 Line 7                                                                   
+Received            7 Line X                                                                   
+Approved            9 Line 9                                                                   
+Received            9 Line X                                                                   
+Approved           11 Line 11                                                                  
+Received           11 Line X                                                                   
+Approved           13 Line 13                                                                  
+Received           13 Line X                                                                   
+Approved           15 Line 15                                                                  
+Received           15 Line X                                                                   
+Approved           17 Line 17                                                                  
+Received           17 Line X                                                                   
+Approved           19 Line 19                                                                  
+Received           19 Line X                                                                   
+Approved           21 Line 21                                                                  
+Received           21 Line X                                                                   
+Approved           23 Line 23                                                                  
+Received           23 Line X                                                                   
+Approved           25 Line 25                                                                  
+Received           25 Line X                                                                   
+Approved           27 Line 27                                                                  
+Received           27 Line X                                                                   
+Approved           29 Line 29                                                                  
+Received           29 Line X                                                                   
+Approved           31 Line 31                                                                  
+Received           31 Line X                                                                   
+Approved           33 Line 33                                                                  
+Received           33 Line X                                                                   
+Approved           35 Line 35                                                                  
+Received           35 Line X                                                                   
+Approved           37 Line 37                                                                  
+Received           37 Line X                                                                   
+Approved           39 Line 39                                                                  
+Received           39 Line X                                                                   
+Approved           41 Line 41                                                                  
+Received           41 Line X                                                                   
+Approved           43 Line 43                                                                  
+Received           43 Line X                                                                   
+Approved           45 Line 45                                                                  
+Received           45 Line X                                                                   
+Approved           47 Line 47                                                                  
+Received           47 Line X                                                                   
+Approved           49 Line 49                                                                  
+Received           49 Line X                                                                   
+...                                                                                            
+                                                                                               
