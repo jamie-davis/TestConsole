@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FluentAssertions;
 using NUnit.Framework;
 using TestConsole.OutputFormatting.Internal;
 using TestConsoleLib.Testing;
@@ -202,6 +203,47 @@ namespace TestConsole.Tests.OutputFormatting.Internal
                 + string.Format("Added line breaks = {0}", wrappedLines);
             Console.WriteLine(result);
             Approvals.Verify(result);
+        }
+
+        [Test]
+        public void LongestLineIsComputed()
+        {
+            //Arrange
+            var c = new ColumnFormat("h", typeof (string));
+            const string value = "One two three\r\nfour five six seven eight\r\n\r\n\r\nnine\r\nten\r\neleven.";
+
+            //Act
+            var longest = ColumnWrapper.GetLongestLineLength(value, c);
+
+            //Assert
+            longest.Should().Be(25);
+        }
+
+        [Test]
+        public void LongestLineCanBeEven()
+        {
+            //Arrange
+            var c = new ColumnFormat("h", typeof (string));
+            const string value = "One two three\r\nXfour five six seven eight\r\n\r\n\r\nnine\r\nten\r\neleven.";
+
+            //Act
+            var longest = ColumnWrapper.GetLongestLineLength(value, c);
+
+            //Assert
+            longest.Should().Be(26);
+        }
+
+        [Test]
+        public void LongestLineWhenTextIsEmptyIsOne()
+        {
+            //Arrange
+            var c = new ColumnFormat("h", typeof (string));
+
+            //Act
+            var longest = ColumnWrapper.GetLongestLineLength(string.Empty, c);
+
+            //Assert
+            longest.Should().Be(1);
         }
 
         private string FormatResult(string value, IEnumerable<string> wrapped, int guideWidth, int indent = 0)

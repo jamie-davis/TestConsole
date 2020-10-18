@@ -15,7 +15,7 @@ namespace TestConsole.OutputFormatting.Internal
         /// <returns>The actual buffer width used. if <see cref="limitWidth"/> is true, this will be the input width, otherwise this may be a higher figure than the input width if required to fit all of the columns.</returns>
         public static int ShrinkColumns(int width, int separatorOverhead, ColumnSizingParameters parameters, bool limitWidth)
         {
-            var minPossibleWidth = MinPossibleWidth(separatorOverhead, parameters);
+            var minPossibleWidth = MinPossibleWidth(separatorOverhead, parameters, limitWidth);
             if (minPossibleWidth > width && limitWidth)
             {
                 StackColumns(width, parameters);
@@ -30,10 +30,10 @@ namespace TestConsole.OutputFormatting.Internal
             return width;
         }
 
-        private static int MinPossibleWidth(int separatorOverhead, ColumnSizingParameters parameters)
+        private static int MinPossibleWidth(int separatorOverhead, ColumnSizingParameters parameters, bool limitWidth)
         {
             var minStackWidth = parameters.StackSizer != null ? parameters.StackSizer.GetMinWidth(parameters.TabLength) : 0;
-            var minPossibleWidth = parameters.Sizers.Sum(s => s.Sizer.GetIdealMinimumWidth()) + separatorOverhead + minStackWidth;
+            var minPossibleWidth = parameters.Sizers.Sum(s => s.Sizer.GetIdealMinimumWidth(limitWidth)) + separatorOverhead + minStackWidth;
             return minPossibleWidth;
         }
 
@@ -50,7 +50,7 @@ namespace TestConsole.OutputFormatting.Internal
                 parameters.Columns.Remove(lastColumn.PropertyColumnFormat);
 
                 var separatorOverhead = parameters.Sizers.Count * parameters.SeparatorLength; //all columns in sizer list need separator.
-                if (MinPossibleWidth(separatorOverhead, parameters) <= width)
+                if (MinPossibleWidth(separatorOverhead, parameters, false) <= width)
                     break;
             }
 

@@ -62,9 +62,9 @@ namespace TestConsoleLib.Testing
             Verify(text.ToString());
         }
         
-        public static string JoinWith(this IEnumerable<string> input, string concatentator)
+        public static string JoinWith(this IEnumerable<string> input, string concatenator)
         {
-            return string.Join(concatentator, input);
+            return string.Join(concatenator, input);
         }
         
         public static string WritePropertiesToString<T>(this T value)

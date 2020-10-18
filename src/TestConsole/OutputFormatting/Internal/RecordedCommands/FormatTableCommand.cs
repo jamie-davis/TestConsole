@@ -37,7 +37,7 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
             _childReports = childReports == null ? null : childReports.ToList();
             _columnSeparator = columnSeparator ?? TabularReport.DefaultColumnDivider;
             _data = CachedRowsFactory.Make(data);
-            _minReportWidth = MinReportWidthCalculator.Calculate(_data, _columnSeparator.Length);
+            _minReportWidth = MinReportWidthCalculator.Calculate(_data, _columnSeparator.Length, (options & ReportFormattingOptions.UnlimitedBuffer) == 0);
         }
 
         public void Replay(ReplayBuffer buffer)

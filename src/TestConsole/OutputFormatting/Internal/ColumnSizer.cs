@@ -67,14 +67,14 @@ namespace TestConsole.OutputFormatting.Internal
         /// Returns the width the column needs to be to accomodate the longest word seen so far.
         /// </summary>
         /// <returns>The calculated width.</returns>
-        public int GetIdealMinimumWidth()
+        public int GetIdealMinimumWidth(bool widthIsLimited = true)
         {
             if (_idealMinWidthValid) return _idealMinWidth;
 
-            return CalculateIdealMinWidth();
+            return CalculateIdealMinWidth(widthIsLimited);
         }
 
-        private int CalculateIdealMinWidth()
+        private int CalculateIdealMinWidth(bool widthIsLimited)
         {
             var fixedWidth = GetFixedMinWidth();
             if (fixedWidth > 0)
@@ -89,6 +89,13 @@ namespace TestConsole.OutputFormatting.Internal
                 if (_format.MaxWidth > 0)
                     return Math.Min(_format.MaxWidth, width);
                 return width;
+            }
+
+            if (!widthIsLimited)
+            {
+                _idealMinWidth = ApplyMaxWidth(_values.Max(v => ColumnWrapper.GetLongestLineLength(v, _format, _tabLength)));
+                _idealMinWidthValid = true;
+                return _idealMinWidth;
             }
 
             if (_columnType == typeof(string))

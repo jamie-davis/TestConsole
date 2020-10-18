@@ -6,9 +6,9 @@ namespace TestConsole.OutputFormatting.Internal
 {
     internal static class MinReportWidthCalculator
     {
-        public static int Calculate<T>(IEnumerable<T> rep, int separatorLength, int tabLength = 4)
+        public static int Calculate<T>(IEnumerable<T> rep, int separatorLength, bool widthIsLimited, int tabLength = 4)
         {
-            return PerformCalculation<T>(tabLength, separatorLength, sizers =>
+            return PerformCalculation<T>(tabLength, separatorLength, widthIsLimited, sizers =>
             {
                 foreach (var row in rep)
                 {
@@ -22,9 +22,9 @@ namespace TestConsole.OutputFormatting.Internal
             });
         }
 
-        public static int Calculate<T>(CachedRows<T> rep, int separatorLength, int tabLength = 4)
+        public static int Calculate<T>(CachedRows<T> rep, int separatorLength, bool limitWidth, int tabLength = 4)
         {
-            return PerformCalculation<T>(tabLength, separatorLength, sizers =>
+            return PerformCalculation<T>(tabLength, separatorLength, limitWidth, sizers =>
             {
                 foreach (var row in rep.GetRows())
                 {
@@ -38,7 +38,7 @@ namespace TestConsole.OutputFormatting.Internal
             });
         }
 
-        private static int PerformCalculation<T>(int tabLength, int separatorLength, Action<List<ColumnWidthNegotiator.ColumnSizerInfo>> applyRows)
+        private static int PerformCalculation<T>(int tabLength, int separatorLength, bool widthIsLimited, Action<List<ColumnWidthNegotiator.ColumnSizerInfo>> applyRows)
         {
             var columns = FormatAnalyser.Analyse(typeof(T), null, true);
             var sizers = columns
@@ -52,7 +52,7 @@ namespace TestConsole.OutputFormatting.Internal
                 columnSizerInfo.Sizer.ColumnValue(columnSizerInfo.PropertyColumnFormat.Format.Heading);
             }
 
-            return sizers.Sum(s => s.Sizer.GetIdealMinimumWidth())
+            return sizers.Sum(s => s.Sizer.GetIdealMinimumWidth(widthIsLimited))
                    + ((sizers.Count - 1) * separatorLength);
         }
     }

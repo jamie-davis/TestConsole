@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace TestConsole.OutputFormatting.Internal
 {
@@ -34,7 +35,7 @@ namespace TestConsole.OutputFormatting.Internal
         /// Hard line breaks in the value are not counted because they are part of the data and cannot be avoided. The 
         /// function calculates the effect of setting the column width to a specific value.
         /// 
-        /// The function will return zero  if no linebreaks need to be added. This will be the case if the value is small
+        /// The function will return zero if no linebreaks need to be added. This will be the case if the value is small
         /// enough that it does not need to be wrapped.
         /// </summary>
         /// <param name="value">The value to be processed.</param>
@@ -256,6 +257,49 @@ namespace TestConsole.OutputFormatting.Internal
             }
 
             yield return splitWord;
+        }
+
+        /// <summary>
+        /// Compute the length of the longest line if no wrapping was required. This would be equivalent to the column width required to add no line breaks.
+        /// <remarks>There are numerous factors that impact the sizing of a column, including dependencies on the rendering mechanism, so the best way to compute this
+        /// value is to apply the formatting code to the value at various widths until it can go no smaller without adding line breaks (a goal seek).</remarks>
+        /// </summary>
+        /// <param name="value">The value to be measured</param>
+        /// <param name="columnFormat">The column format parameters</param>
+        public static int GetLongestLineLength(object value, ColumnFormat columnFormat, int tabLength = 4, int firstLineHangingIndent = 0)
+        {
+            var width = 40;
+            int lineBreaks;
+            var maxNoFit = 0;
+
+            bool Attempt(int tryWidth)
+            {
+                lineBreaks = CountWordwrapLineBreaks(value, columnFormat, tryWidth, tabLength, firstLineHangingIndent);
+                return lineBreaks == 0;
+            }
+
+            while (!Attempt(width))
+            {
+                maxNoFit = width;
+                width += width;
+            }
+
+            var unknown = width - maxNoFit;
+            while (unknown > 1)
+            {
+                var nextWidth = width - (unknown / 2);
+                if (!Attempt(nextWidth))
+                {
+                    maxNoFit = nextWidth;
+                }
+                else
+                {
+                    width = nextWidth;
+                }
+                unknown = width - maxNoFit;
+            }
+
+            return width;
         }
     }
 }

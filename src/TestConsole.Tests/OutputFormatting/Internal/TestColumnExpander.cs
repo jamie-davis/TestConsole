@@ -54,7 +54,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
 
             _separatorOverhead = 3;
             const int defaultWidth = 26;
-            ColumnShrinker.ShrinkColumns(defaultWidth, _separatorOverhead, _parameters, false);
+            ColumnShrinker.ShrinkColumns(defaultWidth, _separatorOverhead, _parameters, true);
 
             CreateInitialReport(defaultWidth);
         }

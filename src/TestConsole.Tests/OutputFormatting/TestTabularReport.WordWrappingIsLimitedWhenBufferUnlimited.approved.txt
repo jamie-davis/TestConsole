@@ -1,0 +1,5 @@
+----+----|----+--
+S       S2       S3              S4                                                                              S5              
+------- -------- --------------- ------------------------------------------------------------------------------- ----------------
+X X X Y X X X YY XXX XXX XXX YYY XXX XXX XXX XXX XXX YYYY XXX XXX XXX XXX XXX Linebreak->                        XXX XXX XXX YYYY
+                                 YYYY XXX XXX XXX XXX XXX YYYY XXX XXX XXX XXX XXX YYYY XXX XXX XXX XXX XXX YYYY                 
