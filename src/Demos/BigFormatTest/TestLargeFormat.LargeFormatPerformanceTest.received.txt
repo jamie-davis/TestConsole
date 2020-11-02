@@ -1,0 +1,23 @@
+ Base Value Text      Length                                                                   
+----------- ---- -----------                                                                   
+       1000 Yep            3                                                                   
+       2000 Yep            3                                                                   
+       3000 Yep            3                                                                   
+       4000 Yep            3                                                                   
+       5000 Yep            3                                                                   
+       6000 Yep            3                                                                   
+       7000 Yep            3                                                                   
+       8000 Yep            3                                                                   
+       9000 Yep            3                                                                   
+      10000 Yep            3                                                                   
+      11000 Yep            3                                                                   
+      12000 Yep            3                                                                   
+      13000 Yep            3                                                                   
+      14000 Yep            3                                                                   
+      15000 Yep            3                                                                   
+      16000 Yep            3                                                                   
+      17000 Yep            3                                                                   
+      18000 Yep            3                                                                   
+      19000 Yep            3                                                                   
+      20000 Yep            3                                                                   
+                                                                                               
