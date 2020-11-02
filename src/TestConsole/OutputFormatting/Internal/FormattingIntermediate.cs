@@ -11,7 +11,8 @@ namespace TestConsole.OutputFormatting.Internal
     /// </summary>
     internal class FormattingIntermediate
     {
-        private Dictionary<int, List<SplitWord>> _splitWords = new Dictionary<int, List<SplitWord>>();
+        private readonly SplitCache _splitCache;
+        private Dictionary<int, IReadOnlyList<SplitWord>> _splitWords = new Dictionary<int, IReadOnlyList<SplitWord>>();
         public string TextValue { get; private set; }
         public IConsoleRenderer RenderableValue { get; private set; }
 
@@ -29,16 +30,18 @@ namespace TestConsole.OutputFormatting.Internal
         /// <summary>
         /// Construct from a string.
         /// </summary>
-        public FormattingIntermediate(string text)
+        public FormattingIntermediate(string text, SplitCache splitCache)
         {
+            _splitCache = splitCache;
             TextValue = text;
         }
 
         /// <summary>
         /// Construct from an object derived from <see cref="IConsoleRenderer"/>.
         /// </summary>
-        public FormattingIntermediate(IConsoleRenderer renderableValue)
+        public FormattingIntermediate(IConsoleRenderer renderableValue, SplitCache splitCache)
         {
+            _splitCache = splitCache;
             RenderableValue = renderableValue;
         }
 
@@ -52,7 +55,7 @@ namespace TestConsole.OutputFormatting.Internal
             if (TextValue != null)
             {
                 if (TextValue == string.Empty) return 0;
-                return WordSplitter.Split(TextValue, tabLength).Max(w => w.Length);
+                return _splitCache.Split(TextValue, tabLength).Max(w => w.Length);
             }
 
             return RenderableValue.GetLongestWordLength(tabLength);
@@ -66,7 +69,7 @@ namespace TestConsole.OutputFormatting.Internal
         {
             if (TextValue != null)
             {
-                var word = WordSplitter.Split(TextValue, tabLength).FirstOrDefault();
+                var word = _splitCache.Split(TextValue, tabLength).FirstOrDefault();
                 return hangingIndent + (word == null ? 0 : word.Length);
             }
 
@@ -75,18 +78,18 @@ namespace TestConsole.OutputFormatting.Internal
 
         public IEnumerable<SplitWord> ValueWords(int columnWidth, int tabLength)
         {
-            List<SplitWord> splitWords;
+            IReadOnlyList<SplitWord> splitWords;
             if (_splitWords.TryGetValue(tabLength, out splitWords))
                 return splitWords;
 
             if (RenderableValue == null)
             {
-                splitWords = WordSplitter.SplitToList(TextValue, tabLength);
+                splitWords = _splitCache.Split(TextValue, tabLength);
                 _splitWords[tabLength] = splitWords;
                 return splitWords;
             }
 
-            return WordSplitter.SplitToList(ToString(columnWidth), tabLength);
+            return _splitCache.Split(ToString(columnWidth), tabLength);
         }
 
         /// <summary>
@@ -97,7 +100,7 @@ namespace TestConsole.OutputFormatting.Internal
         /// <returns>A new <see cref="FormattingIntermediate"/>.</returns>
         public static implicit operator FormattingIntermediate(string text)
         {
-            return new FormattingIntermediate(text);
+            return new FormattingIntermediate(text, new SplitCache());
         }
 
         public override string ToString()

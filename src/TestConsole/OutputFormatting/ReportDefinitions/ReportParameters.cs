@@ -106,7 +106,7 @@ namespace TestConsole.OutputFormatting.ReportDefinitions
 
     internal abstract class BaseChildItem<T>
     {
-        public abstract string Render(object item, int width);
+        public abstract string Render(object item, int width, SplitCache cache);
 
         public abstract void SetOriginalRowExtractor(Func<object, T> rowGetter);
     }
@@ -128,11 +128,11 @@ namespace TestConsole.OutputFormatting.ReportDefinitions
             _originalRowExtractor = originalRowExtractor;
         }
 
-        public override string Render(object item, int width)
+        public override string Render(object item, int width, SplitCache cache)
         {
             var childData = _childDataAccessor(_originalRowExtractor(item));
             var report = new Report<TValueItem>(childData, _reportParameters);
-            return string.Join(string.Empty, ReportExecutor.GetLines(report, width));
+            return string.Join(string.Empty, ReportExecutor.GetLines(report, width, cache));
         }
     }
 }

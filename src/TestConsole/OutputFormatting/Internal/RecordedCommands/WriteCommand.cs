@@ -2,7 +2,7 @@
 {
     internal class WriteCommand : SimpleTextCommandBase, IRecordedCommand
     {
-        public WriteCommand(string data) : base(data)
+        public WriteCommand(string data, SplitCache cache) : base(data, cache)
         {
         }
 

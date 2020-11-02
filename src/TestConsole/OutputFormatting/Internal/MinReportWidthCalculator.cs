@@ -6,9 +6,9 @@ namespace TestConsole.OutputFormatting.Internal
 {
     internal static class MinReportWidthCalculator
     {
-        public static int Calculate<T>(IEnumerable<T> rep, int separatorLength, bool widthIsLimited, int tabLength = 4)
+        public static int Calculate<T>(IEnumerable<T> rep, int separatorLength, bool widthIsLimited, SplitCache cache, int tabLength = 4)
         {
-            return PerformCalculation<T>(tabLength, separatorLength, widthIsLimited, sizers =>
+            return PerformCalculation<T>(tabLength, separatorLength, widthIsLimited, cache, sizers =>
             {
                 foreach (var row in rep)
                 {
@@ -22,9 +22,9 @@ namespace TestConsole.OutputFormatting.Internal
             });
         }
 
-        public static int Calculate<T>(CachedRows<T> rep, int separatorLength, bool limitWidth, int tabLength = 4)
+        public static int Calculate<T>(CachedRows<T> rep, int separatorLength, bool limitWidth, SplitCache cache, int tabLength = 4)
         {
-            return PerformCalculation<T>(tabLength, separatorLength, limitWidth, sizers =>
+            return PerformCalculation<T>(tabLength, separatorLength, limitWidth, cache, sizers =>
             {
                 foreach (var row in rep.GetRows())
                 {
@@ -38,11 +38,11 @@ namespace TestConsole.OutputFormatting.Internal
             });
         }
 
-        private static int PerformCalculation<T>(int tabLength, int separatorLength, bool widthIsLimited, Action<List<ColumnWidthNegotiator.ColumnSizerInfo>> applyRows)
+        private static int PerformCalculation<T>(int tabLength, int separatorLength, bool widthIsLimited, SplitCache cache, Action<List<ColumnWidthNegotiator.ColumnSizerInfo>> applyRows)
         {
             var columns = FormatAnalyser.Analyse(typeof(T), null, true);
             var sizers = columns
-                .Select(c => new ColumnWidthNegotiator.ColumnSizerInfo(c, tabLength))
+                .Select(c => new ColumnWidthNegotiator.ColumnSizerInfo(c, tabLength, cache))
                 .ToList();
 
             applyRows(sizers);

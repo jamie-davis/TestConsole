@@ -21,13 +21,15 @@ namespace TestConsole.Tests.OutputFormatting.UnitTestutilities
 
         private static string Report<T>(List<PropertyColumnFormat> columns, IEnumerable<PropertyColumnFormat> stackedColumns, int stackedColumnWidth, int tabLength, IEnumerable<T> items)
         {
+            var cache = new SplitCache();
+
             var sb = new StringBuilder();
 
             var widths = columns.Select(c => c.Format.ActualWidth)
                 .Concat(stackedColumns.Any() ? new[] { stackedColumnWidth } : new int[] { })
                 .ToArray();
             var headings = columns
-                .Select(c => ColumnWrapper.WrapValue(c.Format.Heading, c.Format, c.Format.ActualWidth))
+                .Select(c => ColumnWrapper.WrapValue(c.Format.Heading, c.Format, c.Format.ActualWidth, cache))
                 .ToArray();
             if (headings.Any())
             {
@@ -36,8 +38,7 @@ namespace TestConsole.Tests.OutputFormatting.UnitTestutilities
                 var unders = columns
                     .Select(
                         c =>
-                            ColumnWrapper.WrapValue(new string('-', c.Format.ActualWidth), c.Format,
-                                c.Format.ActualWidth))
+                            ColumnWrapper.WrapValue(new string('-', c.Format.ActualWidth), c.Format, c.Format.ActualWidth, cache))
                     .ToArray();
                 sb.Append(ReportColumnAligner.AlignColumns(widths, unders, ColVerticalAligment.Bottom));
             }
@@ -45,18 +46,18 @@ namespace TestConsole.Tests.OutputFormatting.UnitTestutilities
             foreach (var item in items)
             {
                 var rowValues = columns
-                    .Select((c, i) => ColumnWrapper.WrapValue(ValueFormatter.Format(c.Format, item.GetType().GetProperties()[i].GetValue(item, null)), c.Format, c.Format.ActualWidth))
-                    .Concat(FormatStackedColumn(stackedColumns, stackedColumnWidth, tabLength, item))
+                    .Select((c, i) => ColumnWrapper.WrapValue(ValueFormatter.Format(c.Format, item.GetType().GetProperties()[i].GetValue(item, null)), c.Format, c.Format.ActualWidth, cache))
+                    .Concat(FormatStackedColumn(stackedColumns, stackedColumnWidth, tabLength, item, cache))
                     .ToArray();
                 sb.Append(ReportColumnAligner.AlignColumns(widths, rowValues));
             }
             return sb.ToString();
         }
 
-        private static IEnumerable<string[]> FormatStackedColumn(IEnumerable<PropertyColumnFormat> stackedColumns, int stackedColumnWidth, int tabLength, object item)
+        private static IEnumerable<string[]> FormatStackedColumn(IEnumerable<PropertyColumnFormat> stackedColumns, int stackedColumnWidth, int tabLength, object item, SplitCache cache)
         {
             if (stackedColumns.Any())
-                return new[] { PropertyStackColumnFormatter.Format(stackedColumns, item, stackedColumnWidth, tabLength).ToArray() };
+                return new[] { PropertyStackColumnFormatter.Format(stackedColumns, item, stackedColumnWidth, cache, tabLength).ToArray() };
 
             return new string[][] { };
         }

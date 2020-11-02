@@ -9,17 +9,17 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
 {
     internal static class FormatTableCommandFactory
     {
-        public static FormatTableCommand<T, T> Make<T>(IEnumerable<T> data, string columnSeparator = null, ReportFormattingOptions options = ReportFormattingOptions.Default, IEnumerable<BaseChildItem<T>> childReports = null, IEnumerable<ColumnFormat> columns = null)
+        public static FormatTableCommand<T, T> Make<T>(IEnumerable<T> data, SplitCache cache, string columnSeparator = null, ReportFormattingOptions options = ReportFormattingOptions.Default, IEnumerable<BaseChildItem<T>> childReports = null, IEnumerable<ColumnFormat> columns = null)
         {
-            return new FormatTableCommand<T, T>(data, options, columnSeparator ?? " ", columns: columns, childReports: childReports);
+            return new FormatTableCommand<T, T>(data, options, columnSeparator ?? " ", columns: columns, childReports: childReports, cache: cache);
         }
 
-        internal static IRecordedCommand Make<T>(Report<T> report)
+        internal static IRecordedCommand Make<T>(Report<T> report, SplitCache cache)
         {
             var itemType = report.RowType;
             var parameters = new Object[]
                              {
-                                report
+                                report, cache
                              };
             var genericMethod = typeof(FormatTableCommandFactory).GetMethod("CallMake", BindingFlags.NonPublic | BindingFlags.Static);
 
@@ -29,9 +29,9 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
         }
 
         // ReSharper disable once UnusedMember.Global
-        internal static FormatTableCommand<TReportItem, TOriginal> CallMake<TOriginal, TReportItem>(Report<TOriginal> report)
+        internal static FormatTableCommand<TReportItem, TOriginal> CallMake<TOriginal, TReportItem>(Report<TOriginal> report, SplitCache cache)
         {
-            return new FormatTableCommand<TReportItem, TOriginal>(report.Query.Cast<TReportItem>(), report.Options, report.ColumnDivider, report.Children, report.Columns);
+            return new FormatTableCommand<TReportItem, TOriginal>(report.Query.Cast<TReportItem>(), report.Options, report.ColumnDivider, cache, report.Children, report.Columns);
         }
     }
 }

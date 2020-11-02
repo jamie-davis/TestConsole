@@ -19,8 +19,9 @@ namespace TestConsole.OutputFormatting.Internal
         /// <typeparam name="T">The type of the items that are input to the report.</typeparam>
         /// <param name="report">The report definition.</param>
         /// <param name="availableWidth">The available width for formatting.</param>
+        /// <param name="cache">Cache for split text</param>
         /// <returns>A set of report lines.</returns>
-        internal static IEnumerable<string> GetLines<T>(Report<T> report, int availableWidth)
+        internal static IEnumerable<string> GetLines<T>(Report<T> report, int availableWidth, SplitCache cache)
         {
             int width;
             var indent = string.Empty;
@@ -36,6 +37,7 @@ namespace TestConsole.OutputFormatting.Internal
                                  report.Query,
                                  report.Columns,
                                  width,
+                                 cache,
                                  0, //rows to use for sizing
                                  report.Options,
                                  report.ColumnDivider,
@@ -45,7 +47,7 @@ namespace TestConsole.OutputFormatting.Internal
             var tabular = MethodInvoker.Invoke(formatMethod, null, parameters) as IEnumerable<string>;
             if (actualIndent > 0)
                 indent = new string(' ', actualIndent);
-            foreach (var line in ProduceTitle(report, availableWidth).Concat(tabular))
+            foreach (var line in ProduceTitle(report, availableWidth, cache).Concat(tabular))
             {
                 if (actualIndent > 0)
                     foreach (var indented in ApplyIndent(indent, line))
@@ -65,12 +67,12 @@ namespace TestConsole.OutputFormatting.Internal
             }
         }
 
-        private static IEnumerable<string> ProduceTitle<T>(Report<T> report, int availableWidth)
+        private static IEnumerable<string> ProduceTitle<T>(Report<T> report, int availableWidth, SplitCache cache)
         {
             if (string.IsNullOrEmpty(report.TitleText))
                 yield break;
 
-            foreach (var line in Internal.TitleLinesGenerator.Generate(report.TitleText, availableWidth))
+            foreach (var line in Internal.TitleLinesGenerator.Generate(report.TitleText, availableWidth, cache))
                 yield return line;
         }
 

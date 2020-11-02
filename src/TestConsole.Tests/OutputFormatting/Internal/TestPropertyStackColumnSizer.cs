@@ -10,6 +10,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
     {
         private PropertyStackColumnSizer _sizer;
         private List<PropertyColumnFormat> _columnFormats;
+        private SplitCache _splitCache;
 
         class TestType
         {
@@ -20,6 +21,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [SetUp]
         public void SetUp()
         {
+            _splitCache = new SplitCache();
             _sizer = new PropertyStackColumnSizer();
             _columnFormats = FormatAnalyser.Analyse(typeof(TestType), null, true).ToList();
         }
@@ -87,12 +89,12 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             Assert.That(_sizer.GetMinWidth(), Is.EqualTo("wrapped.".Length));
         }
 
-        private static FormattingIntermediate MakeRenderer(string text, int rows)
+        private FormattingIntermediate MakeRenderer(string text, int rows)
         {
             var recorder = new RecordingConsoleAdapter();
             recorder.WriteLine(text);
             recorder.FormatTable(Enumerable.Range(0, rows).Select(i => new {Index = i}));
-            return new FormattingIntermediate(recorder);
+            return new FormattingIntermediate(recorder, _splitCache);
         }
     }
 }

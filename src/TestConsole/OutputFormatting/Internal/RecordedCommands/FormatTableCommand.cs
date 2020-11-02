@@ -23,6 +23,7 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
     /// <typeparam name="TChild">The child report element type. This will be different to the row data type in reports, where it will be the original row type rather than the generated report type. See <see cref="Report{T}"/>.</typeparam>
     internal class FormatTableCommand<T, TChild> : IRecordedCommand
     {
+        private readonly SplitCache _splitCache = new SplitCache();
         private readonly ReportFormattingOptions options;
         private readonly IEnumerable<ColumnFormat> _columns;
         private readonly IEnumerable<BaseChildItem<TChild>> _childReports;
@@ -30,20 +31,20 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
         private readonly CachedRows<T> _data;
         private int _minReportWidth;
 
-        public FormatTableCommand(IEnumerable<T> data, ReportFormattingOptions options, string columnSeparator, IEnumerable<BaseChildItem<TChild>> childReports = null, IEnumerable<ColumnFormat> columns = null)
+        public FormatTableCommand(IEnumerable<T> data, ReportFormattingOptions options, string columnSeparator, SplitCache cache, IEnumerable<BaseChildItem<TChild>> childReports = null, IEnumerable<ColumnFormat> columns = null)
         {
             this.options = options;
             _columns = columns;
             _childReports = childReports == null ? null : childReports.ToList();
             _columnSeparator = columnSeparator ?? TabularReport.DefaultColumnDivider;
             _data = CachedRowsFactory.Make(data);
-            _minReportWidth = MinReportWidthCalculator.Calculate(_data, _columnSeparator.Length, (options & ReportFormattingOptions.UnlimitedBuffer) == 0);
+            _minReportWidth = MinReportWidthCalculator.Calculate(_data, _columnSeparator.Length, (options & ReportFormattingOptions.UnlimitedBuffer) == 0, cache);
         }
 
         public void Replay(ReplayBuffer buffer)
         {
             var  wrappedLineBreaks = new TabularReport.Statistics();
-            var report = TabularReport.Format(_data, _columns, buffer.Width, wrappedLineBreaks, options, _columnSeparator, _childReports);
+            var report = TabularReport.Format(_data, _columns, buffer.Width, wrappedLineBreaks, _splitCache, options, _columnSeparator, _childReports);
             foreach (var line in report)
             {
                 buffer.Write(line);

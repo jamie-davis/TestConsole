@@ -11,11 +11,18 @@ namespace TestConsole.Tests.OutputFormatting.Internal
     [TestFixture]
     public class TestColumnSizer
     {
+        private SplitCache _cache;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _cache = new SplitCache();
+        }
 
         [Test]
         public void ZeroLineBreaksReturnsWidestLength()
         {
-            var sizer = new ColumnSizer(typeof(int));
+            var sizer = new ColumnSizer(typeof(int), _cache);
             sizer.ColumnValue("N");
             for (var n = 0; n <= 100; ++n)
                 sizer.ColumnValue(n.ToString());
@@ -26,7 +33,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void IntDataDoesNotAllowLineBreaks()
         {
-            var sizer = new ColumnSizer(typeof(int));
+            var sizer = new ColumnSizer(typeof(int), _cache);
             sizer.ColumnValue("N");
             for (var n = 0; n <= 100; ++n)
                 sizer.ColumnValue(n.ToString());
@@ -37,7 +44,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void DecimalDataDoesNotAllowLineBreaks()
         {
-            var sizer = new ColumnSizer(typeof(decimal));
+            var sizer = new ColumnSizer(typeof(decimal), _cache);
             sizer.ColumnValue("N");
             for (decimal n = 0; n <= 100; ++n)
                 sizer.ColumnValue(n.ToString());
@@ -48,7 +55,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void DateTimeDataDoesNotAllowLineBreaks()
         {
-            var sizer = new ColumnSizer(typeof(double));
+            var sizer = new ColumnSizer(typeof(double), _cache);
             sizer.ColumnValue("Date");
             for (var n = 0; n <= 100; ++n)
                 sizer.ColumnValue((DateTime.Parse("2014-04-28") + new TimeSpan(n, 0, 0, 0)).ToString("yyyy-MM-dd"));
@@ -59,7 +66,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void StringValuesAllowLineBreaks()
         {
-            var sizer = new ColumnSizer(typeof(string));
+            var sizer = new ColumnSizer(typeof(string), _cache);
             sizer.ColumnValue("X");
             //                        ----+----|----+----|----+----|---\----+----|----+----|----+----|---\----+----|----+----|----+----|
             const string testValue = "Several words so that line breaks can be added to fit a small column to a number of lines.";
@@ -67,7 +74,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
 
             var minWidth = sizer.MinWidth(2);
 
-            var formatted = ColumnWrapper.WrapValue(testValue, new ColumnFormat("X", typeof (string)), minWidth);
+            var formatted = ColumnWrapper.WrapValue(testValue, new ColumnFormat("X", typeof (string)), minWidth, _cache);
             Console.WriteLine(RulerFormatter.MakeRuler(minWidth));
             Console.WriteLine(string.Join(Environment.NewLine, formatted));
 
@@ -77,7 +84,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void FittingToLineBreaksStopsIfTheMaximumPossibleNumberOfLineBreaksIsReached()
         {
-            var sizer = new ColumnSizer(typeof(string));
+            var sizer = new ColumnSizer(typeof(string), _cache);
             sizer.ColumnValue("X");
             //                        ----+----|----+----|----+----|---\----+----|----+----|----+----|---\----+----|----+----|----+----|
             const string testValue = "A few words.";
@@ -90,7 +97,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void IdealMinWidthRespectsFormatterMaxWidth()
         {
-            var sizer = new ColumnSizer(typeof(string), new ColumnFormat { MaxWidth = 3});
+            var sizer = new ColumnSizer(typeof(string), _cache, new ColumnFormat { MaxWidth = 3});
             sizer.ColumnValue("XXXX XXXX");
             sizer.ColumnValue("YYYYYY XXXXX");
             
@@ -100,7 +107,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void IdealMinWidthIsCalculated()
         {
-            var sizer = new ColumnSizer(typeof(string));
+            var sizer = new ColumnSizer(typeof(string), _cache);
             sizer.ColumnValue("XXXX XXXX");
             sizer.ColumnValue("YYYYYY XXXXX");
             
@@ -110,7 +117,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void IdealMinWidthIsReCalculated()
         {
-            var sizer = new ColumnSizer(typeof(string));
+            var sizer = new ColumnSizer(typeof(string), _cache);
             sizer.ColumnValue("XXXX XXXX");
             sizer.ColumnValue("YYYYYY XXXXX");
 
@@ -122,7 +129,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void FixedColumnIdealMinWidthIsAlwaysFixed()
         {
-            var sizer = new ColumnSizer(typeof(string), new ColumnFormat(type: typeof(string))  { FixedWidth = 4});
+            var sizer = new ColumnSizer(typeof(string), _cache, new ColumnFormat(type: typeof(string))  { FixedWidth = 4});
             sizer.ColumnValue("XXXX XXXX");
             sizer.ColumnValue("YYYYYY XXXXX");
 
@@ -134,7 +141,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void FixedColumnMinWidthIsAlwaysFixed()
         {
-            var sizer = new ColumnSizer(typeof(string), new ColumnFormat(type: typeof(string))  { FixedWidth = 4});
+            var sizer = new ColumnSizer(typeof(string), _cache, new ColumnFormat(type: typeof(string))  { FixedWidth = 4});
             sizer.ColumnValue("XXXX XXXX");
             sizer.ColumnValue("YYYYYY XXXXX");
 
@@ -145,7 +152,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void MinWidthColumnIdealMinWidthIsAlwaysMinimum()
         {
-            var sizer = new ColumnSizer(typeof(string), new ColumnFormat(type: typeof(string))  { MinWidth = 6});
+            var sizer = new ColumnSizer(typeof(string), _cache, new ColumnFormat(type: typeof(string))  { MinWidth = 6});
             sizer.ColumnValue("XXXX XXXX");
             sizer.ColumnValue("YYYYYY XXXXX");
 
@@ -157,7 +164,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void MinWidthColumnMinWidthIsAlwaysMinimum()
         {
-            var sizer = new ColumnSizer(typeof(string), new ColumnFormat(type: typeof(string)) { MinWidth = 6 });
+            var sizer = new ColumnSizer(typeof(string), _cache, new ColumnFormat(type: typeof(string)) { MinWidth = 6 });
             sizer.ColumnValue("XXXX XXXX");
             sizer.ColumnValue("YYYYYY XXXXX");
 
@@ -168,7 +175,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void RenderableColumnValuesAreNotConvertedToText()
         {
-            var sizer = new ColumnSizer(typeof(string));
+            var sizer = new ColumnSizer(typeof(string), _cache);
             sizer.ColumnValue("XXXX XXXX");
 
             //add a renderable value
@@ -183,7 +190,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         public void MaxLineBreaksIsCalculated()
         {
             var columnFormat = new ColumnFormat("", typeof(string));
-            var sizer = new ColumnSizer(typeof(string), columnFormat);
+            var sizer = new ColumnSizer(typeof(string), _cache, columnFormat);
             sizer.ColumnValue("XXXX XXXX XXXX XX XXX");
             sizer.ColumnValue("YYYYYY YYYYY YY YYY YY YYYY YY Y");
 
@@ -200,7 +207,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
                 sb.AppendFormat("Width = {0}, line breaks = {1}", width, sizer.GetMaxLineBreaks(width));
                 sb.AppendLine();
                 sb.AppendLine(RulerFormatter.MakeRuler(width));
-                foreach (var line in ColumnWrapper.WrapValue(sizer.GetSizeValue(1), columnFormat, width))
+                foreach (var line in ColumnWrapper.WrapValue(sizer.GetSizeValue(1), columnFormat, width, _cache))
                 {
                     sb.AppendLine(line);
                 }

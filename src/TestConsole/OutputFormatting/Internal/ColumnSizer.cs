@@ -8,6 +8,7 @@ namespace TestConsole.OutputFormatting.Internal
     internal class ColumnSizer
     {
         private readonly Type _columnType;
+        private readonly SplitCache _splitCache;
         private readonly int _tabLength;
         private List<FormattingIntermediate> _values = new List<FormattingIntermediate>();
         private ColumnFormat _format;
@@ -15,9 +16,10 @@ namespace TestConsole.OutputFormatting.Internal
         private bool _idealMinWidthValid;
         private Dictionary<int, int> _cachedMaxLineBreaks;
 
-        public ColumnSizer(Type columnType, ColumnFormat format = null, int tabLength = 4)
+        public ColumnSizer(Type columnType, SplitCache splitCache, ColumnFormat format = null, int tabLength = 4)
         {
             _columnType = columnType;
+            _splitCache = splitCache;
             _tabLength = tabLength;
             _format = format ?? new ColumnFormat(columnType.Name, columnType);
         }
@@ -27,9 +29,9 @@ namespace TestConsole.OutputFormatting.Internal
         public void ColumnValue(object value)
         {
             if (value is IConsoleRenderer)
-                _values.Add(new FormattingIntermediate(value as IConsoleRenderer));
+                _values.Add(new FormattingIntermediate(value as IConsoleRenderer, _splitCache));
             else
-                _values.Add(FormatValue(value));
+                _values.Add(new FormattingIntermediate(FormatValue(value), _splitCache));
             _idealMinWidthValid = false;
             _cachedMaxLineBreaks = null;
         }
@@ -93,7 +95,7 @@ namespace TestConsole.OutputFormatting.Internal
 
             if (!widthIsLimited)
             {
-                _idealMinWidth = ApplyMaxWidth(_values.Max(v => ColumnWrapper.GetLongestLineLength(v, _format, _tabLength)));
+                _idealMinWidth = ApplyMaxWidth(_values.Max(v => ColumnWrapper.GetLongestLineLength(v, _format, _splitCache, _tabLength)));
                 _idealMinWidthValid = true;
                 return _idealMinWidth;
             }
@@ -132,7 +134,7 @@ namespace TestConsole.OutputFormatting.Internal
             {
                 var breaks = v.RenderableValue != null
                                  ? v.RenderableValue.CountWordWrapLineBreaks(width)
-                                 : ColumnWrapper.CountWordwrapLineBreaks(v, _format, width);
+                                 : ColumnWrapper.CountWordwrapLineBreaks(v, _format, width, _splitCache);
                 if (breaks <= maxLineBreaks)
                     tooWide = width;
                 else
@@ -160,7 +162,7 @@ namespace TestConsole.OutputFormatting.Internal
             else if (_cachedMaxLineBreaks.ContainsKey(width))
                 return _cachedMaxLineBreaks[width];
 
-            var maxLineBreaks = _values.Max(v => ColumnWrapper.CountWordwrapLineBreaks(v, _format, width));
+            var maxLineBreaks = _values.Max(v => ColumnWrapper.CountWordwrapLineBreaks(v, _format, width, _splitCache));
             _cachedMaxLineBreaks[width] = maxLineBreaks;
             return maxLineBreaks;
         }

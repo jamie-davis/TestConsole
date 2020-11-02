@@ -27,39 +27,40 @@ namespace TestConsole.OutputFormatting.Internal
         /// <param name="format">The format information that will be used to perform the formatting.</param>
         /// <param name="valueObject">The value that will be combined with the heading specified in the <see cref="format"/>.</param>
         /// <param name="columnWidth">The width to which the column should be formatted.</param>
+        /// <param name="cache">The cache of split text values</param>
         /// <param name="tabLength">The number of spaces represented by tab characters.</param>
         /// <param name="firstLineHangingIndent">Number of characters at the start of the first line that cannot be used for 
         /// wrapping. This is required when the wrapped text begins part way along an existing line.</param>
         /// <returns>An array of lines containing the formatted output.</returns>
-        public static string[] Format(ColumnFormat format, object valueObject, int columnWidth, int tabLength = 4, int firstLineHangingIndent = 0)
+        public static string[] Format(ColumnFormat format, object valueObject, int columnWidth, SplitCache cache, int tabLength = 4, int firstLineHangingIndent = 0)
         {
             if (valueObject is IConsoleRenderer)
-                return FormatRenderer(format, valueObject as IConsoleRenderer, columnWidth, tabLength, firstLineHangingIndent);
+                return FormatRenderer(format, valueObject as IConsoleRenderer, columnWidth, cache, tabLength, firstLineHangingIndent);
 
-            return FormatStringValue(format, valueObject as string, columnWidth, tabLength, firstLineHangingIndent);
+            return FormatStringValue(format, valueObject as string, columnWidth, tabLength, firstLineHangingIndent, cache);
         }
 
-        private static string[] FormatRenderer(ColumnFormat format, IConsoleRenderer value, int columnWidth, int tabLength, int firstLineHangingIndent)
+        private static string[] FormatRenderer(ColumnFormat format, IConsoleRenderer value, int columnWidth, SplitCache cache, int tabLength, int firstLineHangingIndent)
         {
-            var headingText = MakeHeading(format, columnWidth, tabLength, firstLineHangingIndent);
+            var headingText = MakeHeading(format, columnWidth, tabLength, firstLineHangingIndent, cache);
             int wrappedLines;
             var renderedData = value.Render(columnWidth, out wrappedLines);
             return headingText.Concat(renderedData).ToArray();
         }
 
-        private static string[] MakeHeading(ColumnFormat format, int columnWidth, int tabLength, int firstLineHangingIndent)
+        private static string[] MakeHeading(ColumnFormat format, int columnWidth, int tabLength, int firstLineHangingIndent, SplitCache cache)
         {
             var firstLine = string.Format("{0}: ", format.Heading);
-            return ColumnWrapper.WrapValue(firstLine, new ColumnFormat(null, typeof(string)), columnWidth, tabLength,
+            return ColumnWrapper.WrapValue(firstLine, new ColumnFormat(null, typeof(string)), columnWidth, cache, tabLength,
                 firstLineHangingIndent);
         }
 
         private static string[] FormatStringValue(ColumnFormat format, string value, int columnWidth, int tabLength,
-            int firstLineHangingIndent)
+            int firstLineHangingIndent, SplitCache cache)
         {
-            var words = WordSplitter.Split(value, tabLength);
+            var words = cache.Split(value, tabLength);
 
-            var headingText = MakeHeading(format, columnWidth, tabLength, firstLineHangingIndent);
+            var headingText = MakeHeading(format, columnWidth, tabLength, firstLineHangingIndent, cache);
             var lastHeadingLineLength = headingText.Last().Length;
 
             var firstLineEffectiveWidth = columnWidth - (headingText.Count() > 1 ? 0 : firstLineHangingIndent);
@@ -74,7 +75,7 @@ namespace TestConsole.OutputFormatting.Internal
                 headingText[headingText.Length - 1] = headingText[headingText.Length - 1] + firstLineWords;
             }
 
-            if (words.Length == numWordsForFirstLine)
+            if (words.Count == numWordsForFirstLine)
                 return headingText;
 
             int wrappedLines;

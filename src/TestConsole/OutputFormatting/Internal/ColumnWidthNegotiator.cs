@@ -13,10 +13,10 @@ namespace TestConsole.OutputFormatting.Internal
             public PropertyColumnFormat PropertyColumnFormat { get; private set; }
             public ColumnSizer Sizer { get; private set; }
 
-            public ColumnSizerInfo(PropertyColumnFormat pcf, int tabLength)
+            public ColumnSizerInfo(PropertyColumnFormat pcf, int tabLength, SplitCache cache)
             {
                 var propertyType = pcf.Property == null ? pcf.Format.Type : pcf.Property.PropertyType;
-                Sizer = new ColumnSizer(propertyType, pcf.Format, tabLength);
+                Sizer = new ColumnSizer(propertyType, cache, pcf.Format, tabLength);
                 PropertyColumnFormat = pcf;
             }
 
@@ -32,6 +32,7 @@ namespace TestConsole.OutputFormatting.Internal
         }
 
         private readonly ColumnSizingParameters _parameters = new ColumnSizingParameters();
+        private readonly SplitCache _splitCache = new SplitCache();
         private int _sizeRows;
         private int _headingsRowIndex = -1;
         private List<object> _rowItems = new List<object>();
@@ -53,7 +54,7 @@ namespace TestConsole.OutputFormatting.Internal
             _parameters.SeparatorLength = separatorLength;
             _parameters.TabLength = tabLength;
             _parameters.Sizers = columns
-                .Select(c => new ColumnSizerInfo(c, tabLength))
+                .Select(c => new ColumnSizerInfo(c, tabLength, _splitCache))
                 .ToList();
         }
 
@@ -136,7 +137,7 @@ namespace TestConsole.OutputFormatting.Internal
             foreach (var sizer in _parameters.Sizers)
             {
                 string value = null;
-                var headingWords = WordSplitter.Split(sizer.PropertyColumnFormat.Format.Heading, _parameters.TabLength);
+                var headingWords = _splitCache.Split(sizer.PropertyColumnFormat.Format.Heading, _parameters.TabLength);
                 if (headingWords.Any())
                 {
                     var longest = headingWords.Max(w => w.Length);

@@ -15,7 +15,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             var rep = Enumerable.Range(0, 3)
                 .Select(i => new {Number = i, String = _numbers[i]});
 
-            Assert.That(MinReportWidthCalculator.Calculate(rep, 1, true), Is.EqualTo(13));
+            Assert.That(MinReportWidthCalculator.Calculate(rep, 1, true, new SplitCache()), Is.EqualTo(13));
         }
     }
 }

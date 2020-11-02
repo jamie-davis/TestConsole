@@ -22,11 +22,11 @@ namespace TestConsole.OutputFormatting.Internal
         /// <param name="firstLineHangingIndent">Number of characters at the start of the first line that cannot be used for 
         /// wrapping. This is required when the wrapped text begins part way along an existing line.</param>
         /// <returns>An array of one or more lines.</returns>
-        public static string[] WrapValue(object value, ColumnFormat format, int columnWidth, int tabLength = 4, int firstLineHangingIndent = 0)
+        public static string[] WrapValue(object value, ColumnFormat format, int columnWidth, SplitCache cache,  int tabLength = 4, int firstLineHangingIndent = 0)
         {
             Debug.Assert(columnWidth > 0);
             int wrappedLines;
-            return WrapAndMeasureValue(value, format, columnWidth, tabLength, firstLineHangingIndent, out wrappedLines);
+            return WrapAndMeasureValue(value, format, columnWidth, cache, tabLength, firstLineHangingIndent, out wrappedLines);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace TestConsole.OutputFormatting.Internal
         /// <param name="firstLineHangingIndent">Number of characters at the start of the first line that cannot be used for 
         /// wrapping. This is required when the wrapped text begins part way along an existing line.</param>
         /// <returns>The number of added line breaks.</returns>
-        public static int CountWordwrapLineBreaks(object value, ColumnFormat format, int columnWidth, int tabLength = 4, int firstLineHangingIndent = 0)
+        public static int CountWordwrapLineBreaks(object value, ColumnFormat format, int columnWidth, SplitCache cache, int tabLength = 4, int firstLineHangingIndent = 0)
         {
             var intermediate = value as FormattingIntermediate;
             if (intermediate != null && intermediate.RenderableValue != null)
@@ -55,7 +55,7 @@ namespace TestConsole.OutputFormatting.Internal
                 return wrappedLines;
             }
 
-            var words = ExtractSplitWords(value, columnWidth, tabLength, intermediate);
+            var words = ExtractSplitWords(value, columnWidth, cache, tabLength, intermediate);
 
             return CountLineBreaks(words, columnWidth, firstLineHangingIndent);
         }
@@ -67,28 +67,29 @@ namespace TestConsole.OutputFormatting.Internal
         /// <param name="value">The value to be displayed in the column.</param>
         /// <param name="format">The column's format specification.</param>
         /// <param name="columnWidth">The width allowed for the column.</param>
+        /// <param name="cache">The cache for text split data</param>
         /// <param name="tabLength">The number of spaces tabs should represent. Please note that actual tabstops are not supported.</param>
         /// <param name="firstLineHangingIndent">Number of characters at the start of the first line that cannot be used for 
         /// wrapping. This is required when the wrapped text begins part way along an existing line.</param>
         /// <param name="wrappedLines">The number of added line breaks.</param>
         /// <returns>An array of one or more lines.</returns>
-        public static string[] WrapAndMeasureValue(object value, ColumnFormat format, int columnWidth, int tabLength, int firstLineHangingIndent, out int wrappedLines)
+        public static string[] WrapAndMeasureValue(object value, ColumnFormat format, int columnWidth, SplitCache cache, int tabLength, int firstLineHangingIndent, out int wrappedLines)
         {
             var intermediate = value as FormattingIntermediate;
             if (intermediate != null && intermediate.RenderableValue != null)
                     return intermediate.RenderableValue.Render(columnWidth, out wrappedLines).ToArray();
 
-            var words = ExtractSplitWords(value, columnWidth, tabLength, intermediate);
+            var words = ExtractSplitWords(value, columnWidth, cache, tabLength, intermediate);
 
             return WrapAndMeasureWords(words, format, columnWidth, firstLineHangingIndent, out wrappedLines);
         }
 
-        private static IEnumerable<SplitWord> ExtractSplitWords(object value, int columnWidth, int tabLength,
+        private static IEnumerable<SplitWord> ExtractSplitWords(object value, int columnWidth, SplitCache cache, int tabLength,
                                                      FormattingIntermediate intermediate)
         {
             IEnumerable<SplitWord> words;
             words = intermediate == null
-                        ? WordSplitter.Split(value.ToString(), tabLength)
+                        ? cache.Split(value.ToString(), tabLength)
                         : intermediate.ValueWords(columnWidth, tabLength);
             return words;
         }
@@ -266,7 +267,7 @@ namespace TestConsole.OutputFormatting.Internal
         /// </summary>
         /// <param name="value">The value to be measured</param>
         /// <param name="columnFormat">The column format parameters</param>
-        public static int GetLongestLineLength(object value, ColumnFormat columnFormat, int tabLength = 4, int firstLineHangingIndent = 0)
+        public static int GetLongestLineLength(object value, ColumnFormat columnFormat, SplitCache cache, int tabLength = 4, int firstLineHangingIndent = 0)
         {
             var width = 40;
             int lineBreaks;
@@ -274,7 +275,7 @@ namespace TestConsole.OutputFormatting.Internal
 
             bool Attempt(int tryWidth)
             {
-                lineBreaks = CountWordwrapLineBreaks(value, columnFormat, tryWidth, tabLength, firstLineHangingIndent);
+                lineBreaks = CountWordwrapLineBreaks(value, columnFormat, tryWidth, cache, tabLength, firstLineHangingIndent);
                 return lineBreaks == 0;
             }
 

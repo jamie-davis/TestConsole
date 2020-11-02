@@ -2,7 +2,7 @@
 {
     internal class WrapCommand : SimpleTextCommandBase, IRecordedCommand
     {
-        public WrapCommand(string data) : base(data)
+        public WrapCommand(string data, SplitCache cache) : base(data, cache)
         {
         }
 

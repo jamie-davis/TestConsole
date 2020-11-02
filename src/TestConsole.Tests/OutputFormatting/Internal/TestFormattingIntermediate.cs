@@ -15,20 +15,23 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         private RecordingConsoleAdapter _renderableTable;
         private FormattingIntermediate _renderableValue;
         private FormattingIntermediate _renderableTableValue;
+        private SplitCache _splitCache;
 
         [SetUp]
         public void SetUp()
         {
-            _simpleValue = new FormattingIntermediate(SimpleText);
+            _splitCache = new SplitCache();
+            _simpleValue = new FormattingIntermediate(SimpleText, _splitCache);
             _multiLineValue = new FormattingIntermediate("Simple text string" + Environment.NewLine +
-                                                         "for the purposes of measuring things.");
+                                                         "for the purposes of measuring things.", _splitCache);
             _renderable = new RecordingConsoleAdapter();
             RenderText();
-            _renderableValue = new FormattingIntermediate(_renderable);
+            _renderableValue = new FormattingIntermediate(_renderable, _splitCache);
 
             _renderableTable = new RecordingConsoleAdapter();
             RenderTable();
-            _renderableTableValue = new FormattingIntermediate(_renderableTable);
+            _renderableTableValue = new FormattingIntermediate(_renderableTable, _splitCache);
+            
         }
 
         private void RenderText()

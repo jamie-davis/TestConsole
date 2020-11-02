@@ -8,6 +8,7 @@ namespace TestConsoleLib.OutputFormatting.Internal
     {
         private readonly bool _headingsRequired;
         private readonly bool _allowChildReportHeadingRepeats;
+        private readonly SplitCache _cache;
         private bool _showHeadings = true;
         private List<PropertyColumnFormat> _columns;
         private int _tabLength;
@@ -15,10 +16,11 @@ namespace TestConsoleLib.OutputFormatting.Internal
 
         public bool ShowHeadings { get { return _headingsRequired && _showHeadings; } }
 
-        public HeadingManager(bool headingsRequired, bool allowChildReportHeadingRepeats)
+        public HeadingManager(bool headingsRequired, bool allowChildReportHeadingRepeats, SplitCache cache)
         {
             _headingsRequired = headingsRequired;
             _allowChildReportHeadingRepeats = allowChildReportHeadingRepeats;
+            _cache = cache;
         }
 
         public void HeadingsParameters(List<PropertyColumnFormat> columns, int tabLength, string columnDivider)
@@ -50,10 +52,10 @@ namespace TestConsoleLib.OutputFormatting.Internal
             yield return headingUnderLines;
         }
 
-        private static string[] WrapValue(int tabLength, PropertyColumnFormat pcf, object value)
+        private string[] WrapValue(int tabLength, PropertyColumnFormat pcf, object value)
         {
             var formatted = ValueFormatter.Format(pcf.Format, value);
-            return ColumnWrapper.WrapValue(formatted, pcf.Format, pcf.Format.ActualWidth, tabLength);
+            return ColumnWrapper.WrapValue(formatted, pcf.Format, pcf.Format.ActualWidth, _cache, tabLength);
         }
 
         public void ChildGenerated()

@@ -17,9 +17,12 @@ namespace TestConsole.Tests.OutputFormatting
     [TestFixture]
     public class TestTabularReport
     {
+        private SplitCache _cache;
+
         [SetUp]
         public void SetUp()
         {
+            _cache = new SplitCache();
             SetUpTests.OverrideCulture();
         }
 
@@ -553,17 +556,17 @@ namespace TestConsole.Tests.OutputFormatting
             return output;
         }
 
-        private static string Run<T>(IEnumerable<T> data, int width = 80, int numRowsToUseForSizing = 0, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<ColumnFormat> columnFormats = null)
+        private string Run<T>(IEnumerable<T> data, int width = 80, int numRowsToUseForSizing = 0, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<ColumnFormat> columnFormats = null)
         {
             var report = RulerFormatter.MakeRuler(width)
                          + Environment.NewLine
                          + string.Join(string.Empty, TabularReport.Format<T, T>(data, columnFormats, width,
-                                            numRowsToUseForSizing, options, columnDivider));
+                                            _cache, numRowsToUseForSizing, options, columnDivider));
             Console.WriteLine(report);
             return report;
         }
 
-        private static string Run<T>(Report<T> report, int width = 80, int numRowsToUseForSizing = 0)
+        private string Run<T>(Report<T> report, int width = 80, int numRowsToUseForSizing = 0)
         {
             var formatMethod = MakeFormatMethodInfo(report);
             var parameters = new object[]
@@ -571,6 +574,7 @@ namespace TestConsole.Tests.OutputFormatting
                                      report.Query,
                                      report.Columns,
                                      width,
+                                     _cache,
                                      numRowsToUseForSizing, //rows to use for sizing
                                      report.Options,
                                      report.ColumnDivider,
@@ -595,11 +599,11 @@ namespace TestConsole.Tests.OutputFormatting
             return formatMethod;
         }
 
-        private static string CachedReport<T>(CachedRows<T> data, int width = 80, ReportFormattingOptions options = ReportFormattingOptions.Default | ReportFormattingOptions.IncludeAllColumns, string columnDivider = null)
+        private string CachedReport<T>(CachedRows<T> data, int width = 80, ReportFormattingOptions options = ReportFormattingOptions.Default | ReportFormattingOptions.IncludeAllColumns, string columnDivider = null)
         {
             var report = RulerFormatter.MakeRuler(width)
                          + Environment.NewLine
-                         + string.Join(string.Empty, TabularReport.Format(data, null, width, options, columnDivider));
+                         + string.Join(string.Empty, TabularReport.Format(data, null, width, _cache, options, columnDivider));
             Console.WriteLine(report);
             return report;
         }

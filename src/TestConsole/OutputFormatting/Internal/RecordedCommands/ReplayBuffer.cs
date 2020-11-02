@@ -7,6 +7,7 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
 {
     internal class ReplayBuffer
     {
+        private readonly SplitCache _cache;
         private static readonly ColumnFormat DefaultColumnFormat = new ColumnFormat(null);
         public int Width { get; private set; }
         public static int _Buffers = 0/**/;
@@ -25,8 +26,9 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
         private StringBuilder _currentLine;
         private int _currentLineLength;
 
-        public ReplayBuffer(int width)
+        public ReplayBuffer(int width, SplitCache cache)
         {
+            _cache = cache;
             Width = width;
             /**/++_Buffers;
         }
@@ -115,7 +117,7 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
 
         public void Wrap(string data)
         {
-            var lines = ColumnWrapper.WrapValue(data, DefaultColumnFormat, Width, firstLineHangingIndent: _currentLineLength);
+            var lines = ColumnWrapper.WrapValue(data, DefaultColumnFormat, Width, firstLineHangingIndent: _currentLineLength, cache: _cache);
             if (lines.Length == 0) return;
 
             foreach (var line in lines.Where((l, c) => c < lines.Length - 1))

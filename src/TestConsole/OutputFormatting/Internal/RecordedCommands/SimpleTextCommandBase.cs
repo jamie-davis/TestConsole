@@ -10,24 +10,24 @@ namespace TestConsole.OutputFormatting.Internal.RecordedCommands
         private int _tabLength = -1;
         private int _firstWordLength;
         private int _longestWordLength; 
-        private List<TextControlItem> _splitText;
-        private List<SplitWord> _splitWords;
+        private IReadOnlyList<SplitWord> _splitWords;
+        private readonly SplitCache _cache;
 
-        public SimpleTextCommandBase(string data)
+        public SimpleTextCommandBase(string data, SplitCache cache)
         {
             _data = data;
-            _splitText = ControlSplitter.Split(data);
+            _cache = cache;
         }
 
-        protected List<TextControlItem> SplitText { get { return _splitText; } }
+        protected List<TextControlItem> SplitText => ControlSplitter.Split(_data);
 
         private void SplitTextData(int tabLength)
         {
-            if (tabLength >= 0 && tabLength == _tabLength && _splitText != null)
+            if (tabLength >= 0 && tabLength == _tabLength)
                 return;
 
             _tabLength = tabLength;
-            _splitWords = WordSplitter.SplitToList(_splitText, tabLength);
+            _splitWords = _cache.Split(_data, tabLength);
             var firstWord = _splitWords.FirstOrDefault();
 
             _firstWordLength = firstWord == null ? 0 : firstWord.Length;

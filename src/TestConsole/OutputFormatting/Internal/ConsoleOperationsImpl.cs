@@ -110,11 +110,12 @@ namespace TestConsole.OutputFormatting.Internal
 
         private void WriteWrapped(bool lastLineIsWriteLine, string format, object[] arg)
         {
+            var splitCache = new SplitCache();
             var formatted = FormatData(format, arg);
             var allowanceForCursorPosition = _consoleOutInterface.CursorLeft > 0 
                 ? _consoleOutInterface.CursorLeft - _prefixLength //discount the prefix as this will not be counted in the window width
                 : 0; //no data on the line, so no allowance required.
-            var lines = ColumnWrapper.WrapValue(formatted, DefaultFormat, BufferWidth,
+            var lines = ColumnWrapper.WrapValue(formatted, DefaultFormat, BufferWidth, splitCache,
                                                 firstLineHangingIndent: allowanceForCursorPosition);
             if (lines.Length == 0) return;
 
@@ -139,22 +140,24 @@ namespace TestConsole.OutputFormatting.Internal
 
         public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null)
         {
+            var splitCache = new SplitCache();
             if (!string.IsNullOrWhiteSpace(title))
             {
-                foreach (var titleLine in TitleLinesGenerator.Generate(title, BufferWidth))
+                foreach (var titleLine in TitleLinesGenerator.Generate(title, BufferWidth, splitCache))
                 {
                     WriteRaw(titleLine, false);
                 }
             }
 
-            var tabular = TabularReport.Format<T, T>(items, null, BufferWidth, options: options, columnDivider: columnSeparator);
+            var tabular = TabularReport.Format<T, T>(items, null, BufferWidth, options: options, columnDivider: columnSeparator, cache: splitCache);
             foreach (var line in tabular)
                 WriteRaw(line, (options & ReportFormattingOptions.UnlimitedBuffer) == 0);
         }
 
         public void FormatTable<T>(Report<T> report)
         {
-            var tabular = ReportExecutor.GetLines(report, BufferWidth);
+            var cache = new SplitCache();
+            var tabular = ReportExecutor.GetLines(report, BufferWidth, cache);
             foreach (var line in tabular)
                 WriteRaw(line, false);
         }

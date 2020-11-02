@@ -8,6 +8,7 @@ namespace TestConsole.OutputFormatting.Internal
     public class RecordingConsoleAdapter : IConsoleOperations, IConsoleRenderer
     {
         private List<IRecordedCommand> _steps = new List<IRecordedCommand>();
+        private readonly SplitCache _cache = new SplitCache();
 
         public void WriteLine(string format, params object[] arg)
         {
@@ -18,7 +19,7 @@ namespace TestConsole.OutputFormatting.Internal
         public void Write(string format, params object[] arg)
         {
             var output = string.Format(format, arg);
-            _steps.Add(new WriteCommand(output));
+            _steps.Add(new WriteCommand(output, _cache));
         }
 
         public void WrapLine(string format, params object[] arg)
@@ -30,7 +31,7 @@ namespace TestConsole.OutputFormatting.Internal
         public void Wrap(string format, params object[] arg)
         {
             var output = string.Format(format, arg);
-            _steps.Add(new WrapCommand(output));
+            _steps.Add(new WrapCommand(output, _cache));
         }
 
         public void Write(IConsoleRenderer renderableData)
@@ -46,18 +47,18 @@ namespace TestConsole.OutputFormatting.Internal
 
         public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null)
         {
-            _steps.Add(new FormatTableCommand<T, T>(items, options, columnSeparator));
+            _steps.Add(new FormatTableCommand<T, T>(items, options, columnSeparator, _cache));
         }
 
         public void FormatTable<T>(Report<T> report)
         {
-            _steps.Add(FormatTableCommandFactory.Make(report));
+            _steps.Add(FormatTableCommandFactory.Make(report, _cache));
         }
 
         public void FormatObject<T>(T item)
         {
             var report = ObjectReporter<T>.MakeTableReport(item);
-            _steps.Add(FormatTableCommandFactory.Make(report));
+            _steps.Add(FormatTableCommandFactory.Make(report, _cache));
         }
 
         public void WriteLine()
@@ -96,7 +97,7 @@ namespace TestConsole.OutputFormatting.Internal
 
         private ReplayBuffer RenderToBuffer(int width)
         {
-            var buffer = new ReplayBuffer(width);
+            var buffer = new ReplayBuffer(width, _cache);
             foreach (var recordedCommand in _steps)
             {
                 recordedCommand.Replay(buffer);

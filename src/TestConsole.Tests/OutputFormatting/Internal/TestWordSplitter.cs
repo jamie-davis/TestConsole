@@ -29,113 +29,12 @@ namespace TestConsole.Tests.OutputFormatting.Internal
      * 
      * (In this notation, the text is followed by a colon, and then the number of spaces that separate the word from the next.)
      * 
-     * Consider the same text with added colour:
-     * 
-     * "The " + "dog   ".BGBlue() + "ate".BGRed() + " the " + "cat".BGYellow() + "."
-     * 
-     * Here some of the text has a coloured background. "dog" has blue, "ate" has red and "cat" has yellow.
-     * 
-     * Consider "dog". The word is trailed by 3 blue background spaces. What does that actually mean
-     * Essentially it means that if the spaces exist, they are blue.
-     * 
-     * Consider "ate" and " the ". If the space between "ate" and "the" exists, it is not coloured.
-     * 
-     * In the "dog" case, if we simply have:
-     * 
-     * (Colour instructions have been represented like XML for clarity, which is an approximation, not a reflection of reality.)
-     * <blue>dog</blue>:3
-     *
-     * This would not result in blue spaces.
-     * 
-     * By contrast:
-     * 
-     * <red>ate</red>:1
-     * 
-     * Does exactly what we want. The space following "ate" is not coloured.
-     * 
-     * So, the problem is that the very specific arrangement of the colour instructions is crucial to rendering the text as
-     * requested when it is wrapped.
-     * 
-     * There is more trouble here:
-     * 
-     * " ".BGRed() + " ".BGGreen() + " ".BGBlue()
-     * 
-     * This is presumably a request for three coloured blocks. The splitter would need to return:
-     * 
-     * <red> </red>:0
-     * <green> </green>:0
-     * <blue> </blue>:0
-     * 
-     * But spaces are interpreted as gaps between words, and are not "output" in the same way as other characters. Therefore
-     * the splitter wants to attach them to words and treats them as optional.
-     * 
-     * Also:
-     * 
-     * "word".Red() + " more data".Blue()
-     * 
-     * If the line were to be broken after "word", the space preceding "more data" would be dropped. However, that space is
-     * adjacent (read includes) the "blue foreground" formatting, and dropping that would mean "more data" is not rendered
-     * in blue.
-     * 
-     * Therefore a very different approach is needed.
-     * 
-     * It would be better if words and whitespace were separate. Whitespace must be able to carry formatting instructions.
-     * When whitespace is omitted, the formatting instructions should not be. Whitespace runs are valid when they carry 
-     * different formatting instructions. It would not be incorrect to split words on formatting instructions.
-     * 
-     * For example:
-     *
-     * "The dog   ate the cat."
-     * 
-     * Becomes:
-     * 
-     * The
-     * <space:1>
-     * dog
-     * <space:3>
-     * ate
-     * <space:1>
-     * the
-     * <space:1>
-     * cat.
-     * 
-     * "word".Red() + " more data".Blue()
-     * 
-     * Becomes:
-     * <red>word</red>
-     * <blue><space:1>
-     * more
-     * <space:1>
-     * data</blue>
-     * 
-     * " ".BGRed() + " ".BGGreen() + " ".BGBlue()
-     * 
-     * <red><space:1></red>
-     * <green><space:1></green>
-     * <blue><space:1></blue>
-     * 
-     * "The " + "dog   ".BGBlue() + "ate".BGRed() + " the " + "cat".BGYellow() + "."
-     * 
-     * Becomes:
-     * 
-     * The
-     * <space:1>
-     * <blue>dog
-     * <space:3></blue>
-     * <red>ate</red>
-     * <space:1>
-     * the
-     * <space:1>
-     * <yellow>cat</yellow>.
-     * 
      * The rule for the wrapping logic will be that whitespace that is to be skipped has the spaces removed, but the rest
      * of the component remains intact. Whether the formatting information is part of the end of the previous line, or the
      * beginning of the next line is a problem for the wrapper. Arguably, however, the beginning of the text that followed the
      * whitespace is probably the most appropriate position. This will only change the output if spaces were included at the
      * beginning or end of a block of coloured text.
-     * 
     */
-
 
     [TestFixture]
     public class TestWordSplitter
@@ -145,16 +44,6 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         {
             const string testPhrase = "one two  three   none.";
             var words = WordSplitter.Split(testPhrase, 4);
-            var result = DescribeWords(words);
-            Console.WriteLine(result);
-            Assert.That(result, Is.EqualTo(@"[3,1,""one""][3,2,""two""][5,3,""three""][5,0,""none.""]"));
-        }
-
-        [Test]
-        public void SplitToListExtractsWordsWithTrailingSpaceCounts()
-        {
-            const string testPhrase = "one two  three   none.";
-            var words = WordSplitter.SplitToList(testPhrase, 4);
             var result = DescribeWords(words);
             Console.WriteLine(result);
             Assert.That(result, Is.EqualTo(@"[3,1,""one""][3,2,""two""][5,3,""three""][5,0,""none.""]"));

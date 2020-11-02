@@ -19,13 +19,6 @@ namespace TestConsole.OutputFormatting.Internal
                 InitFromControlItems(items);
             }
 
-            public SplitImpl(IEnumerable<TextControlItem> data, int tabLength)
-            {
-                _tabLength = tabLength;
-                _current = null;
-                InitFromControlItems(data);
-            }
-
             private void InitFromControlItems(IEnumerable<TextControlItem> items)
             {
                 foreach (var colourControlItem in items)
@@ -70,22 +63,7 @@ namespace TestConsole.OutputFormatting.Internal
         private static readonly string SpaceChars = " \t\r\n";
         private static readonly char[] SplitChars = (SpaceChars + WordTermChars).ToCharArray();
 
-        public static SplitWord[] Split(string data, int tabLength)
-        {
-            return new SplitImpl(data, tabLength).Words.ToArray();
-        }
-
-        public static List<SplitWord> SplitToList(string data, int tabLength)
-        {
-            return new SplitImpl(data, tabLength).Words;
-        }
-
-        public static IEnumerable<SplitWord> Split(IEnumerable<TextControlItem> data, int tabLength)
-        {
-            return new SplitImpl(data, tabLength).Words.ToArray();
-        }
-
-        public static List<SplitWord> SplitToList(IEnumerable<TextControlItem> data, int tabLength)
+        public static IReadOnlyList<SplitWord> Split(string data, int tabLength)
         {
             return new SplitImpl(data, tabLength).Words;
         }

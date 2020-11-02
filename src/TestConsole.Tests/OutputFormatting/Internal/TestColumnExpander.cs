@@ -16,6 +16,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         private List<TestType> _data;
         private int _separatorOverhead;
         private string _initialReport;
+        private SplitCache _cache;
 
         // ReSharper disable MemberCanBePrivate.Local
         // ReSharper disable UnusedAutoPropertyAccessor.Local
@@ -40,13 +41,14 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [SetUp]
         public void SetUp()
         {
+            _cache = new SplitCache();
             _data = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAAAAAA"))
                 .ToList();
 
             _parameters = new ColumnSizingParameters();
             _parameters.Columns = FormatAnalyser.Analyse(typeof(TestType), null, true);
-            _parameters.Sizers = _parameters.Columns.Select(f => new ColumnWidthNegotiator.ColumnSizerInfo(f, 4)).ToList();
+            _parameters.Sizers = _parameters.Columns.Select(f => new ColumnWidthNegotiator.ColumnSizerInfo(f, 4, _cache)).ToList();
             _parameters.TabLength = 4;
             _parameters.SeparatorLength = 1;
 

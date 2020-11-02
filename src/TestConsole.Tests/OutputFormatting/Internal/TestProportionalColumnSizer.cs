@@ -10,10 +10,12 @@ namespace TestConsole.Tests.OutputFormatting.Internal
     public class TestProportionalColumnSizer
     {
         private ColumnSizingParameters _parameters;
+        private SplitCache _cache;
 
         [SetUp]
         public void SetUp()
         {
+            _cache = new SplitCache();
             _parameters = new ColumnSizingParameters();
             _parameters.TabLength = 4;
             _parameters.SeparatorLength = 1;
@@ -27,7 +29,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         private void SetCols(List<PropertyColumnFormat> formats)
         {
             _parameters.Columns = formats;
-            _parameters.Sizers = _parameters.Columns.Select(f => new ColumnWidthNegotiator.ColumnSizerInfo(f, 4)).ToList();
+            _parameters.Sizers = _parameters.Columns.Select(f => new ColumnWidthNegotiator.ColumnSizerInfo(f, 4, _cache)).ToList();
         }
 
         [Test]
