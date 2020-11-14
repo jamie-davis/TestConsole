@@ -12,6 +12,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
     public class TestColumnWidthNegotiator
     {
         private List<PropertyColumnFormat> _formats;
+        private SplitCache _cache;
 
         private class TestType
         {
@@ -31,12 +32,13 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         public void TestFixtureSetUp()
         {
             _formats = FormatAnalyser.Analyse(typeof (TestType), null, true);
+            _cache = new SplitCache();
         }
 
         [Test]
         public void ColumnsArePreciselySizedWhenDataFits()
         {
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAAAAAA"))
                 .ToList();
@@ -55,7 +57,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void RowDataCanBeLoadedFromCachedRow()
         {
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAAAAAA"))
                 .ToList();
@@ -75,7 +77,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void ColumnsAreShrunkInOrderToFitData()
         {
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAAAAAA"))
                 .ToList();
@@ -94,7 +96,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void IfTheReportCannotBeShrunkTheRightmostColumnsAreStacked()
         {
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAAAAAA"))
                 .ToList();
@@ -113,7 +115,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void SizingDataCanBeRetrievedFromSizedColumns()
         {
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAAAAAA"))
                 .ToList();
@@ -132,7 +134,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
         [Test]
         public void SizingDataIncludesStackedProperties()
         {
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAAAAAA"))
                 .ToList();
@@ -155,7 +157,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             var longStringColFormat = _formats.First(f => f.Property.Name == "LongString").Format;
             longStringColFormat.FixedWidth = 4;
             longStringColFormat.SetActualWidth(4);
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAAAAAA"))
                 .ToList();
@@ -177,7 +179,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             var longStringColFormat = _formats.First(f => f.Property.Name == "LongString").Format;
             longStringColFormat.FixedWidth = 25;
 
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAA"))
                 .ToList();
@@ -199,7 +201,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             var longStringColFormat = _formats.Last().Format;
             longStringColFormat.FixedWidth = 35;
 
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAA"))
                 .ToList();
@@ -221,7 +223,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             var longStringColFormat = _formats.First(f => f.Property.Name == "Integer").Format;
             longStringColFormat.MinWidth = 9;
 
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAA"))
                 .ToList();
@@ -243,7 +245,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             var longStringColFormat = _formats.First(f => f.Property.Name == "LongString").Format;
             longStringColFormat.MinWidth = 9;
 
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAA"))
                 .ToList();
@@ -267,7 +269,7 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             longStringColFormat.ProportionalWidth = 1;
             shortStringColFormat.ProportionalWidth = 1;
 
-            var cwn = new ColumnWidthNegotiator(_formats, 1);
+            var cwn = new ColumnWidthNegotiator(_formats, 1, _cache);
             var items = Enumerable.Range(0, 5)
                 .Select(i => new TestType("AAAA" + i, "AAAAAAA AAAAAAAA AAAA"))
                 .ToList();

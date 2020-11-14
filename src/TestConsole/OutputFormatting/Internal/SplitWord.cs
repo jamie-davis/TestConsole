@@ -28,9 +28,9 @@ namespace TestConsole.OutputFormatting.Internal
             return WordValue;
         }
 
-        public string GetTrailingSpaces(int maxWidth, out int spacesAdded)
+        public string GetTrailingSpaces(int? maxWidth, out int spacesAdded)
         {
-            spacesAdded = Math.Min(maxWidth, TrailingSpaces);
+            spacesAdded = maxWidth != null ? Math.Min(maxWidth.Value, TrailingSpaces) : TrailingSpaces;
             return new string(' ', spacesAdded);
         }
 

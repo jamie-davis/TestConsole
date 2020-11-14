@@ -61,15 +61,16 @@ namespace TestConsole.OutputFormatting.Internal
         /// <param name="options">Options that control the formatting of the report.</param>
         /// <param name="columnDivider">A string that will be used to divide columns.</param>
         /// <param name="childReports">The nested reports that should be output for each table row.</param>
+        /// <param name="maxRowsForSizing">The maximum rows to consider when sizing columns. Specifying zero means "use all rows".</param>
         /// <returns>The formatted report lines.</returns>
         public static IEnumerable<string> Format<T, TChild>(CachedRows<T> data, IEnumerable<ColumnFormat> columns,
-            int width, Statistics statistics, SplitCache cache, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<BaseChildItem<TChild>> childReports = null)
+            int width, Statistics statistics, SplitCache cache, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<BaseChildItem<TChild>> childReports = null, int maxRowsForSizing = 0)
         {
             var culture = Thread.CurrentThread.CurrentCulture;
 
             using (new TempCulture(culture))
             {
-                    foreach (var l in DoFormatFromCachedRows(data, columns, width, 0, 4, options, columnDivider, statistics, childReports, cache))
+                    foreach (var l in DoFormatFromCachedRows(data, columns, width, maxRowsForSizing, 4, options, columnDivider, statistics, childReports, cache))
                         yield return l;
             }
         }
@@ -86,16 +87,17 @@ namespace TestConsole.OutputFormatting.Internal
         /// <param name="options">Options that effect formatting.</param>
         /// <param name="columnDivider">A string that will be used to divide the report columns.</param>
         /// <param name="childReports">The nested reports that should be output for each table row.</param>
+        /// <param name="maxRowsForSizing">The maximum rows to consider when sizing columns. Specifying zero means "use all rows".</param>
         /// <returns>The formatted report lines.</returns>
         public static IEnumerable<string> Format<T>(CachedRows<T> data, IEnumerable<ColumnFormat> columns, 
-            int width, SplitCache cache, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<BaseChildItem<T>> childReports = null)
+            int width, SplitCache cache, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<BaseChildItem<T>> childReports = null, int maxRowsForSizing = 0)
         {
             var culture = Thread.CurrentThread.CurrentCulture;
 
             using (new TempCulture(culture))
             {
                 var statistics = new Statistics();
-                foreach (var l in DoFormatFromCachedRows(data, columns, width, 0, 4, options, columnDivider, statistics, childReports, cache))
+                foreach (var l in DoFormatFromCachedRows(data, columns, width, maxRowsForSizing, 4, options, columnDivider, statistics, childReports, cache))
                     yield return l;
             }
         }
@@ -112,13 +114,14 @@ namespace TestConsole.OutputFormatting.Internal
         /// <param name="options">Options that effect the formatting.</param>
         /// <param name="columnDivider">The string to be used to divide columns.</param>
         /// <param name="childReports">The nested reports that should be output for each table row.</param>
+        /// <param name="maxRowsForSizing">The maximum rows to consider when sizing columns. Specifying zero means "use all rows".</param>
         /// <returns>The formatted report lines.</returns>
-        internal static IEnumerable<string> Format<T>(CachedRows<T> data, IEnumerable<ColumnFormat> columns, int width, Statistics wrappingLineBreaks, SplitCache cache, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<BaseChildItem<T>> childReports = null)
+        internal static IEnumerable<string> Format<T>(CachedRows<T> data, IEnumerable<ColumnFormat> columns, int width, Statistics wrappingLineBreaks, SplitCache cache, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnDivider = null, IEnumerable<BaseChildItem<T>> childReports = null, int maxRowsForSizing = 0)
         {
             var addedLineBreaks = 0;
 
             var statistics = new Statistics();
-            foreach (var l in DoFormatFromCachedRows(data, columns, width, 0, 4, options, columnDivider, statistics, childReports, cache))
+            foreach (var l in DoFormatFromCachedRows(data, columns, width, maxRowsForSizing, 4, options, columnDivider, statistics, childReports, cache))
                 yield return l;
             addedLineBreaks = statistics.WordWrapLineBreaks;
 
@@ -155,7 +158,7 @@ namespace TestConsole.OutputFormatting.Internal
         {
             if (columnDivider == null) columnDivider = DefaultColumnDivider;
 
-            var sizer = new ColumnWidthNegotiator(columns, columnDivider.Length);
+            var sizer = new ColumnWidthNegotiator(columns, columnDivider.Length, cache);
 
             var headingsControl = new HeadingManager((options & ReportFormattingOptions.OmitHeadings) == 0, (options & ReportFormattingOptions.SuppressHeadingsAfterChildReport) == 0, cache);
             if (headingsControl.ShowHeadings)

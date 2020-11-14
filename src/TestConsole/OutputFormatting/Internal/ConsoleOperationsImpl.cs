@@ -138,7 +138,7 @@ namespace TestConsole.OutputFormatting.Internal
             return string.Format(format, arg);
         }
 
-        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null)
+        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null, int maxRowsForSizing = 0)
         {
             var splitCache = new SplitCache();
             if (!string.IsNullOrWhiteSpace(title))
@@ -149,7 +149,7 @@ namespace TestConsole.OutputFormatting.Internal
                 }
             }
 
-            var tabular = TabularReport.Format<T, T>(items, null, BufferWidth, options: options, columnDivider: columnSeparator, cache: splitCache);
+            var tabular = TabularReport.Format<T, T>(items, null, BufferWidth, options: options, columnDivider: columnSeparator, cache: splitCache, numRowsToUseForSizing: maxRowsForSizing);
             foreach (var line in tabular)
                 WriteRaw(line, (options & ReportFormattingOptions.UnlimitedBuffer) == 0);
         }

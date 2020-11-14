@@ -152,7 +152,7 @@ namespace TestConsole.OutputFormatting.Internal
         /// wrapping. This is required when the wrapped text begins part way along an existing line.</param>
         /// <param name="wrappedLines">The number of added line breaks.</param>
         /// <returns>An array of one or more lines.</returns>
-        public static string[] WrapAndMeasureWords(IEnumerable<SplitWord> words, ColumnFormat format, int columnWidth, int firstLineHangingIndent, out int wrappedLines)
+        public static string[] WrapAndMeasureWords(IEnumerable<SplitWord> words, ColumnFormat format, int? columnWidth, int firstLineHangingIndent, out int wrappedLines)
         {
             wrappedLines = 0;
             var lines = new List<string>();
@@ -160,9 +160,10 @@ namespace TestConsole.OutputFormatting.Internal
             var line = string.Empty;
             SplitWord lastWord = null;
             int spacesAdded;
-            foreach (var splitWord in words.SelectMany(w => BreakWord(w, columnWidth)))
+            foreach (var splitWord in columnWidth == null ? words : words.SelectMany(w => BreakWord(w, columnWidth.Value)))
             {
-                if (position + splitWord.Length + (lastWord == null ? 0 : Math.Min(lastWord.Length, lastWord.TrailingSpaces)) > columnWidth)
+                if (columnWidth != null 
+                    && position + splitWord.Length + (lastWord == null ? 0 : Math.Min(lastWord.Length, lastWord.TrailingSpaces)) > columnWidth.Value)
                 {
                     if (lastWord != null)
                         line += lastWord.GetTrailingSpaces(0, out spacesAdded);
@@ -217,8 +218,8 @@ namespace TestConsole.OutputFormatting.Internal
 
             if (position > 0)
             {
-                if (lastWord != null)
-                    line += lastWord.GetTrailingSpaces(columnWidth - position, out spacesAdded);
+                if (lastWord != null && columnWidth != null)
+                    line += lastWord.GetTrailingSpaces(columnWidth.Value - position, out spacesAdded);
                 lines.Add(line);
             }
 
@@ -227,7 +228,7 @@ namespace TestConsole.OutputFormatting.Internal
 
             if (format.ActualWidth == 0) return lines.ToArray();
 
-            return lines.Select(l => new {Line = l, Width = Math.Min(format.ActualWidth, columnWidth) + (l.Length - l.Length)})
+            return lines.Select(l => new {Line = l, Width = Math.Min(format.ActualWidth, columnWidth ?? format.ActualWidth) + (l.Length - l.Length)})
                 .Select(l => ExpandLine(format, l.Line, l.Width))
                 .ToArray();
         }
@@ -265,9 +266,7 @@ namespace TestConsole.OutputFormatting.Internal
         /// <remarks>There are numerous factors that impact the sizing of a column, including dependencies on the rendering mechanism, so the best way to compute this
         /// value is to apply the formatting code to the value at various widths until it can go no smaller without adding line breaks (a goal seek).</remarks>
         /// </summary>
-        /// <param name="value">The value to be measured</param>
-        /// <param name="columnFormat">The column format parameters</param>
-        public static int GetLongestLineLength(object value, ColumnFormat columnFormat, SplitCache cache, int tabLength = 4, int firstLineHangingIndent = 0)
+        public static int SeekLongestLineLength(object value, ColumnFormat columnFormat, SplitCache cache, int tabLength = 4, int firstLineHangingIndent = 0)
         {
             var width = 40;
             int lineBreaks;
@@ -301,6 +300,22 @@ namespace TestConsole.OutputFormatting.Internal
             }
 
             return width;
+        }
+
+        /// <summary>
+        /// Compute the length of the longest line if no wrapping was required. This would be equivalent to the column width required to add no line breaks.
+        /// </summary>
+        public static int GetLongestLineLength(object value, ColumnFormat columnFormat, SplitCache cache, int tabLength = 4, int firstLineHangingIndent = 0)
+        {
+            var intermediate = value as FormattingIntermediate;
+            if (intermediate != null && intermediate.RenderableValue != null)
+            {
+                return SeekLongestLineLength(value, columnFormat, cache, tabLength, firstLineHangingIndent);
+            }
+
+            var words = cache.Split(value.ToString(), tabLength);
+
+            return WrapAndMeasureWords(words, columnFormat, null, firstLineHangingIndent, out _).Max(l => l.Length == 0 ? 1 : l.Length);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace TestConsole.OutputFormatting.Internal
         }
 
         private readonly ColumnSizingParameters _parameters = new ColumnSizingParameters();
-        private readonly SplitCache _splitCache = new SplitCache();
+        private SplitCache _splitCache;
         private int _sizeRows;
         private int _headingsRowIndex = -1;
         private List<object> _rowItems = new List<object>();
@@ -48,8 +48,9 @@ namespace TestConsole.OutputFormatting.Internal
         public int StackedColumnWidth { get { return _parameters.StackedColumnWidth; } }
         public int TabLength { get { return _parameters.TabLength; } }
 
-        public ColumnWidthNegotiator(List<PropertyColumnFormat> columns, int separatorLength, int tabLength = 4)
+        public ColumnWidthNegotiator(List<PropertyColumnFormat> columns, int separatorLength, SplitCache cache, int tabLength = 4)
         {
+            _splitCache = cache;
             _parameters.Columns = columns;
             _parameters.SeparatorLength = separatorLength;
             _parameters.TabLength = tabLength;

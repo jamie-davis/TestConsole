@@ -106,9 +106,10 @@ namespace TestConsoleLib
         /// <param name="items">The items to be formatted.</param>
         /// <param name="options">Options that effect the way in which the table is formatted.</param>
         /// <param name="columnSeparator">The text to use to separate columns.</param>
-        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null)
+        /// <param name="maxRowsForSizing">The maximum rows to consider when sizing columns. Specifying zero means "use all rows".</param>
+        public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null, int maxRowsForSizing = 0)
         {
-            _impl.FormatTable(items, options, columnSeparator, title);
+            _impl.FormatTable(items, options, columnSeparator, title, maxRowsForSizing);
         }
 
         /// <summary>
