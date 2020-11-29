@@ -31,10 +31,13 @@ namespace BigFormatTest
         [Description("Display help text")]
         public bool Help { get; set; }
 
+        [Option("save", "s")]
+        public string PathToSaveReport { get; set; }
+
         [CommandHandler]
         public void Handle(IConsoleAdapter console)
         {
-            TestLargeFormat.LargeFormatPerformanceTest(console);
+            TestLargeFormat.LargeFormatPerformanceTest(console, PathToSaveReport);
         }
     }
 

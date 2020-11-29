@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BigFormatTest": {
+      "commandName": "Project",
+      "commandLineArgs": "-s \"d:\\dev\\temp\\report_word.txt\""
+    }
+  }
+}

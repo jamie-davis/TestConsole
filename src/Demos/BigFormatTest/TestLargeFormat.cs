@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.RegularExpressions;
+using ConsoleToolkit.CommandLineInterpretation.ConfigurationAttributes;
 using ConsoleToolkit.ConsoleIO;
 using TestConsoleLib;
 using TestConsoleLib.Testing;
@@ -32,7 +34,7 @@ namespace BigFormatTest
             (int.MinValue, "minus two billion, one hundred and forty seven million, four hundred and eighty three thousand, six hundred and forty eight"),
         };
  
-        public static void LargeFormatPerformanceTest(IConsoleAdapter console)
+        public static void LargeFormatPerformanceTest(IConsoleAdapter console, string pathToSaveReport)
         {
             //Arrange
             console.FormatTable(_tests.Select(t =>
@@ -65,7 +67,11 @@ namespace BigFormatTest
 
             //Report
             console.WrapLine($"Report time: {sw.Elapsed.TotalSeconds.ToString().White()} seconds".Cyan());
-            console.WrapLine($"Report length: {output.Report.Length.ToString().White()} characters".Cyan());
+            var report = output.Report;
+            console.WrapLine($"Report length: {report.Length.ToString().White()} characters".Cyan());
+
+            if (!string.IsNullOrWhiteSpace(pathToSaveReport))
+                File.WriteAllText(pathToSaveReport, report);
         }
 
         private static (int Limit, string Desc)[] _descriptions =
