@@ -2,7 +2,7 @@
   "profiles": {
     "BigFormatTest": {
       "commandName": "Project",
-      "commandLineArgs": "-s \"d:\\dev\\temp\\report_word.txt\""
+      "commandLineArgs": "-s \"d:\\dev\\temp\\report_line.txt\""
     }
   }
 }

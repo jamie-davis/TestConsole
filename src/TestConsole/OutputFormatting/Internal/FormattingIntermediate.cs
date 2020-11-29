@@ -100,7 +100,7 @@ namespace TestConsole.OutputFormatting.Internal
         /// <returns>A new <see cref="FormattingIntermediate"/>.</returns>
         public static implicit operator FormattingIntermediate(string text)
         {
-            return new FormattingIntermediate(text, new SplitCache());
+            return new FormattingIntermediate(text, new SplitCache(true));
         }
 
         public override string ToString()

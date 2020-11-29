@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using TestConsole.OutputFormatting.Internal;
+using TestConsoleLib.Testing;
 
 namespace TestConsole.Tests.OutputFormatting.Internal
 {
@@ -57,6 +58,22 @@ namespace TestConsole.Tests.OutputFormatting.Internal
             var result = DescribeWords(words);
             Console.WriteLine(result);
             Assert.That(result, Is.EqualTo(@"[3,4,""one""][3,5,""two""][5,6,""three""][6,8,""eight.""]"));
+        }
+
+        [Test]
+        public void WordsAreExtracted()
+        {
+            const string testPhrase = "one\t two  three\r\nfour\rfive\nsix";
+            var words = WordSplitter.Split(testPhrase, 4);
+            DescribeWords(words).Verify();
+        }
+
+        [Test]
+        public void LinesAreExtractedIfWordWrappingIsOff()
+        {
+            const string testPhrase = "one\t two  three\r\n\tfour\rfive  \nsix";
+            var words = WordSplitter.Split(testPhrase, 4, false);
+            DescribeWords(words).Verify();
         }
 
         [Test]

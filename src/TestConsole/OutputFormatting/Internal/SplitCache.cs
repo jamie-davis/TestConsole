@@ -10,13 +10,19 @@ namespace TestConsole.OutputFormatting.Internal
     /// </summary>
     internal class SplitCache
     {
+        private readonly bool _lineWrappingRequired;
+
+        public SplitCache(bool lineWrappingRequired = true)
+        {
+            _lineWrappingRequired = lineWrappingRequired;
+        }
         private Dictionary<string, IReadOnlyList<SplitWord>> _cache = new Dictionary<string, IReadOnlyList<SplitWord>>();
 
         public IReadOnlyList<SplitWord> Split(string data, int tabLength)
         {
             if (!_cache.TryGetValue(data, out var split))
             {
-                split = WordSplitter.Split(data, tabLength);
+                split = WordSplitter.Split(data, tabLength, _lineWrappingRequired);
                 _cache[data] = split;
             }
 

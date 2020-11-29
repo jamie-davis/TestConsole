@@ -8,12 +8,14 @@ namespace TestConsole.OutputFormatting.Internal
         private class SplitImpl
         {
             private readonly int _tabLength;
+            private readonly bool _lineWrappingRequired;
             public readonly List<SplitWord> Words = new List<SplitWord>();
             private SplitWord _current;
 
-            public SplitImpl(string data, int tabLength)
+            public SplitImpl(string data, int tabLength, bool lineWrappingRequired)
             {
                 _tabLength = tabLength;
+                _lineWrappingRequired = lineWrappingRequired;
                 var items = ControlSplitter.Split(data);
                 _current = null;
                 InitFromControlItems(items);
@@ -34,7 +36,9 @@ namespace TestConsole.OutputFormatting.Internal
                 {
                     StoreCurrentIfPresent();
 
-                    var splitWords = SplitWords(textControlItem.Text, _tabLength);
+                    var splitWords = _lineWrappingRequired
+                        ? SplitWords(textControlItem.Text, _tabLength)
+                        : SplitLines(textControlItem.Text, _tabLength);
 
                     if (splitWords.Length > 1)
                         Words.AddRange(splitWords.Take(splitWords.Length - 1));
@@ -63,9 +67,9 @@ namespace TestConsole.OutputFormatting.Internal
         private static readonly string SpaceChars = " \t\r\n";
         private static readonly char[] SplitChars = (SpaceChars + WordTermChars).ToCharArray();
 
-        public static IReadOnlyList<SplitWord> Split(string data, int tabLength)
+        public static IReadOnlyList<SplitWord> Split(string data, int tabLength, bool lineWrappingRequired = true)
         {
-            return new SplitImpl(data, tabLength).Words;
+            return new SplitImpl(data, tabLength, lineWrappingRequired).Words;
         }
 
         private static SplitWord[] SplitWords(string data, int tabLength)
@@ -108,6 +112,15 @@ namespace TestConsole.OutputFormatting.Internal
                 dataPos = nextEnd;
             }
             return words.ToArray();
+        }
+        
+        private static SplitWord[] SplitLines(string text, int tabLength)
+        {
+            if (text.IndexOfAny(new char[] {'\r','\n'}) >= 0)
+                return SplitWords(text, tabLength);
+
+            text = text.Replace("\t", new string(' ', tabLength)).TrimEnd(' ');
+            return new[] {new SplitWord(GetVisibleLength(text), 0, text)};
         }
 
         private static int GetVisibleLength(string wordValue)

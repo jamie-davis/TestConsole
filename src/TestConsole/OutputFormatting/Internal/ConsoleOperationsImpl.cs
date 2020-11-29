@@ -140,7 +140,8 @@ namespace TestConsole.OutputFormatting.Internal
 
         public void FormatTable<T>(IEnumerable<T> items, ReportFormattingOptions options = ReportFormattingOptions.Default, string columnSeparator = null, string title = null, int maxRowsForSizing = 0)
         {
-            var splitCache = new SplitCache();
+            var lineWrappingRequired = (options & ReportFormattingOptions.UnlimitedBuffer) == 0; //Unlimited buffer not set, so text will need to be wrapped
+            var splitCache = new SplitCache(lineWrappingRequired);
             if (!string.IsNullOrWhiteSpace(title))
             {
                 foreach (var titleLine in TitleLinesGenerator.Generate(title, BufferWidth, splitCache))
