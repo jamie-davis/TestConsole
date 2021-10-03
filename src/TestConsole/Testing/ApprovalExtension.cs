@@ -11,7 +11,18 @@ namespace TestConsoleLib.Testing
 {
     public static class ApprovalExtension
     {
-        public static void Verify(this string text, [CallerMemberName] string callerMethod = null, [CallerFilePath] string callerPath = null)
+        public static void Verify(this string text, Encoding encoding, [CallerMemberName] string callerMethod = null,
+            [CallerFilePath] string callerPath = null)
+        {
+            VerifyText(text, encoding, callerMethod, callerPath);
+        }
+        public static void Verify(this string text, [CallerMemberName] string callerMethod = null,
+            [CallerFilePath] string callerPath = null)
+        {
+            VerifyText(text, null, callerMethod, callerPath);
+        }
+
+        private static void VerifyText(string text, Encoding encoding, string callerMethod, string callerPath)
         {
             var frame = StackInterpreter.GetCallerStackFrameInfo(callerMethod, callerPath, typeof(ApprovalExtension), typeof(Approvals));
 
